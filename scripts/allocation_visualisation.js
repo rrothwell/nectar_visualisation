@@ -4,11 +4,14 @@
 // x and y are x() and y() scaling functions used in function arc()
 // for the pseudo-dimensions x and y.
 
-var width = 840,
+// 3 inner levels of FOR codes and one outer level of projects.
+var levels = 4;
+
+var width = 700,
     height = width,
     radius = width / 2,
     x = d3.scale.linear().range([0, 2 * Math.PI]),
-    y = d3.scale.pow().exponent(1.3).domain([0, 1]).range([0, radius]),
+    y = d3.scale.linear().domain([0, 1]).range([0, radius]),
     padding = 5,
     duration = 1000;
 
@@ -16,28 +19,55 @@ var width = 840,
 // A div with id="chart" is located on the web page 
 // and then populated with chart elements.
 
-var chart = d3.select("#chart");
+var plotArea = d3.select("#plot-area");
 
-var plotArea = chart.append("svg")
+var plotArea = plotArea.append("svg")
     .attr("width", width + padding * 2)
     .attr("height", height + padding * 2)
   .append("g")
     .attr("transform", "translate(" + [radius + padding, radius + padding] + ")");
 
+//---- Define the plot layout and plotting algorithm - a sunburst.
+
 var partition = d3.layout.partition()
-    .sort(null)
-    .value(function(d) { return 5.8 - d.depth; })
-    //.value(function(d) { return d.coreQuota; })
+    .sort(function(a, b) { return d3.ascending(a.name, b.name); })
+    //.value(function(d) { return 5.8 - d.depth; })
+    .value(function(d) { return d.coreQuota; })
+    .size([2 * Math.PI, radius])
     ;
 
-var arc = d3.svg.arc()
-    .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x))); })
-    .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x + d.dx))); })
-    .innerRadius(function(d) { return Math.max(0, d.y ? y(d.y) : d.y); })
-    .outerRadius(function(d) { return Math.max(0, y(d.y + d.dy)); });
+//var arc = d3.svg.arc()
+//    .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x))); })
+//    .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x + d.dx))); })
+//    .innerRadius(function(d) { return Math.max(0, d.y ? y(d.y) : d.y); })
+//    .outerRadius(function(d) { return Math.max(0, y(d.y + d.dy)); });
 
-//d3.json("./allocation_tree_final_2.json", function(error, json) {
-d3.json("./coffee_wheel_data.json", function(error, json) {
+var arc = d3.svg.arc()
+    .startAngle(function(d) { return d.x; })
+    .endAngle(function(d) { return d.x + d.dx - .01 / (d.depth + .5); })
+    .innerRadius(function(d) { return radius / (levels + 1) * d.depth; })
+    .outerRadius(function(d) { return radius / (levels + 1) * (d.depth + 1) - 1; });
+    
+var colourScale = d3.scale.ordinal()
+    .domain(["00", "01", "01", "02", "03", "04", "05", "06", "07", "08", 
+    		"10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
+    		"20", "21", "22", "23", "24", "25", "26", "27", "28", "29"])
+    .range(colorbrewer.Set3[12].concat(colorbrewer.Paired[12]));
+
+//---- Read the data.
+
+var forTitleMap = {};
+
+d3.json("./for_codes_final_2.json", function(error, forItems) {
+	var forItemCount = forItems.length;
+	for (var forItemIndex = 0; forItemIndex < forItemCount; forItemIndex++) {
+		var forItem = forItems[forItemIndex];
+		forTitleMap[forItem.FOR_CODE] = forItem.Title;
+	}	
+});
+
+d3.json("./allocation_tree_final_2.json", function(error, json) {
+
   var nodes = partition.nodes({children: json});
 
 //---- Plot sectors
@@ -79,25 +109,30 @@ d3.json("./coffee_wheel_data.json", function(error, json) {
 
 //---- Legend
 
-chart.append("p")
+plotArea.append("p")
     .attr("id", "intro")
     .text("Click to zoom!");
 
-//----
-	var legend = chart.append("div")
-		.attr("id", "legend");
-		legend.append("h1")
+	//var legend = plotArea.select("div")
+	//	.attr("id", "legend");
+
+	var legend = d3.select("#legend-area");
+	legend.append("h1")
 			.attr("class", "legend-text")
 			.text("Legend: ");
 
-  var legendItems = legend.selectAll("p").data(nodes.filter(
-            function(d){return d.depth == 1}));
-  var legendEnter = legendItems.enter().append("p")
-      .attr("class", "legend-text")
+  var legendItems = legend.selectAll("div").data(nodes
+  						.filter(function(d){return d.depth == 1})
+  						.sort(function(a, b) { return d3.ascending(a.name, b.name); }));
+  var legendEnter = legendItems.enter().append("div")
+      .attr("class", "legend-text legend-item")
       .style("background-color", function(d) {
-        return d.colour;
+          	return colourScale(d.name);
       })
-      .text(function(d) { return d.name; });
+      .style("border-color", function(d) {
+          	return colourScale(d.name);
+      })
+      .text(function(d) { return d.name + ":" + forTitleMap[d.name]; });
 
 //---- User interaction
 
@@ -145,7 +180,10 @@ function isParentOf(p, c) {
 }
 
 function colour(d) {
-  return d.colour || "#ddd";
+	if (d.depth == 1) {
+  		return colourScale(d.name) || "#eee";
+	}
+	return 	"#edf";
 }
 
 // Interpolate the scales!
