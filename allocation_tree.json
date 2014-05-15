@@ -1,0 +1,4968 @@
+{
+	"name":"allocations",
+	"children": 
+	[
+	{
+		"name":"02",
+		"children": 
+		[
+			{
+				"name":"0202",
+				"children": 
+				[
+					{
+						"name":"020203",
+						"children": 
+						[
+							{
+								"name":"CoEPP-Tier3", "size": 400.0
+							},
+							{
+								"name":"CoEPP-Tier3", "size": 400.0
+							}
+						]
+					},
+					{
+						"name":"020299",
+						"children": 
+						[
+							{
+								"name":"CloudTest", "size": 4.0
+							}
+						]
+					},
+					{
+						"name":"0202",
+						"children": 
+						[
+							{
+								"name":"HPC Workflows", "size": 3.0
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0201",
+				"children": 
+				[
+					{
+						"name":"020199",
+						"children": 
+						[
+							{
+								"name":"Astronomy Data Visualization", "size": 12.8
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0204",
+				"children": 
+				[
+					{
+						"name":"020406",
+						"children": 
+						[
+							{
+								"name":"RMITCQPHRMC", "size": 32.0
+							}
+						]
+					},
+					{
+						"name":"020405",
+						"children": 
+						[
+							{
+								"name":"Unimelb_Evanescent_Scattering", "size": 0.8
+							},
+							{
+								"name":"Unimelb_Evanescent_Scattering", "size": 0.2
+							},
+							{
+								"name":"Unimelb_Evanescent_Scattering", "size": 0.2
+							},
+							{
+								"name":"Unimelb_Evanescent_Scattering", "size": 0.2
+							},
+							{
+								"name":"Unimelb_Evanescent_Scattering", "size": 3.2
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0205",
+				"children": 
+				[
+					{
+						"name":"020504",
+						"children": 
+						[
+							{
+								"name":"Electromagnetic and photonic simulation", "size": 8.0
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0299",
+				"children": 
+				[
+					{
+						"name":"029903",
+						"children": 
+						[
+							{
+								"name":"Swanserv", "size": 2.0
+							},
+							{
+								"name":"UWA Swanserv", "size": 1.0
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"02",
+				"children": 
+				[
+					{
+						"name":"02",
+						"children": 
+						[
+							{
+								"name":"RLI", "size": 18.0
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0203",
+				"children": 
+				[
+					{
+						"name":"0203",
+						"children": 
+						[
+							{
+								"name":"VeRSI_AMSPP", "size": 20.0
+							},
+							{
+								"name":"VeRSI_AMSPP", "size": 10.0
+							}
+						]
+					},
+					{
+						"name":"020302",
+						"children": 
+						[
+							{
+								"name":"Unimelb_Evanescent_Scattering", "size": 2.0
+							},
+							{
+								"name":"Unimelb_Evanescent_Scattering", "size": 0.5
+							},
+							{
+								"name":"Unimelb_Evanescent_Scattering", "size": 0.5
+							},
+							{
+								"name":"Unimelb_Evanescent_Scattering", "size": 0.5
+							},
+							{
+								"name":"Unimelb_Evanescent_Scattering", "size": 8.0
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	{
+		"name":"06",
+		"children": 
+		[
+			{
+				"name":"0607",
+				"children": 
+				[
+					{
+						"name":"060702",
+						"children": 
+						[
+							{
+								"name":"RICEDB", "size": 8.0
+							}
+						]
+					},
+					{
+						"name":"060703",
+						"children": 
+						[
+							{
+								"name":"LegumeSeq1", "size": 8.0
+							}
+						]
+					},
+					{
+						"name":"060799",
+						"children": 
+						[
+							{
+								"name":"Murdoch_Agri_Bio_Data_Integration", "size": 0.6
+							}
+						]
+					},
+					{
+						"name":"060705",
+						"children": 
+						[
+							{
+								"name":"LegumeSeq1", "size": 3.2
+							}
+						]
+					},
+					{
+						"name":"0607",
+						"children": 
+						[
+							{
+								"name":"QCIF Chickpea GBrowse", "size": 0.4
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"06",
+				"children": 
+				[
+					{
+						"name":"06",
+						"children": 
+						[
+							{
+								"name":"Characterisation VL Development and Testing", "size": 60.0
+							},
+							{
+								"name":"CharacterisationVL - [Additional resource]", "size": 28.8
+							},
+							{
+								"name":"CSIRO_Bisulphite_Adipose", "size": 0.4
+							},
+							{
+								"name":"CSIRO-CIAP", "size": 4.0
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0601",
+				"children": 
+				[
+					{
+						"name":"060102",
+						"children": 
+						[
+							{
+								"name":"BIG SA", "size": 400.0
+							},
+							{
+								"name":"Wheat Proteogenomics", "size": 16.0
+							},
+							{
+								"name":"GlatzSEQ", "size": 4.0
+							},
+							{
+								"name":"Unimelb_Plant_Cell_Wall_Bioinformatics_Tools", "size": 32.0
+							},
+							{
+								"name":"NGS of type   ", "size": 1.0
+							},
+							{
+								"name":"Nippo Genome Assembly", "size": 4.0
+							},
+							{
+								"name":"UniCarbKB", "size": 6.3
+							},
+							{
+								"name":"UniCarbKB", "size": 9.0
+							},
+							{
+								"name":"GVL-SCF image testing", "size": 0.6
+							},
+							{
+								"name":"Intersect_NGS-HIE", "size": 64.0
+							},
+							{
+								"name":"Curtin NGS", "size": 16.0
+							},
+							{
+								"name":"QCIF TAGdb", "size": 2.0
+							},
+							{
+								"name":"QCIF MiSeq", "size": 2.4
+							},
+							{
+								"name":"QCIF Chickpea GBrowse", "size": 1.0
+							},
+							{
+								"name":"CSIRO Bioinformatics training", "size": 50.0
+							},
+							{
+								"name":"QCIF Stemformatics", "size": 16.0
+							},
+							{
+								"name":"Monash_Galaxy_Server", "size": 64.0
+							},
+							{
+								"name":"QCIF_Stemformatics", "size": 16.0
+							},
+							{
+								"name":"Stemformatics genomics computation", "size": 16.0
+							},
+							{
+								"name":"Monash VBC Bioinformatics analysis", "size": 96.0
+							},
+							{
+								"name":"Deakin_Genome_assembly", "size": 9.6
+							},
+							{
+								"name":"UniCarb_DB", "size": 20.0
+							},
+							{
+								"name":"BRAEMBL", "size": 40.0
+							},
+							{
+								"name":"GenomicsVL (Extension to an existing project)", "size": 250.0
+							},
+							{
+								"name":"Hadoop-based Genomic Mapping", "size": 56.0
+							},
+							{
+								"name":"Monash-Galaxy-Prod", "size": 70.0
+							},
+							{
+								"name":"SACGF", "size": 32.0
+							},
+							{
+								"name":"UQ GVL training", "size": 3.2
+							},
+							{
+								"name":"QCMG-TEST1", "size": 0.5
+							},
+							{
+								"name":"Intersect_NGS-HIE", "size": 16.0
+							},
+							{
+								"name":"CSIRO Bioinformatics training", "size": 25.0
+							},
+							{
+								"name":"Stemformatics genomics computation", "size": 1.0
+							},
+							{
+								"name":"Monash VBC Bioinformatics analysis", "size": 96.0
+							},
+							{
+								"name":"Deakin_Genome_assembly", "size": 1.2
+							},
+							{
+								"name":"UniCarb_DB", "size": 5.0
+							},
+							{
+								"name":"BRAEMBL", "size": 10.0
+							},
+							{
+								"name":"GenomicsVL (Extension to an existing project)", "size": 2.0
+							},
+							{
+								"name":"Hadoop-based Genomic Mapping", "size": 7.0
+							},
+							{
+								"name":"Monash-Galaxy-Prod", "size": 10.5
+							},
+							{
+								"name":"SACGF", "size": 4.0
+							},
+							{
+								"name":"RNA-seq of iPS-derived human neurons", "size": 0.3
+							},
+							{
+								"name":"ACAD", "size": 4.0
+							},
+							{
+								"name":"CSIRO_genes4all_clients", "size": 8.0
+							},
+							{
+								"name":"Bioplatforms-Au-NGS-training-course", "size": 68.0
+							},
+							{
+								"name":"NextGen sequencing data analysis for plants", "size": 40.0
+							},
+							{
+								"name":"Plants-Seq-UQ", "size": 2.5
+							},
+							{
+								"name":"CSIRO_Bisulphite_Adipose", "size": 0.6
+							},
+							{
+								"name":"Marine Genomics: sea sponge and other invertebrate genomic resources for the Great Barrier Reef ", "size": 9.6
+							},
+							{
+								"name":"Murdoch_ACCWI", "size": 3.2
+							},
+							{
+								"name":"Marine Genomics: sea sponge and other invertebrate genomic resources for the Great Barrier Reef ", "size": 0.6
+							},
+							{
+								"name":"Plants-Seq-UQ", "size": 40.0
+							},
+							{
+								"name":"Plants-Seq-UQ", "size": 40.0
+							},
+							{
+								"name":"UniCarb_NeCTAR_Support", "size": 2.0
+							},
+							{
+								"name":"Adelaide_QEH_Rhinology", "size": 0.8
+							},
+							{
+								"name":"Adelaide_hmC_methylation", "size": 0.6
+							}
+						]
+					},
+					{
+						"name":"060112",
+						"children": 
+						[
+							{
+								"name":"AutoRickshaw", "size": 64.0
+							}
+						]
+					},
+					{
+						"name":"060101",
+						"children": 
+						[
+							{
+								"name":"CellDesigner-Workshop", "size": 48.0
+							},
+							{
+								"name":"UniCarbKB", "size": 2.7
+							}
+						]
+					},
+					{
+						"name":"0601",
+						"children": 
+						[
+							{
+								"name":"Monash_WilceLab-vec_hsqc", "size": 0.5
+							},
+							{
+								"name":"NeCTAR Image Processing and Analysis Toolkit", "size": 20.0
+							}
+						]
+					},
+					{
+						"name":"060109",
+						"children": 
+						[
+							{
+								"name":"The Proteome Browser", "size": 0.5
+							},
+							{
+								"name":"Monash-Galaxy-Prod", "size": 10.0
+							},
+							{
+								"name":"Monash-Galaxy-Prod", "size": 1.5
+							}
+						]
+					},
+					{
+						"name":"060114",
+						"children": 
+						[
+							{
+								"name":"NGS of type   ", "size": 1.0
+							},
+							{
+								"name":"QCIF Stemformatics", "size": 16.0
+							},
+							{
+								"name":"QCIF_Stemformatics", "size": 16.0
+							},
+							{
+								"name":"Stemformatics genomics computation", "size": 16.0
+							},
+							{
+								"name":"Stemformatics genomics computation", "size": 1.0
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0604",
+				"children": 
+				[
+					{
+						"name":"0604",
+						"children": 
+						[
+							{
+								"name":"centre for comparative genomics", "size": 12.0
+							},
+							{
+								"name":"Lowe Lab Group", "size": 4.0
+							},
+							{
+								"name":"Unimelb_PeterMac_Bioinformatics_Pipelines", "size": 19.2
+							},
+							{
+								"name":"Unimelb_PeterMac_Bioinformatics_Pipelines", "size": 1.2
+							},
+							{
+								"name":"eRSA Cloud Applications", "size": 12.0
+							},
+							{
+								"name":"eRSA Cloud Applications", "size": 1.5
+							},
+							{
+								"name":"eRSA Cloud Applications", "size": 12.0
+							}
+						]
+					},
+					{
+						"name":"060408",
+						"children": 
+						[
+							{
+								"name":"Bioplatforms-Au-NGS-training-course", "size": 340.0
+							},
+							{
+								"name":"CSIRO_genes4all_db", "size": 2.0
+							},
+							{
+								"name":"Intersect Demonstrations", "size": 1.0
+							},
+							{
+								"name":"Bioplatforms-Au-NGS-training-course", "size": 272.0
+							},
+							{
+								"name":"NextGen sequencing data analysis for plants", "size": 40.0
+							},
+							{
+								"name":"GenomicsVL Students", "size": 100.0
+							},
+							{
+								"name":"Plants-Seq-UQ", "size": 2.5
+							},
+							{
+								"name":"QCIF Cancer Genomics Compute", "size": 8.0
+							},
+							{
+								"name":"Genomics", "size": 1.6
+							},
+							{
+								"name":"UTas_Menzies", "size": 16.0
+							},
+							{
+								"name":"QCIF_LeukoSeq", "size": 48.0
+							},
+							{
+								"name":"CSIRO-Genes4All", "size": 20.0
+							},
+							{
+								"name":"Marine Genomics: sea sponge and other invertebrate genomic resources for the Great Barrier Reef ", "size": 12.8
+							},
+							{
+								"name":"UQTRC Research 1", "size": 1.0
+							},
+							{
+								"name":"Adelaide_hmC_methylation", "size": 1.0
+							},
+							{
+								"name":"UniSA_Cystic_Fibrosis_Genetic_Therapy_Community_Engagement", "size": 1.6
+							},
+							{
+								"name":"QCIF Cancer Genomics", "size": 0.5
+							},
+							{
+								"name":"QCIF Cancer Genomics", "size": 0.5
+							},
+							{
+								"name":"Genomics", "size": 1.6
+							},
+							{
+								"name":"UTas_Menzies", "size": 4.0
+							},
+							{
+								"name":"QCIF_LeukoSeq", "size": 4.8
+							},
+							{
+								"name":"Marine Genomics: sea sponge and other invertebrate genomic resources for the Great Barrier Reef ", "size": 0.8
+							},
+							{
+								"name":"QCIF Cancer Genomics", "size": 4.0
+							},
+							{
+								"name":"Plants-Seq-UQ", "size": 40.0
+							},
+							{
+								"name":"Plants-Seq-UQ", "size": 40.0
+							},
+							{
+								"name":"Genomic basis of Adaptation", "size": 19.2
+							},
+							{
+								"name":"Lowe Lab Group", "size": 2.4
+							},
+							{
+								"name":"GVL-SCF image testing", "size": 0.6
+							},
+							{
+								"name":"QCIF MiSeq", "size": 1.6
+							},
+							{
+								"name":"Hadoop-based Genomic Mapping", "size": 24.0
+							},
+							{
+								"name":"SACGF", "size": 25.6
+							},
+							{
+								"name":"UQ GVL training", "size": 0.8
+							},
+							{
+								"name":"QCMG-TEST1", "size": 0.5
+							},
+							{
+								"name":"CSIRO_NGSANE", "size": 1.5
+							},
+							{
+								"name":"Intersect_Snap", "size": 10.0
+							},
+							{
+								"name":"Advanced methods for genomic analysis in animal breeding ", "size": 0.4
+							},
+							{
+								"name":"Hadoop-based Genomic Mapping", "size": 3.0
+							},
+							{
+								"name":"SACGF", "size": 3.2
+							},
+							{
+								"name":"CSIRO_genes4all_clients", "size": 6.4
+							},
+							{
+								"name":"QCIF TAGdb", "size": 0.4
+							},
+							{
+								"name":"Lambert Ancient DNA", "size": 9.6
+							},
+							{
+								"name":"Murdoch_ACCWI", "size": 2.4
+							},
+							{
+								"name":"Lambert Ancient DNA", "size": 0.6
+							}
+						]
+					},
+					{
+						"name":"060410",
+						"children": 
+						[
+							{
+								"name":"CharacterisationVL - [Additional resource]", "size": 60.0
+							},
+							{
+								"name":"RNA-seq of iPS-derived human neurons", "size": 0.4
+							}
+						]
+					},
+					{
+						"name":"060405",
+						"children": 
+						[
+							{
+								"name":"KNIME Hadoop extension", "size": 6.4
+							},
+							{
+								"name":"USyd_NGS_Library_Evaluation", "size": 1.0
+							},
+							{
+								"name":"LegumeSeq1", "size": 4.8
+							}
+						]
+					},
+					{
+						"name":"060401",
+						"children": 
+						[
+							{
+								"name":"NectarForHumanRates", "size": 0.6
+							},
+							{
+								"name":"ACAD", "size": 2.4
+							}
+						]
+					},
+					{
+						"name":"060411",
+						"children": 
+						[
+							{
+								"name":"StatGenMCRI", "size": 0.8
+							},
+							{
+								"name":"NectarForHumanRates", "size": 0.8
+							},
+							{
+								"name":"Genomic basis of Adaptation", "size": 9.6
+							}
+						]
+					},
+					{
+						"name":"060407",
+						"children": 
+						[
+							{
+								"name":"QCIF TAGdb", "size": 1.6
+							},
+							{
+								"name":"QCIF Chickpea GBrowse", "size": 0.6
+							}
+						]
+					},
+					{
+						"name":"060404",
+						"children": 
+						[
+							{
+								"name":"NBCF Breast Cancer Project", "size": 2.4
+							},
+							{
+								"name":"NBCF Breast Cancer Project", "size": 0.3
+							}
+						]
+					},
+					{
+						"name":"060409",
+						"children": 
+						[
+							{
+								"name":"ACAD", "size": 1.6
+							},
+							{
+								"name":"Marine Genomics: sea sponge and other invertebrate genomic resources for the Great Barrier Reef ", "size": 9.6
+							},
+							{
+								"name":"Marine Genomics: sea sponge and other invertebrate genomic resources for the Great Barrier Reef ", "size": 0.6
+							},
+							{
+								"name":"NectarForHumanRates", "size": 0.6
+							}
+						]
+					},
+					{
+						"name":"060412",
+						"children": 
+						[
+							{
+								"name":"StatGenMCRI", "size": 0.4
+							}
+						]
+					},
+					{
+						"name":"060499",
+						"children": 
+						[
+							{
+								"name":"Lowe Lab Group", "size": 1.6
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0608",
+				"children": 
+				[
+					{
+						"name":"060801",
+						"children": 
+						[
+							{
+								"name":"Central Kalahari Lion Spatial Research, Botswana", "size": 1.4
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0699",
+				"children": 
+				[
+					{
+						"name":"0699",
+						"children": 
+						[
+							{
+								"name":"Nicole Ertl", "size": 16.0
+							}
+						]
+					},
+					{
+						"name":"069902",
+						"children": 
+						[
+							{
+								"name":"Marine climate-change dynamics", "size": 6.4
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0603",
+				"children": 
+				[
+					{
+						"name":"060303",
+						"children": 
+						[
+							{
+								"name":"Genomic basis of Adaptation", "size": 19.2
+							},
+							{
+								"name":"Lambert Ancient DNA", "size": 9.6
+							},
+							{
+								"name":"Lambert Ancient DNA", "size": 0.6
+							}
+						]
+					},
+					{
+						"name":"0603",
+						"children": 
+						[
+							{
+								"name":"Lambert Ancient DNA", "size": 12.8
+							},
+							{
+								"name":"Lambert Ancient DNA", "size": 0.8
+							}
+						]
+					},
+					{
+						"name":"060301",
+						"children": 
+						[
+							{
+								"name":"BEAST_exome", "size": 0.8
+							}
+						]
+					},
+					{
+						"name":"060302",
+						"children": 
+						[
+							{
+								"name":"BEAST_exome", "size": 0.6
+							}
+						]
+					},
+					{
+						"name":"060309",
+						"children": 
+						[
+							{
+								"name":"BEAST_exome", "size": 0.6
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0602",
+				"children": 
+				[
+					{
+						"name":"0602",
+						"children": 
+						[
+							{
+								"name":"Soils2Sats", "size": 3.0
+							},
+							{
+								"name":"TERN-Adel", "size": 2.0
+							},
+							{
+								"name":"TERN Ecoinformatics (Australian Ecological Knowledge and Observation System)", "size": 6.0
+							},
+							{
+								"name":"QCIF_OzTrack", "size": 6.4
+							},
+							{
+								"name":"QCIF_OzTrack", "size": 2.4
+							},
+							{
+								"name":"TERN Ecoinformatics (Australian Ecological Knowledge and Observation System)", "size": 4.5
+							}
+						]
+					},
+					{
+						"name":"060205",
+						"children": 
+						[
+							{
+								"name":"USyd_ExploreTheSeafloor", "size": 0.6
+							},
+							{
+								"name":"USyd_ExploreTheSeafloor", "size": 0.6
+							},
+							{
+								"name":"CSS_Shallow", "size": 1.2
+							},
+							{
+								"name":"TERN Australian Coastal Ecosystems Facility", "size": 9.6
+							},
+							{
+								"name":"Monash_Water_Quality-Gippsland_Lakes", "size": 19.2
+							},
+							{
+								"name":"UTas_IMAS_Predators", "size": 0.4
+							},
+							{
+								"name":"Monash_Water_Quality-Gippsland_Lakes", "size": 0.6
+							}
+						]
+					},
+					{
+						"name":"060208",
+						"children": 
+						[
+							{
+								"name":"NERP Web Fire Mapping", "size": 0.8
+							}
+						]
+					},
+					{
+						"name":"060201",
+						"children": 
+						[
+							{
+								"name":"Central Kalahari Lion Spatial Research, Botswana", "size": 0.6
+							},
+							{
+								"name":"QCIF_Acoustic_Work_Bench", "size": 2.0
+							},
+							{
+								"name":"UTas_RTrack01", "size": 2.0
+							},
+							{
+								"name":"QCIF_Acoustic_Work_Bench", "size": 1.0
+							},
+							{
+								"name":"UTas_RTrack01", "size": 0.5
+							}
+						]
+					},
+					{
+						"name":"060203",
+						"children": 
+						[
+							{
+								"name":"RevegUNE", "size": 0.6
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0605",
+				"children": 
+				[
+					{
+						"name":"060504",
+						"children": 
+						[
+							{
+								"name":"Intersect_Microbial_community_analysis", "size": 7.2
+							},
+							{
+								"name":"Intersect_Microbial_community_analysis", "size": 1.8
+							}
+						]
+					},
+					{
+						"name":"060503",
+						"children": 
+						[
+							{
+								"name":"Unimelb_Dental16S", "size": 4.0
+							}
+						]
+					},
+					{
+						"name":"060506",
+						"children": 
+						[
+							{
+								"name":"Joanne Macdonald", "size": 9.6
+							},
+							{
+								"name":"USC-FIoV:", "size": 9.6
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	{
+		"name":"08",
+		"children": 
+		[
+			{
+				"name":"0805",
+				"children": 
+				[
+					{
+						"name":"080503",
+						"children": 
+						[
+							{
+								"name":"Service Innovation Hub", "size": 2.0
+							},
+							{
+								"name":"Service Innovation Hub", "size": 2.0
+							},
+							{
+								"name":"Service Innovation Hub", "size": 2.0
+							},
+							{
+								"name":"Cluster Config Management Experiments", "size": 2.0
+							}
+						]
+					},
+					{
+						"name":"080501",
+						"children": 
+						[
+							{
+								"name":"Meta-Batch-Scheduler Testing", "size": 4.0
+							},
+							{
+								"name":"Scalling Sensor Observation Services", "size": 20.0
+							},
+							{
+								"name":"eReefs", "size": 3.5
+							},
+							{
+								"name":"Cluster Config Management Experiments", "size": 3.0
+							},
+							{
+								"name":"Unimelb_VM_Co-resident Attacks", "size": 50.0
+							},
+							{
+								"name":"UoM TeachingCloudComputing", "size": 19.2
+							},
+							{
+								"name":"Smart Services CRC Foundry Project", "size": 1.2
+							}
+						]
+					},
+					{
+						"name":"0805",
+						"children": 
+						[
+							{
+								"name":"Adaptive Data Stream Mining for Data Partition Hot-spot Prediction", "size": 8.0
+							},
+							{
+								"name":"Monash Porting", "size": 200.0
+							},
+							{
+								"name":"MCC_On_R@CMON", "size": 100.0
+							},
+							{
+								"name":"NCI_StarCluster", "size": 10.0
+							},
+							{
+								"name":"HPC system in Nectar cloud", "size": 4.0
+							},
+							{
+								"name":"NCI_StarCluster", "size": 5.0
+							},
+							{
+								"name":"HPC system in Nectar cloud", "size": 4.0
+							},
+							{
+								"name":"ADELTA", "size": 1.4
+							},
+							{
+								"name":"ADELTA", "size": 1.4
+							}
+						]
+					},
+					{
+						"name":"080599",
+						"children": 
+						[
+							{
+								"name":"CSIRO-eReefs", "size": 3.5
+							},
+							{
+								"name":"OwnCloud_Eval", "size": 8.0
+							},
+							{
+								"name":"OwnCloud_Eval", "size": 4.0
+							},
+							{
+								"name":"HPC system in Nectar cloud", "size": 1.0
+							},
+							{
+								"name":"HPC system in Nectar cloud", "size": 1.0
+							},
+							{
+								"name":"Astronomy Data Visualization", "size": 6.4
+							}
+						]
+					},
+					{
+						"name":"080505",
+						"children": 
+						[
+							{
+								"name":"CSIRO-eReefs", "size": 3.5
+							},
+							{
+								"name":"UoM TeachingCloudComputing", "size": 19.2
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0803",
+				"children": 
+				[
+					{
+						"name":"080309",
+						"children": 
+						[
+							{
+								"name":"Cyrus Keong Test server", "size": 2.0
+							},
+							{
+								"name":"UoM TeachingCloudComputing", "size": 25.6
+							},
+							{
+								"name":"EndoVL", "size": 80.0
+							},
+							{
+								"name":"EndoVL", "size": 80.0
+							},
+							{
+								"name":"Smart Services CRC Foundry Project", "size": 1.8
+							},
+							{
+								"name":"centre for comparative genomics", "size": 12.0
+							},
+							{
+								"name":"GVL-SCF image testing", "size": 1.8
+							}
+						]
+					},
+					{
+						"name":"080301",
+						"children": 
+						[
+							{
+								"name":"Bioplatforms-Au-NGS-training-course", "size": 340.0
+							},
+							{
+								"name":"KNIME Hadoop extension", "size": 9.6
+							},
+							{
+								"name":"GenomicsVL Students", "size": 100.0
+							},
+							{
+								"name":"QCIF Cancer Genomics Compute", "size": 1.6
+							},
+							{
+								"name":"Unimelb_CI_Server_SDSL", "size": 0.4
+							},
+							{
+								"name":"Deakin_Genome_assembly", "size": 1.6
+							},
+							{
+								"name":"Unimelb_PeterMac_Bioinformatics_Pipelines", "size": 25.6
+							},
+							{
+								"name":"CSIRO_NGSANE", "size": 2.0
+							},
+							{
+								"name":"QCIF Cancer Genomics", "size": 0.1
+							},
+							{
+								"name":"QCIF Cancer Genomics", "size": 0.1
+							},
+							{
+								"name":"Deakin_Genome_assembly", "size": 0.2
+							},
+							{
+								"name":"Unimelb_PeterMac_Bioinformatics_Pipelines", "size": 1.6
+							},
+							{
+								"name":"QCIF Cancer Genomics", "size": 0.8
+							}
+						]
+					},
+					{
+						"name":"080302",
+						"children": 
+						[
+							{
+								"name":"CSIRO-eReefs", "size": 3.5
+							},
+							{
+								"name":"QUT Smart Cloud Broker", "size": 1.2
+							},
+							{
+								"name":"QUT Smart Cloud Broker", "size": 0.6
+							},
+							{
+								"name":"QUT Smart Cloud Broker", "size": 0.6
+							},
+							{
+								"name":"QUT Smart Cloud Broker", "size": 0.6
+							},
+							{
+								"name":"QUT Smart Cloud Broker", "size": 0.6
+							}
+						]
+					},
+					{
+						"name":"080303",
+						"children": 
+						[
+							{
+								"name":"QUT Test VMs", "size": 4.0
+							},
+							{
+								"name":"UoM_PERMIS", "size": 4.0
+							}
+						]
+					},
+					{
+						"name":"080307",
+						"children": 
+						[
+							{
+								"name":"cloud operations (internal)", "size": 12.0
+							}
+						]
+					},
+					{
+						"name":"0803",
+						"children": 
+						[
+							{
+								"name":"VeRSI", "size": 6.0
+							},
+							{
+								"name":"RDSI_LiveArc_Dimensioning", "size": 8.0
+							},
+							{
+								"name":"RDSI_LiveArc_Dimensioning", "size": 4.0
+							},
+							{
+								"name":"Access Grid International Website Hosting", "size": 0.6
+							},
+							{
+								"name":"MCC_On_R@CMON", "size": 100.0
+							}
+						]
+					},
+					{
+						"name":"080399",
+						"children": 
+						[
+							{
+								"name":"USyd_Research_Incubator", "size": 100.0
+							},
+							{
+								"name":"Unimelb_National_Twitter_Harvesting", "size": 1.0
+							},
+							{
+								"name":"Unimelb_National_Twitter_Harvesting", "size": 9.0
+							},
+							{
+								"name":"Unimelb_National_Twitter_Harvesting", "size": 9.0
+							},
+							{
+								"name":"SAXS Data Reduction Cloud", "size": 4.0
+							}
+						]
+					},
+					{
+						"name":"080306",
+						"children": 
+						[
+							{
+								"name":"MoViT - Mobile Vision Tester", "size": 0.2
+							},
+							{
+								"name":"Meta-Batch-Scheduler Testing", "size": 1.6
+							},
+							{
+								"name":"UTas_RTrack01", "size": 1.2
+							},
+							{
+								"name":"UTas_RTrack01", "size": 0.3
+							}
+						]
+					},
+					{
+						"name":"080305",
+						"children": 
+						[
+							{
+								"name":"Collaborative Content Creation of Gesture Systems", "size": 0.8
+							},
+							{
+								"name":"Unimelb_Twitter_keyword_track", "size": 1.6
+							}
+						]
+					},
+					{
+						"name":"080304",
+						"children": 
+						[
+							{
+								"name":"CAVE2 Development", "size": 0.6
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0801",
+				"children": 
+				[
+					{
+						"name":"080108",
+						"children": 
+						[
+							{
+								"name":"Modelling Algorithm Behaviour", "size": 16.0
+							},
+							{
+								"name":"Interactive Shape Optimisation", "size": 9.6
+							},
+							{
+								"name":"Neural Netetwork Complex Dynamics Parameter Search", "size": 3.2
+							}
+						]
+					},
+					{
+						"name":"080101",
+						"children": 
+						[
+							{
+								"name":"Autonomous soaring", "size": 5.6
+							},
+							{
+								"name":"Autonomous soaring 2", "size": 14.4
+							},
+							{
+								"name":"Autonomous soaring 2", "size": 0.9
+							},
+							{
+								"name":"USyd_ExploreTheSeafloor", "size": 0.2
+							},
+							{
+								"name":"PhDProj", "size": 0.5
+							},
+							{
+								"name":"USyd_ExploreTheSeafloor", "size": 0.2
+							},
+							{
+								"name":"PhDProj", "size": 0.5
+							}
+						]
+					},
+					{
+						"name":"080111",
+						"children": 
+						[
+							{
+								"name":"Phoenix Data Relay", "size": 2.0
+							},
+							{
+								"name":"AutoDesk Maya Renderfarm", "size": 5.0
+							}
+						]
+					},
+					{
+						"name":"080107",
+						"children": 
+						[
+							{
+								"name":"Machine Translation for Natural Language Preservation", "size": 4.0
+							},
+							{
+								"name":"Unimelb_Twitter_keyword_track", "size": 1.6
+							},
+							{
+								"name":"USyd Moderator Assitant", "size": 1.2
+							},
+							{
+								"name":"Machine Translation for Natural Language Preservation", "size": 16.0
+							},
+							{
+								"name":"ANU_Pro-ana_data_service", "size": 0.6
+							}
+						]
+					},
+					{
+						"name":"0801",
+						"children": 
+						[
+							{
+								"name":"Forensic Data Ranking and Analysis", "size": 16.0
+							},
+							{
+								"name":"HCSvLab", "size": 96.0
+							},
+							{
+								"name":"HCSvLab", "size": 6.0
+							}
+						]
+					},
+					{
+						"name":"080106",
+						"children": 
+						[
+							{
+								"name":"QCIF_CAI_Mouse_Brain_ANDS", "size": 1.8
+							},
+							{
+								"name":"QCIF_CAI_Mouse_Brain_ANDS", "size": 1.8
+							}
+						]
+					},
+					{
+						"name":"080103",
+						"children": 
+						[
+							{
+								"name":"C4D Renderfarm", "size": 32.0
+							},
+							{
+								"name":"C4D Renderfarm", "size": 2.0
+							},
+							{
+								"name":"CAVE2 Development", "size": 2.4
+							}
+						]
+					},
+					{
+						"name":"080199",
+						"children": 
+						[
+							{
+								"name":"TwitterActivity-FIT4008_S2", "size": 2.0
+							},
+							{
+								"name":"USyd_Velodyne_processing", "size": 1.4
+							},
+							{
+								"name":"TwitterActivity-FIT4008_S2", "size": 1.0
+							}
+						]
+					},
+					{
+						"name":"080109",
+						"children": 
+						[
+							{
+								"name":"Monash_EFTPOS_mining1", "size": 19.2
+							},
+							{
+								"name":"Monash_EFTPOS_mining1", "size": 19.2
+							},
+							{
+								"name":"UoM_Trajectory_Inference_Attacks", "size": 30.0
+							},
+							{
+								"name":"Patient Trajectory Visualization tool", "size": 0.6
+							},
+							{
+								"name":"Monash_Webb-LearningFromBigData", "size": 100.0
+							},
+							{
+								"name":"UoM_Trajectory_Inference_Attacks", "size": 30.0
+							},
+							{
+								"name":"UoM_Trajectory_Inference_Attacks", "size": 30.0
+							},
+							{
+								"name":"UoM_Trajectory_Inference_Attacks", "size": 30.0
+							},
+							{
+								"name":"UoM_Trajectory_Inference_Attacks", "size": 30.0
+							},
+							{
+								"name":"Astronomy Data Visualization", "size": 12.8
+							},
+							{
+								"name":"Food Desert Index Computation For The Greater Melbourne Area", "size": 9.6
+							},
+							{
+								"name":"Monash MCTS Server", "size": 0.8
+							},
+							{
+								"name":"Deakin_Genome_assembly", "size": 4.8
+							},
+							{
+								"name":"RMIT_Repository", "size": 2.0
+							},
+							{
+								"name":"ANU_Pro-ana_data_service", "size": 0.9
+							},
+							{
+								"name":"Deakin_Genome_assembly", "size": 0.6
+							},
+							{
+								"name":"RMIT_Repository", "size": 0.5
+							},
+							{
+								"name":"QCIF_Acoustic_Work_Bench", "size": 2.0
+							},
+							{
+								"name":"QCIF_Acoustic_Work_Bench", "size": 1.0
+							}
+						]
+					},
+					{
+						"name":"080110",
+						"children": 
+						[
+							{
+								"name":"Tzar-FW - Additional VMs", "size": 8.0
+							},
+							{
+								"name":"Tzar-FW - Additional VMs", "size": 8.0
+							},
+							{
+								"name":"MUtopia Research Platform", "size": 1.2
+							},
+							{
+								"name":"Plexos-Nimrod", "size": 160.0
+							},
+							{
+								"name":"MUtopia Research Platform", "size": 0.6
+							},
+							{
+								"name":"Plexos-Nimrod", "size": 160.0
+							},
+							{
+								"name":"Tzar-FW - Additional VMs", "size": 8.0
+							}
+						]
+					},
+					{
+						"name":"080104",
+						"children": 
+						[
+							{
+								"name":"USyd_ExploreTheSeafloor", "size": 0.2
+							},
+							{
+								"name":"USyd_ExploreTheSeafloor", "size": 0.2
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0899",
+				"children": 
+				[
+					{
+						"name":"089999",
+						"children": 
+						[
+							{
+								"name":"Australian National Data Service", "size": 80.0
+							},
+							{
+								"name":"QCIF_Paperminer", "size": 4.0
+							},
+							{
+								"name":"QCIFTester_RAnKO", "size": 6.0
+							},
+							{
+								"name":"ARMS Production Service", "size": 6.0
+							},
+							{
+								"name":"QCIFTester_RAnKO", "size": 6.0
+							},
+							{
+								"name":"ARMS Production Service", "size": 3.0
+							}
+						]
+					},
+					{
+						"name":"0899",
+						"children": 
+						[
+							{
+								"name":"QUT Smart Cloud Broker", "size": 0.8
+							},
+							{
+								"name":"QUT Smart Cloud Broker", "size": 0.4
+							},
+							{
+								"name":"QUT Smart Cloud Broker", "size": 0.4
+							},
+							{
+								"name":"QUT Smart Cloud Broker", "size": 0.4
+							},
+							{
+								"name":"QUT Smart Cloud Broker", "size": 0.4
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0806",
+				"children": 
+				[
+					{
+						"name":"080609",
+						"children": 
+						[
+							{
+								"name":"Research data registry (ANDS)", "size": 4.0
+							},
+							{
+								"name":"eRSA Porting", "size": 6.0
+							},
+							{
+								"name":"Mars", "size": 12.0
+							},
+							{
+								"name":"QCIF Node Zero", "size": 64.0
+							},
+							{
+								"name":"Mars", "size": 3.0
+							},
+							{
+								"name":"QCIF Node Zero", "size": 8.0
+							},
+							{
+								"name":"UQ Data Collections Registry", "size": 0.6
+							},
+							{
+								"name":"UQ Data Collections Registry", "size": 0.6
+							},
+							{
+								"name":"QUT Smart Cloud Broker", "size": 2.0
+							},
+							{
+								"name":"QUT Smart Cloud Broker", "size": 1.0
+							},
+							{
+								"name":"QUT Smart Cloud Broker", "size": 1.0
+							},
+							{
+								"name":"QUT Smart Cloud Broker", "size": 1.0
+							},
+							{
+								"name":"QUT Smart Cloud Broker", "size": 1.0
+							}
+						]
+					},
+					{
+						"name":"0806",
+						"children": 
+						[
+							{
+								"name":"DSpace3.0", "size": 2.0
+							},
+							{
+								"name":"DSpace3.1", "size": 2.0
+							},
+							{
+								"name":"RMIT_Repository", "size": 2.0
+							},
+							{
+								"name":"MatlabEAIT", "size": 0.4
+							},
+							{
+								"name":"Unimelb_Domestic_Technology_Use", "size": 2.0
+							},
+							{
+								"name":"RMIT_Repository", "size": 0.5
+							},
+							{
+								"name":"VL201 Industrial Ecology", "size": 1.6
+							},
+							{
+								"name":"SYD-IndEcologyVL", "size": 4.8
+							},
+							{
+								"name":"SYD-IndEcologyVL", "size": 4.8
+							},
+							{
+								"name":"QCIF_OzTrack", "size": 3.2
+							},
+							{
+								"name":"QCIF_OzTrack", "size": 1.2
+							},
+							{
+								"name":"VU Phoenix Program", "size": 2.4
+							}
+						]
+					},
+					{
+						"name":"080602",
+						"children": 
+						[
+							{
+								"name":"Collaborative Content Creation of Gesture Systems", "size": 3.2
+							},
+							{
+								"name":"USyd_Flipped_Classroom", "size": 2.0
+							},
+							{
+								"name":"USyd Moderator Assitant", "size": 1.2
+							}
+						]
+					},
+					{
+						"name":"080605",
+						"children": 
+						[
+							{
+								"name":"UoM__iDDSS", "size": 44.8
+							},
+							{
+								"name":"UoM__iDDSS", "size": 11.2
+							},
+							{
+								"name":"Adaptive Data Stream Mining for Data Partition Hot-spot Prediction", "size": 6.0
+							}
+						]
+					},
+					{
+						"name":"080612",
+						"children": 
+						[
+							{
+								"name":"iDriveSafe", "size": 2.0
+							},
+							{
+								"name":"FAIMS", "size": 9.6
+							},
+							{
+								"name":"CSIRO-eReefs", "size": 3.5
+							},
+							{
+								"name":"FAIMS", "size": 9.6
+							}
+						]
+					},
+					{
+						"name":"080604",
+						"children": 
+						[
+							{
+								"name":"Adaptive Data Stream Mining for Data Partition Hot-spot Prediction", "size": 6.0
+							},
+							{
+								"name":"UQ Data Collections Registry", "size": 0.4
+							},
+							{
+								"name":"UQ Data Collections Registry", "size": 0.4
+							}
+						]
+					},
+					{
+						"name":"080608",
+						"children": 
+						[
+							{
+								"name":"eRSA Timetable Optimisation", "size": 0.5
+							}
+						]
+					},
+					{
+						"name":"080603",
+						"children": 
+						[
+							{
+								"name":"UoM MUtopia", "size": 4.8
+							},
+							{
+								"name":"UoM MUtopia", "size": 0.3
+							}
+						]
+					},
+					{
+						"name":"080606",
+						"children": 
+						[
+							{
+								"name":"Crop Trait Mining Informatics Platform", "size": 0.3
+							}
+						]
+					},
+					{
+						"name":"080610",
+						"children": 
+						[
+							{
+								"name":"Murdoch_Agri_Bio_Data_Integration", "size": 0.2
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"08",
+				"children": 
+				[
+					{
+						"name":"08",
+						"children": 
+						[
+							{
+								"name":"Juju on Nectar", "size": 5.0
+							},
+							{
+								"name":"RDSI Aspera central services", "size": 22.0
+							},
+							{
+								"name":"ANDS_NeCTAR_RDSI_Collaboration_Dev", "size": 5.0
+							},
+							{
+								"name":"Windows server QCIF services", "size": 4.0
+							},
+							{
+								"name":"ANDS_NeCTAR_RDSI_Collaboration_Dev", "size": 5.0
+							},
+							{
+								"name":"Windows server QCIF services", "size": 1.0
+							},
+							{
+								"name":"NCI_OpenStack_Test", "size": 20.0
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0804",
+				"children": 
+				[
+					{
+						"name":"080401",
+						"children": 
+						[
+							{
+								"name":"Unimelb_CI_Server_SDSL", "size": 0.8
+							}
+						]
+					},
+					{
+						"name":"080404",
+						"children": 
+						[
+							{
+								"name":"eReefs", "size": 2.1
+							}
+						]
+					},
+					{
+						"name":"080403",
+						"children": 
+						[
+							{
+								"name":"Unimelb_CI_Server_SDSL", "size": 0.8
+							},
+							{
+								"name":"eReefs", "size": 1.4
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0807",
+				"children": 
+				[
+					{
+						"name":"080707",
+						"children": 
+						[
+							{
+								"name":"UQ Data Collections Registry", "size": 1.0
+							},
+							{
+								"name":"UQ Data Collections Registry", "size": 1.0
+							}
+						]
+					},
+					{
+						"name":"0807",
+						"children": 
+						[
+							{
+								"name":"RMIT_TRIIBE", "size": 2.0
+							}
+						]
+					},
+					{
+						"name":"080702",
+						"children": 
+						[
+							{
+								"name":"Patient Trajectory Visualization tool", "size": 1.4
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0802",
+				"children": 
+				[
+					{
+						"name":"080203",
+						"children": 
+						[
+							{
+								"name":"Computational Resource Framework Project", "size": 48.0
+							},
+							{
+								"name":"Computational Resource Framework Project", "size": 12.0
+							},
+							{
+								"name":"Intersect_Transformation_Semigroup_Enumeration", "size": 0.8
+							},
+							{
+								"name":"Intersect_Transformation_Semigroup_Enumeration", "size": 0.2
+							},
+							{
+								"name":"Intersect_Transformation_Semigroup_Enumeration", "size": 3.2
+							},
+							{
+								"name":"Intersect_Transformation_Semigroup_Enumeration", "size": 3.2
+							}
+						]
+					},
+					{
+						"name":"080202",
+						"children": 
+						[
+							{
+								"name":"Intersect_Transformation_Semigroup_Enumeration", "size": 0.8
+							},
+							{
+								"name":"Intersect_Transformation_Semigroup_Enumeration", "size": 0.2
+							},
+							{
+								"name":"Intersect_Transformation_Semigroup_Enumeration", "size": 3.2
+							},
+							{
+								"name":"Intersect_Transformation_Semigroup_Enumeration", "size": 3.2
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	{
+		"name":"05",
+		"children": 
+		[
+			{
+				"name":"0501",
+				"children": 
+				[
+					{
+						"name":"0501",
+						"children": 
+						[
+							{
+								"name":"TERN Ecoinformatics (Australian Ecological Knowledge and Observation System)", "size": 8.0
+							},
+							{
+								"name":"eRSA Cloud Applications", "size": 12.0
+							},
+							{
+								"name":"eRSA Cloud Applications", "size": 1.5
+							},
+							{
+								"name":"TERN-AusPlots", "size": 6.0
+							},
+							{
+								"name":"TERN Ecoinformatics (Australian Ecological Knowledge and Observation System)", "size": 6.0
+							},
+							{
+								"name":"eRSA Cloud Applications", "size": 12.0
+							},
+							{
+								"name":"PLEA", "size": 0.5
+							},
+							{
+								"name":"TERN continental scale model output ", "size": 0.6
+							},
+							{
+								"name":"TERN continental scale model output ", "size": 0.6
+							},
+							{
+								"name":"TERN continental scale model output ", "size": 2.0
+							},
+							{
+								"name":"TERN continental scale model output ", "size": 2.0
+							},
+							{
+								"name":"TERN-Adel", "size": 1.5
+							}
+						]
+					},
+					{
+						"name":"050101",
+						"children": 
+						[
+							{
+								"name":"NERP Web Fire Mapping", "size": 0.6
+							},
+							{
+								"name":"Exposing JCU research", "size": 0.8
+							},
+							{
+								"name":"TerraNova Climate Change Adaptation Information Hub", "size": 10.0
+							},
+							{
+								"name":"Biodiversity Climate Change VL", "size": 72.0
+							},
+							{
+								"name":"QCIF CLiMAS_1", "size": 1.6
+							},
+							{
+								"name":"QCIF CLiMAS_2", "size": 6.4
+							},
+							{
+								"name":"QCIF Climate Data", "size": 1.0
+							},
+							{
+								"name":"UTas_IMAS_Predators", "size": 2.8
+							},
+							{
+								"name":"Marine climate-change dynamics", "size": 12.8
+							},
+							{
+								"name":"ecosystem Modelling and Scaling (eMAST", "size": 0.4
+							}
+						]
+					},
+					{
+						"name":"050199",
+						"children": 
+						[
+							{
+								"name":"Atlas of Living Australia", "size": 12.0
+							},
+							{
+								"name":"Atlas of Living Australia", "size": 12.0
+							},
+							{
+								"name":"ecological informatics", "size": 8.0
+							}
+						]
+					},
+					{
+						"name":"050104",
+						"children": 
+						[
+							{
+								"name":"BushFM", "size": 2.0
+							},
+							{
+								"name":"Marxan conservation planning software development", "size": 9.6
+							}
+						]
+					},
+					{
+						"name":"050102",
+						"children": 
+						[
+							{
+								"name":"CSS_Shallow", "size": 0.8
+							},
+							{
+								"name":"ecosystem Modelling and Scaling (eMAST", "size": 0.2
+							},
+							{
+								"name":"TERN continental scale model output ", "size": 0.9
+							},
+							{
+								"name":"TERN continental scale model output ", "size": 0.9
+							},
+							{
+								"name":"TERN continental scale model output ", "size": 3.0
+							},
+							{
+								"name":"TERN continental scale model output ", "size": 3.0
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0502",
+				"children": 
+				[
+					{
+						"name":"050202",
+						"children": 
+						[
+							{
+								"name":"Tzar-FW - Additional VMs", "size": 8.0
+							},
+							{
+								"name":"Tzar-FW - Additional VMs", "size": 8.0
+							},
+							{
+								"name":"Marine climate-change dynamics", "size": 12.8
+							},
+							{
+								"name":"GlobalWeb Food Web DB", "size": 1.0
+							},
+							{
+								"name":"CSIRO ALA-NPEI", "size": 2.0
+							},
+							{
+								"name":"Tzar-FW - Additional VMs", "size": 8.0
+							},
+							{
+								"name":"Exposing JCU research", "size": 0.6
+							},
+							{
+								"name":"Atlas of Living Australia", "size": 12.0
+							},
+							{
+								"name":"Atlas of Living Australia", "size": 12.0
+							},
+							{
+								"name":"QCIF CLiMAS_1", "size": 1.6
+							},
+							{
+								"name":"QCIF CLiMAS_2", "size": 6.4
+							},
+							{
+								"name":"Crop Trait Mining Informatics Platform", "size": 0.2
+							},
+							{
+								"name":"RevegUNE", "size": 0.4
+							}
+						]
+					},
+					{
+						"name":"050209",
+						"children": 
+						[
+							{
+								"name":"RevegUNE", "size": 1.0
+							},
+							{
+								"name":"Marxan conservation planning software development", "size": 28.8
+							},
+							{
+								"name":"ecological informatics", "size": 8.0
+							}
+						]
+					},
+					{
+						"name":"050206",
+						"children": 
+						[
+							{
+								"name":"TERN Australian Coastal Ecosystems Facility", "size": 24.0
+							},
+							{
+								"name":"CMLR", "size": 12.8
+							},
+							{
+								"name":"QCIF_Acoustic_Work_Bench", "size": 6.0
+							},
+							{
+								"name":"CMLR", "size": 0.8
+							},
+							{
+								"name":"QCIF_Acoustic_Work_Bench", "size": 3.0
+							},
+							{
+								"name":"Intersect_Microbial_community_analysis", "size": 1.2
+							},
+							{
+								"name":"Intersect_Microbial_community_analysis", "size": 0.3
+							}
+						]
+					},
+					{
+						"name":"0502",
+						"children": 
+						[
+							{
+								"name":"QCIF_OzTrack", "size": 6.4
+							},
+							{
+								"name":"ClimateWorks_CART", "size": 5.0
+							},
+							{
+								"name":"Derived Digital Elevation Models (DEM)", "size": 1.0
+							},
+							{
+								"name":"QCIF_OzTrack", "size": 2.4
+							},
+							{
+								"name":"VL201 Industrial Ecology", "size": 3.2
+							},
+							{
+								"name":"Intersect Demonstrations", "size": 1.0
+							},
+							{
+								"name":"SYD-IndEcologyVL", "size": 6.4
+							},
+							{
+								"name":"SYD-IndEcologyVL", "size": 6.4
+							},
+							{
+								"name":"Soils2Sats", "size": 2.0
+							},
+							{
+								"name":"IMOS AODAAC", "size": 0.6
+							},
+							{
+								"name":"PLEA", "size": 0.5
+							},
+							{
+								"name":"TERN Ecoinformatics (Australian Ecological Knowledge and Observation System)", "size": 6.0
+							},
+							{
+								"name":"TERN Ecoinformatics (Australian Ecological Knowledge and Observation System)", "size": 4.5
+							}
+						]
+					},
+					{
+						"name":"050204",
+						"children": 
+						[
+							{
+								"name":"Intersect_Snap", "size": 10.0
+							},
+							{
+								"name":"A web portal to study the spread of debris in the global ocean", "size": 1.2
+							},
+							{
+								"name":"UoM MUtopia", "size": 14.4
+							},
+							{
+								"name":"UoM MUtopia", "size": 0.9
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0599",
+				"children": 
+				[
+					{
+						"name":"059999",
+						"children": 
+						[
+							{
+								"name":"UTas_Sense-T", "size": 24.0
+							},
+							{
+								"name":"UTas-Sense-T", "size": 24.0
+							},
+							{
+								"name":"Marxan conservation planning software development", "size": 9.6
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"05",
+				"children": 
+				[
+					{
+						"name":"05",
+						"children": 
+						[
+							{
+								"name":"QCIF eSpaces", "size": 1.6
+							},
+							{
+								"name":"QCIF CCDAM", "size": 6.4
+							},
+							{
+								"name":"TERN continental scale model output ", "size": 1.5
+							},
+							{
+								"name":"TERN continental scale model output ", "size": 1.5
+							},
+							{
+								"name":"TERN continental scale model output ", "size": 5.0
+							},
+							{
+								"name":"TERN continental scale model output ", "size": 5.0
+							},
+							{
+								"name":" OzFlux Data Portal", "size": 0.9
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	{
+		"name":"10",
+		"children": 
+		[
+			{
+				"name":"10",
+				"children": 
+				[
+					{
+						"name":"10",
+						"children": 
+						[
+							{
+								"name":"VU eResearch", "size": 30.0
+							},
+							{
+								"name":"MONITOR-1", "size": 2.0
+							},
+							{
+								"name":"VU-eResearch", "size": 30.0
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"1007",
+				"children": 
+				[
+					{
+						"name":"100708",
+						"children": 
+						[
+							{
+								"name":"Electronic and Mechanical Properties of Next-Generation Nanoscale Materials", "size": 16.0
+							}
+						]
+					},
+					{
+						"name":"100703",
+						"children": 
+						[
+							{
+								"name":"Joanne Macdonald", "size": 24.0
+							},
+							{
+								"name":"USC-FIoV:", "size": 24.0
+							},
+							{
+								"name":"NBCF Breast Cancer Project", "size": 1.6
+							},
+							{
+								"name":"NBCF Breast Cancer Project", "size": 0.2
+							}
+						]
+					},
+					{
+						"name":"100712",
+						"children": 
+						[
+							{
+								"name":"Unimelb_Evanescent_Scattering", "size": 1.2
+							},
+							{
+								"name":"Unimelb_Evanescent_Scattering", "size": 0.3
+							},
+							{
+								"name":"Unimelb_Evanescent_Scattering", "size": 0.3
+							},
+							{
+								"name":"Unimelb_Evanescent_Scattering", "size": 0.3
+							},
+							{
+								"name":"Unimelb_Evanescent_Scattering", "size": 4.8
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"1004",
+				"children": 
+				[
+					{
+						"name":"100401",
+						"children": 
+						[
+							{
+								"name":"Clonal Diversity", "size": 8.0
+							}
+						]
+					},
+					{
+						"name":"100402",
+						"children": 
+						[
+							{
+								"name":"Unimelb_HVPA", "size": 0.6
+							},
+							{
+								"name":"Joanne Macdonald", "size": 14.4
+							},
+							{
+								"name":"USC-FIoV:", "size": 14.4
+							}
+						]
+					},
+					{
+						"name":"100499",
+						"children": 
+						[
+							{
+								"name":"Intersect_Microbial_community_analysis", "size": 3.6
+							},
+							{
+								"name":"Intersect_Microbial_community_analysis", "size": 0.9
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"1002",
+				"children": 
+				[
+					{
+						"name":"100201",
+						"children": 
+						[
+							{
+								"name":"CSIRO_genes4all_clients", "size": 1.6
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"1006",
+				"children": 
+				[
+					{
+						"name":"100605",
+						"children": 
+						[
+							{
+								"name":"ANU-RDSI-Netcomms", "size": 2.0
+							}
+						]
+					},
+					{
+						"name":"100699",
+						"children": 
+						[
+							{
+								"name":"ARGUS FPGA Design", "size": 2.0
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"1099",
+				"children": 
+				[
+					{
+						"name":"1099",
+						"children": 
+						[
+							{
+								"name":"CQU Sandbox", "size": 21.0
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"1005",
+				"children": 
+				[
+					{
+						"name":"100599",
+						"children": 
+						[
+							{
+								"name":"TeachingCloudComputing-Team1", "size": 8.0
+							},
+							{
+								"name":"Unimelb_TeachingCloudComputing-Team2", "size": 8.0
+							},
+							{
+								"name":"Unimelb_TeachingCloudComputing-Team3", "size": 8.0
+							},
+							{
+								"name":"Unimelb_TeachingCloudComputing-Team4", "size": 8.0
+							},
+							{
+								"name":"Unimelb_TeachingCloudComputing-Team5", "size": 8.0
+							},
+							{
+								"name":"Unimelb_TeachingCloudComputing-Team6", "size": 8.0
+							},
+							{
+								"name":"Unimelb_TeachingCloudComputing-Team7", "size": 8.0
+							},
+							{
+								"name":"Unimelb_TeachingCloudComputing-Team8", "size": 8.0
+							},
+							{
+								"name":"TeachingCloudComputing-Team9", "size": 8.0
+							},
+							{
+								"name":"TeachingCloudComputing-Team10", "size": 8.0
+							},
+							{
+								"name":"TeachingCloudComputing-Team9", "size": 4.0
+							},
+							{
+								"name":"TeachingCloudComputing-Team10", "size": 4.0
+							}
+						]
+					},
+					{
+						"name":"100503",
+						"children": 
+						[
+							{
+								"name":"Unimelb_Twitter_keyword_track", "size": 0.8
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	{
+		"name":"21",
+		"children": 
+		[
+			{
+				"name":"2101",
+				"children": 
+				[
+					{
+						"name":"210199",
+						"children": 
+						[
+							{
+								"name":"FAIMS", "size": 16.0
+							},
+							{
+								"name":"FAIMS", "size": 16.0
+							}
+						]
+					},
+					{
+						"name":"210102",
+						"children": 
+						[
+							{
+								"name":"UQ Online Archaeological Reference Collections", "size": 2.0
+							}
+						]
+					},
+					{
+						"name":"210101",
+						"children": 
+						[
+							{
+								"name":"German Missionaries", "size": 1.0
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"21",
+				"children": 
+				[
+					{
+						"name":"21",
+						"children": 
+						[
+							{
+								"name":"QCIF_Paperminer", "size": 4.0
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"2102",
+				"children": 
+				[
+					{
+						"name":"210202",
+						"children": 
+						[
+							{
+								"name":"FAIMS", "size": 6.4
+							},
+							{
+								"name":"FAIMS", "size": 6.4
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"2103",
+				"children": 
+				[
+					{
+						"name":"210302",
+						"children": 
+						[
+							{
+								"name":"AutoDesk Maya Renderfarm", "size": 3.0
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	{
+		"name":"11",
+		"children": 
+		[
+			{
+				"name":"1101",
+				"children": 
+				[
+					{
+						"name":"110106",
+						"children": 
+						[
+							{
+								"name":"SAXS Data Reduction Cloud", "size": 10.0
+							},
+							{
+								"name":"The Proteome Browser", "size": 0.5
+							}
+						]
+					},
+					{
+						"name":"1101",
+						"children": 
+						[
+							{
+								"name":"CharacterisationVL - [Additional resource]", "size": 60.0
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"1117",
+				"children": 
+				[
+					{
+						"name":"111706",
+						"children": 
+						[
+							{
+								"name":"AIR-POLLUTION", "size": 8.0
+							},
+							{
+								"name":"InfectiousDiseases", "size": 179.2
+							},
+							{
+								"name":"BCEES", "size": 2.0
+							}
+						]
+					},
+					{
+						"name":"111711",
+						"children": 
+						[
+							{
+								"name":"ACCLAiM - Australian Collaboration for Clinical Assessment in Medicine ", "size": 1.0
+							}
+						]
+					},
+					{
+						"name":"111709",
+						"children": 
+						[
+							{
+								"name":"International Dental Graduate Study", "size": 1.8
+							}
+						]
+					},
+					{
+						"name":"111714",
+						"children": 
+						[
+							{
+								"name":"USyd Moderator Assitant", "size": 1.6
+							}
+						]
+					},
+					{
+						"name":"111799",
+						"children": 
+						[
+							{
+								"name":"UniSA_Cystic_Fibrosis_Genetic_Therapy_Community_Engagement", "size": 0.4
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"1111",
+				"children": 
+				[
+					{
+						"name":"111104",
+						"children": 
+						[
+							{
+								"name":"OpenClinica", "size": 1.4
+							}
+						]
+					},
+					{
+						"name":"111102",
+						"children": 
+						[
+							{
+								"name":"OpenClinica", "size": 0.6
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"1112",
+				"children": 
+				[
+					{
+						"name":"111201",
+						"children": 
+						[
+							{
+								"name":"Breast cancer RNA-seq", "size": 8.0
+							}
+						]
+					},
+					{
+						"name":"111203",
+						"children": 
+						[
+							{
+								"name":"NBCF Breast Cancer Project", "size": 4.0
+							},
+							{
+								"name":"CSIRO_NGSANE", "size": 1.5
+							},
+							{
+								"name":"NBCF Breast Cancer Project", "size": 0.5
+							},
+							{
+								"name":"Monash-Galaxy-Prod", "size": 20.0
+							},
+							{
+								"name":"SACGF", "size": 6.4
+							},
+							{
+								"name":"Unimelb_HVPA", "size": 0.2
+							},
+							{
+								"name":"Monash-Galaxy-Prod", "size": 3.0
+							},
+							{
+								"name":"SACGF", "size": 0.8
+							}
+						]
+					},
+					{
+						"name":"1112",
+						"children": 
+						[
+							{
+								"name":"Unimelb_Peter_Mac_Research_Dropbox", "size": 0.8
+							},
+							{
+								"name":"Unimelb_PeterMac_Bioinformatics_Pipelines", "size": 19.2
+							},
+							{
+								"name":"Unimelb_PeterMac_Bioinformatics_Pipelines", "size": 1.2
+							}
+						]
+					},
+					{
+						"name":"111206",
+						"children": 
+						[
+							{
+								"name":"QCIF Cancer Genomics Compute", "size": 6.4
+							},
+							{
+								"name":"QCIF Cancer Genomics", "size": 0.4
+							},
+							{
+								"name":"QCIF Cancer Genomics", "size": 0.4
+							},
+							{
+								"name":"QCIF Cancer Genomics", "size": 3.2
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"1105",
+				"children": 
+				[
+					{
+						"name":"110599",
+						"children": 
+						[
+							{
+								"name":"International Dental Graduate Study", "size": 3.0
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"11",
+				"children": 
+				[
+					{
+						"name":"11",
+						"children": 
+						[
+							{
+								"name":"CSIRO-CIAP", "size": 24.0
+							},
+							{
+								"name":"CharacterisationVL - [Additional resource]", "size": 80.0
+							},
+							{
+								"name":"UTas Climate Change and Health Adaptions", "size": 3.2
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"1113",
+				"children": 
+				[
+					{
+						"name":"111303",
+						"children": 
+						[
+							{
+								"name":"MoViT - Mobile Vision Tester", "size": 1.8
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"1106",
+				"children": 
+				[
+					{
+						"name":"110699",
+						"children": 
+						[
+							{
+								"name":"Sport and Recreation Spatial", "size": 1.2
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"1109",
+				"children": 
+				[
+					{
+						"name":"1109",
+						"children": 
+						[
+							{
+								"name":"NeuroImagingClusterLarge", "size": 150.0
+							},
+							{
+								"name":"QCIF_CAI_Mouse_Brain_ANDS", "size": 0.2
+							},
+							{
+								"name":"QCIF_CAI_Mouse_Brain_ANDS", "size": 0.2
+							}
+						]
+					},
+					{
+						"name":"110999",
+						"children": 
+						[
+							{
+								"name":"Monash_NeuroImaging_FusionForge", "size": 1.0
+							},
+							{
+								"name":"Characterisation VL Development and Testing", "size": 80.0
+							},
+							{
+								"name":"CharacterisationVL - [Additional resource]", "size": 38.4
+							}
+						]
+					},
+					{
+						"name":"110903",
+						"children": 
+						[
+							{
+								"name":"Neural Netetwork Complex Dynamics Parameter Search", "size": 2.4
+							},
+							{
+								"name":"QCIF_LeukoSeq", "size": 32.0
+							},
+							{
+								"name":"QCIF_LeukoSeq", "size": 3.2
+							}
+						]
+					},
+					{
+						"name":"110902",
+						"children": 
+						[
+							{
+								"name":"RNA-seq of iPS-derived human neurons", "size": 0.3
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"1103",
+				"children": 
+				[
+					{
+						"name":"110315",
+						"children": 
+						[
+							{
+								"name":"Adelaide_QEH_Rhinology", "size": 6.4
+							}
+						]
+					},
+					{
+						"name":"110316",
+						"children": 
+						[
+							{
+								"name":"Qld breast cancer", "size": 4.0
+							}
+						]
+					},
+					{
+						"name":"110311",
+						"children": 
+						[
+							{
+								"name":"Unimelb_HVPA", "size": 0.2
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"1115",
+				"children": 
+				[
+					{
+						"name":"111504",
+						"children": 
+						[
+							{
+								"name":"SAXS Data Reduction Cloud", "size": 6.0
+							}
+						]
+					},
+					{
+						"name":"111599",
+						"children": 
+						[
+							{
+								"name":"XAS", "size": 0.6
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"1108",
+				"children": 
+				[
+					{
+						"name":"110804",
+						"children": 
+						[
+							{
+								"name":"InfectiousDiseases", "size": 76.8
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"1107",
+				"children": 
+				[
+					{
+						"name":"1107",
+						"children": 
+						[
+							{
+								"name":"Adelaide_QEH_Rhinology", "size": 0.8
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	{
+		"name":"19",
+		"children": 
+		[
+			{
+				"name":"1902",
+				"children": 
+				[
+					{
+						"name":"190203",
+						"children": 
+						[
+							{
+								"name":"ANIM.OS Websocket Server", "size": 1.6
+							},
+							{
+								"name":"Solstice", "size": 0.8
+							},
+							{
+								"name":"C4D Renderfarm", "size": 32.0
+							},
+							{
+								"name":"C4D Renderfarm", "size": 2.0
+							}
+						]
+					},
+					{
+						"name":"190201",
+						"children": 
+						[
+							{
+								"name":"Deakin_CAARP", "size": 1.0
+							},
+							{
+								"name":"Deakin_Bonza", "size": 1.0
+							},
+							{
+								"name":"Deakin_CAARP", "size": 1.0
+							},
+							{
+								"name":"Deakin_Bonza", "size": 1.0
+							},
+							{
+								"name":"Deakin_CAARP", "size": 1.0
+							},
+							{
+								"name":"Deakin_Bonza", "size": 1.0
+							}
+						]
+					},
+					{
+						"name":"190205",
+						"children": 
+						[
+							{
+								"name":"ANIM.OS Websocket Server", "size": 0.4
+							}
+						]
+					},
+					{
+						"name":"190202",
+						"children": 
+						[
+							{
+								"name":"AutoDesk Maya Renderfarm", "size": 2.0
+							}
+						]
+					},
+					{
+						"name":"1902",
+						"children": 
+						[
+							{
+								"name":"Twitter Data Collection", "size": 1.0
+							},
+							{
+								"name":"Access Grid International Website Hosting", "size": 0.4
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	{
+		"name":"20",
+		"children": 
+		[
+			{
+				"name":"2001",
+				"children": 
+				[
+					{
+						"name":"200102",
+						"children": 
+						[
+							{
+								"name":"QUT_IT - Extend end-date", "size": 3.2
+							}
+						]
+					},
+					{
+						"name":"2001",
+						"children": 
+						[
+							{
+								"name":"ADELTA", "size": 0.6
+							},
+							{
+								"name":"ADELTA", "size": 0.6
+							},
+							{
+								"name":"Twitter Data Collection", "size": 3.0
+							}
+						]
+					},
+					{
+						"name":"200104",
+						"children": 
+						[
+							{
+								"name":"HuNI_VL", "size": 10.0
+							},
+							{
+								"name":"HuNI_VL", "size": 5.0
+							},
+							{
+								"name":"QUT_IT - Extend end-date", "size": 2.4
+							}
+						]
+					},
+					{
+						"name":"200101",
+						"children": 
+						[
+							{
+								"name":"QUT_IT - Extend end-date", "size": 2.4
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"2003",
+				"children": 
+				[
+					{
+						"name":"200302",
+						"children": 
+						[
+							{
+								"name":"harlequin", "size": 4.0
+							}
+						]
+					},
+					{
+						"name":"2003",
+						"children": 
+						[
+							{
+								"name":"QCIF AusNC Migration and Enhancement", "size": 4.0
+							},
+							{
+								"name":"AusNC Migration and Enhancement", "size": 4.0
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"2002",
+				"children": 
+				[
+					{
+						"name":"200203",
+						"children": 
+						[
+							{
+								"name":"Deakin_TUGG", "size": 1.5
+							},
+							{
+								"name":"Deakin_TUGG", "size": 1.5
+							},
+							{
+								"name":"Deakin_TUGG", "size": 1.5
+							},
+							{
+								"name":"Deakin_CAARP", "size": 1.0
+							},
+							{
+								"name":"Deakin_Bonza", "size": 1.0
+							},
+							{
+								"name":"Deakin_CAARP", "size": 1.0
+							},
+							{
+								"name":"Deakin_Bonza", "size": 1.0
+							},
+							{
+								"name":"Deakin_CAARP", "size": 1.0
+							},
+							{
+								"name":"Deakin_Bonza", "size": 1.0
+							}
+						]
+					},
+					{
+						"name":"200209",
+						"children": 
+						[
+							{
+								"name":"HuNI_VL", "size": 8.0
+							},
+							{
+								"name":"HuNI_VL", "size": 4.0
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"2005",
+				"children": 
+				[
+					{
+						"name":"200526",
+						"children": 
+						[
+							{
+								"name":"harlequin", "size": 4.0
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"2004",
+				"children": 
+				[
+					{
+						"name":"2004",
+						"children": 
+						[
+							{
+								"name":"QCIF AusNC Migration and Enhancement", "size": 4.0
+							},
+							{
+								"name":"HCSvLab", "size": 128.0
+							},
+							{
+								"name":"AusNC Migration and Enhancement", "size": 4.0
+							},
+							{
+								"name":"HCSvLab", "size": 8.0
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	{
+		"name":"04",
+		"children": 
+		[
+			{
+				"name":"0405",
+				"children": 
+				[
+					{
+						"name":"0405",
+						"children": 
+						[
+							{
+								"name":"Marine Virtual Laboratory", "size": 100.0
+							},
+							{
+								"name":"IMOS Chef Integration Testing", "size": 16.0
+							},
+							{
+								"name":"IMOS AODAAC", "size": 1.4
+							},
+							{
+								"name":"Marine Virtual Laboratory", "size": 80.0
+							},
+							{
+								"name":"Marine Virtual Laboratory", "size": 80.0
+							}
+						]
+					},
+					{
+						"name":"040503",
+						"children": 
+						[
+							{
+								"name":"NOPP WW3", "size": 16.0
+							},
+							{
+								"name":"A web portal to study the spread of debris in the global ocean", "size": 2.4
+							},
+							{
+								"name":"MARVL", "size": 4.0
+							},
+							{
+								"name":"Ocean model", "size": 0.5
+							},
+							{
+								"name":"MARVL", "size": 2.0
+							},
+							{
+								"name":"Storm Surge Modelling and Emergency Response Management", "size": 1.0
+							}
+						]
+					},
+					{
+						"name":"040501",
+						"children": 
+						[
+							{
+								"name":"UTas_Satellite_Ocean_Colour_Processing", "size": 8.0
+							},
+							{
+								"name":"UTas_IMAS_Predators", "size": 0.8
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0401",
+				"children": 
+				[
+					{
+						"name":"040104",
+						"children": 
+						[
+							{
+								"name":"CliMDDIR", "size": 8.0
+							},
+							{
+								"name":"Semaphore", "size": 12.0
+							},
+							{
+								"name":"Semaphore", "size": 3.0
+							},
+							{
+								"name":"UTas Climate Change and Health Adaptions", "size": 3.2
+							}
+						]
+					},
+					{
+						"name":"040105",
+						"children": 
+						[
+							{
+								"name":"ecosystem Modelling and Scaling (eMAST", "size": 0.4
+							},
+							{
+								"name":"A web portal to study the spread of debris in the global ocean", "size": 0.4
+							}
+						]
+					},
+					{
+						"name":"0401",
+						"children": 
+						[
+							{
+								"name":" OzFlux Data Portal", "size": 0.9
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0404",
+				"children": 
+				[
+					{
+						"name":"0404",
+						"children": 
+						[
+							{
+								"name":"GeophysicsVL - [Additional VMs]", "size": 80.0
+							}
+						]
+					},
+					{
+						"name":"040402",
+						"children": 
+						[
+							{
+								"name":"Underworld_NeCTAR_Cloud_Flow", "size": 16.0
+							},
+							{
+								"name":"Underworld Student Lab", "size": 80.0
+							},
+							{
+								"name":"Underworld_NeCTAR_Cloud_Flow", "size": 2.0
+							},
+							{
+								"name":"Underworld Student Lab", "size": 10.0
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0406",
+				"children": 
+				[
+					{
+						"name":"040607",
+						"children": 
+						[
+							{
+								"name":"Near Surface Barchan Dune Flow", "size": 8.0
+							}
+						]
+					},
+					{
+						"name":"040699",
+						"children": 
+						[
+							{
+								"name":"QCIF DSITIA Remote Sensing Trial", "size": 8.0
+							}
+						]
+					},
+					{
+						"name":"040604",
+						"children": 
+						[
+							{
+								"name":"stormsurge-cemdss", "size": 1.0
+							}
+						]
+					},
+					{
+						"name":"040601",
+						"children": 
+						[
+							{
+								"name":"Near Surface Barchan Dune Flow", "size": 8.0
+							}
+						]
+					},
+					{
+						"name":"0406",
+						"children": 
+						[
+							{
+								"name":" OzFlux Data Portal", "size": 1.2
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0403",
+				"children": 
+				[
+					{
+						"name":"040305",
+						"children": 
+						[
+							{
+								"name":"TERN Australian Coastal Ecosystems Facility", "size": 14.4
+							}
+						]
+					},
+					{
+						"name":"0403",
+						"children": 
+						[
+							{
+								"name":"CMLR", "size": 3.2
+							},
+							{
+								"name":"CMLR", "size": 0.2
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"04",
+				"children": 
+				[
+					{
+						"name":"04",
+						"children": 
+						[
+							{
+								"name":"TERN-Adel", "size": 1.5
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	{
+		"name":"16",
+		"children": 
+		[
+			{
+				"name":"16",
+				"children": 
+				[
+					{
+						"name":"16",
+						"children": 
+						[
+							{
+								"name":"Water and Energy Data Analysis", "size": 8.0
+							},
+							{
+								"name":"ANU_HuNI", "size": 2.0
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"1699",
+				"children": 
+				[
+					{
+						"name":"169999",
+						"children": 
+						[
+							{
+								"name":"Intersect HCSvLab", "size": 4.0
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"1604",
+				"children": 
+				[
+					{
+						"name":"160404",
+						"children": 
+						[
+							{
+								"name":"Smart Water PoC (Proof of Concept)", "size": 1.0
+							},
+							{
+								"name":"Smart Water PoC (Proof of Concept)", "size": 2.0
+							},
+							{
+								"name":"Smart Water PoC (Proof of Concept)", "size": 0.5
+							},
+							{
+								"name":"Smart Water PoC (Proof of Concept)", "size": 0.0
+							}
+						]
+					},
+					{
+						"name":"160402",
+						"children": 
+						[
+							{
+								"name":"Sport and Recreation Spatial", "size": 0.6
+							},
+							{
+								"name":"Deakin_TUGG", "size": 1.5
+							},
+							{
+								"name":"Deakin_TUGG", "size": 1.5
+							},
+							{
+								"name":"Deakin_TUGG", "size": 1.5
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"1605",
+				"children": 
+				[
+					{
+						"name":"160508",
+						"children": 
+						[
+							{
+								"name":"International Dental Graduate Study", "size": 1.2
+							}
+						]
+					},
+					{
+						"name":"160514",
+						"children": 
+						[
+							{
+								"name":"Food Desert Index Computation For The Greater Melbourne Area", "size": 6.4
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"1603",
+				"children": 
+				[
+					{
+						"name":"1603",
+						"children": 
+						[
+							{
+								"name":"Sport and Recreation Spatial", "size": 0.2
+							}
+						]
+					},
+					{
+						"name":"160303",
+						"children": 
+						[
+							{
+								"name":"HuNI_VL", "size": 2.0
+							},
+							{
+								"name":"HuNI_VL", "size": 1.0
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	{
+		"name":"13",
+		"children": 
+		[
+			{
+				"name":"1301",
+				"children": 
+				[
+					{
+						"name":"130199",
+						"children": 
+						[
+							{
+								"name":"ReDBox", "size": 8.0
+							},
+							{
+								"name":"Unimelb Learning Analytics Research Group", "size": 1.0
+							}
+						]
+					},
+					{
+						"name":"130103",
+						"children": 
+						[
+							{
+								"name":"ECAPS", "size": 1.0
+							},
+							{
+								"name":"USyd_Flipped_Classroom", "size": 2.0
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"1399",
+				"children": 
+				[
+					{
+						"name":"139999",
+						"children": 
+						[
+							{
+								"name":"Adelaide_hmC_methylation", "size": 0.4
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	{
+		"name":"01",
+		"children": 
+		[
+			{
+				"name":"0104",
+				"children": 
+				[
+					{
+						"name":"010401",
+						"children": 
+						[
+							{
+								"name":"StatGenMCRI", "size": 0.8
+							},
+							{
+								"name":"Food Desert Index Computation For The Greater Melbourne Area", "size": 16.0
+							},
+							{
+								"name":"UTas_RTrack01", "size": 0.8
+							},
+							{
+								"name":"UTas_RTrack01", "size": 0.2
+							}
+						]
+					},
+					{
+						"name":"0104",
+						"children": 
+						[
+							{
+								"name":"VeRSI DTN S-DMZ service monitoring", "size": 2.0
+							},
+							{
+								"name":"Unimelb_Peter_Mac_Research_Dropbox", "size": 0.2
+							}
+						]
+					},
+					{
+						"name":"010403",
+						"children": 
+						[
+							{
+								"name":"Monash MCTS Server", "size": 0.2
+							},
+							{
+								"name":"Forensic Data Ranking and Analysis", "size": 16.0
+							}
+						]
+					},
+					{
+						"name":"010499",
+						"children": 
+						[
+							{
+								"name":"UTas Climate Change and Health Adaptions", "size": 1.6
+							}
+						]
+					},
+					{
+						"name":"010402",
+						"children": 
+						[
+							{
+								"name":"Genomics", "size": 0.4
+							},
+							{
+								"name":"Genomics", "size": 0.4
+							}
+						]
+					},
+					{
+						"name":"010406",
+						"children": 
+						[
+							{
+								"name":"Curtin_S&P500", "size": 6.4
+							},
+							{
+								"name":"Curtin_S&P500", "size": 6.4
+							},
+							{
+								"name":"Twitter Data Collection", "size": 1.0
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0102",
+				"children": 
+				[
+					{
+						"name":"010202",
+						"children": 
+						[
+							{
+								"name":"Cotton Bollworm Transcriptome", "size": 2.0
+							},
+							{
+								"name":"protein folding", "size": 16.0
+							},
+							{
+								"name":"MUSP Scheduler", "size": 1.0
+							},
+							{
+								"name":"protein folding", "size": 1.0
+							},
+							{
+								"name":"Neural Netetwork Complex Dynamics Parameter Search", "size": 2.4
+							}
+						]
+					},
+					{
+						"name":"010205",
+						"children": 
+						[
+							{
+								"name":"Curtin_S&P500", "size": 32.0
+							},
+							{
+								"name":"Curtin_S&P500", "size": 32.0
+							}
+						]
+					},
+					{
+						"name":"010204",
+						"children": 
+						[
+							{
+								"name":"3D WSSI modelling", "size": 16.0
+							},
+							{
+								"name":"3D WSSI modelling", "size": 1.0
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"01",
+				"children": 
+				[
+					{
+						"name":"01",
+						"children": 
+						[
+							{
+								"name":"HPC Workflows", "size": 3.0
+							},
+							{
+								"name":"Access Grid International Website Hosting", "size": 1.0
+							},
+							{
+								"name":"ReDBox 2", "size": 16.0
+							},
+							{
+								"name":"Genomics QERN migrate", "size": 1.0
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0103",
+				"children": 
+				[
+					{
+						"name":"0103",
+						"children": 
+						[
+							{
+								"name":"VL201 Industrial Ecology", "size": 11.2
+							},
+							{
+								"name":"SYD-IndEcologyVL", "size": 4.8
+							},
+							{
+								"name":"SYD-IndEcologyVL", "size": 4.8
+							},
+							{
+								"name":"MatlabEAIT", "size": 0.3
+							}
+						]
+					},
+					{
+						"name":"010303",
+						"children": 
+						[
+							{
+								"name":"Interactive Shape Optimisation", "size": 9.6
+							},
+							{
+								"name":"Plexos-Nimrod", "size": 120.0
+							},
+							{
+								"name":"eRSA Timetable Optimisation", "size": 0.5
+							},
+							{
+								"name":"Plexos-Nimrod", "size": 120.0
+							},
+							{
+								"name":"Meta-Batch-Scheduler Testing", "size": 2.4
+							},
+							{
+								"name":"Curtin_S&P500", "size": 25.6
+							},
+							{
+								"name":"Curtin_S&P500", "size": 25.6
+							}
+						]
+					},
+					{
+						"name":"010399",
+						"children": 
+						[
+							{
+								"name":"3dtransformation", "size": 8.0
+							},
+							{
+								"name":"3dtransformation", "size": 1.0
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0101",
+				"children": 
+				[
+					{
+						"name":"010104",
+						"children": 
+						[
+							{
+								"name":"Monash Latin Squares", "size": 40.0
+							},
+							{
+								"name":"SAT Competition", "size": 1.0
+							},
+							{
+								"name":"SAT Competition", "size": 1.0
+							},
+							{
+								"name":"SAT Competition", "size": 1.0
+							},
+							{
+								"name":"SAT Competition", "size": 1.0
+							},
+							{
+								"name":"SAT Competition", "size": 1.0
+							},
+							{
+								"name":"SAT Competition", "size": 1.0
+							}
+						]
+					},
+					{
+						"name":"010105",
+						"children": 
+						[
+							{
+								"name":"Intersect_Transformation_Semigroup_Enumeration", "size": 2.4
+							},
+							{
+								"name":"Intersect_Transformation_Semigroup_Enumeration", "size": 0.6
+							},
+							{
+								"name":"Intersect_Transformation_Semigroup_Enumeration", "size": 9.6
+							},
+							{
+								"name":"Intersect_Transformation_Semigroup_Enumeration", "size": 9.6
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	{
+		"name":"09",
+		"children": 
+		[
+			{
+				"name":"0911",
+				"children": 
+				[
+					{
+						"name":"091102",
+						"children": 
+						[
+							{
+								"name":"hull-study-pt-I", "size": 40.0
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0999",
+				"children": 
+				[
+					{
+						"name":"099999",
+						"children": 
+						[
+							{
+								"name":"3D Printing in the Cloud", "size": 64.0
+							}
+						]
+					},
+					{
+						"name":"099901",
+						"children": 
+						[
+							{
+								"name":"USQ eResearch Services Sandbox", "size": 1.2
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0905",
+				"children": 
+				[
+					{
+						"name":"0905",
+						"children": 
+						[
+							{
+								"name":"MUtopia Research Platform", "size": 4.8
+							},
+							{
+								"name":"MUtopia Research Platform", "size": 2.4
+							}
+						]
+					},
+					{
+						"name":"090505",
+						"children": 
+						[
+							{
+								"name":"UoM MUtopia", "size": 28.8
+							},
+							{
+								"name":"UoM MUtopia", "size": 1.8
+							},
+							{
+								"name":"UoM__iDDSS", "size": 19.2
+							},
+							{
+								"name":"UoM__iDDSS", "size": 4.8
+							}
+						]
+					},
+					{
+						"name":"090508",
+						"children": 
+						[
+							{
+								"name":"Monash_Water_Quality-Gippsland_Lakes", "size": 32.0
+							},
+							{
+								"name":"Monash_Water_Quality-Gippsland_Lakes", "size": 1.0
+							}
+						]
+					},
+					{
+						"name":"090507",
+						"children": 
+						[
+							{
+								"name":"Translink", "size": 0.8
+							},
+							{
+								"name":"Translink", "size": 0.8
+							}
+						]
+					},
+					{
+						"name":"090509",
+						"children": 
+						[
+							{
+								"name":"Smart Water PoC (Proof of Concept)", "size": 1.0
+							},
+							{
+								"name":"Smart Water PoC (Proof of Concept)", "size": 0.5
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0915",
+				"children": 
+				[
+					{
+						"name":"091501",
+						"children": 
+						[
+							{
+								"name":"QCIF CFD Dev", "size": 44.8
+							},
+							{
+								"name":"Airfoil Noise: Wing in junction and porous", "size": 0.7
+							},
+							{
+								"name":"MILD combustion jet in hot coflow", "size": 0.6
+							},
+							{
+								"name":"Ocean model", "size": 0.5
+							}
+						]
+					},
+					{
+						"name":"091507",
+						"children": 
+						[
+							{
+								"name":"USC-UPLOADS", "size": 2.0
+							},
+							{
+								"name":"USC-UPLOADS", "size": 2.0
+							},
+							{
+								"name":"USC-UPLOADS", "size": 2.0
+							}
+						]
+					},
+					{
+						"name":"091508",
+						"children": 
+						[
+							{
+								"name":"LTRAC-WebAndGitServer", "size": 0.5
+							},
+							{
+								"name":"MILD combustion jet in hot coflow", "size": 0.2
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0912",
+				"children": 
+				[
+					{
+						"name":"0912",
+						"children": 
+						[
+							{
+								"name":"CVL EMAP", "size": 20.0
+							},
+							{
+								"name":"CVL_EMAP_DEV", "size": 3.0
+							},
+							{
+								"name":"CVL EMAP", "size": 3.0
+							},
+							{
+								"name":"CVL_EMAP_DEV", "size": 3.0
+							},
+							{
+								"name":"CVL EMAP", "size": 20.0
+							},
+							{
+								"name":"CVL EMAP", "size": 20.0
+							},
+							{
+								"name":"CVL_EMAP_DEV", "size": 3.0
+							},
+							{
+								"name":"CSIRO-CIAP", "size": 12.0
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0901",
+				"children": 
+				[
+					{
+						"name":"090104",
+						"children": 
+						[
+							{
+								"name":"PhDProj", "size": 0.5
+							},
+							{
+								"name":"PhDProj", "size": 0.5
+							},
+							{
+								"name":"Autonomous soaring 2", "size": 1.6
+							},
+							{
+								"name":"Autonomous soaring 2", "size": 0.1
+							}
+						]
+					},
+					{
+						"name":"090199",
+						"children": 
+						[
+							{
+								"name":"Autonomous soaring", "size": 2.4
+							},
+							{
+								"name":"Interactive Shape Optimisation", "size": 12.8
+							}
+						]
+					},
+					{
+						"name":"090107",
+						"children": 
+						[
+							{
+								"name":"QCIF CFD Dev", "size": 19.2
+							}
+						]
+					},
+					{
+						"name":"090101",
+						"children": 
+						[
+							{
+								"name":"LTRAC-WebAndGitServer", "size": 0.2
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"09",
+				"children": 
+				[
+					{
+						"name":"09",
+						"children": 
+						[
+							{
+								"name":"Unimelb_ITS_Research_FEA", "size": 40.0
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0913",
+				"children": 
+				[
+					{
+						"name":"0913",
+						"children": 
+						[
+							{
+								"name":"Flow and Noise Group", "size": 2.0
+							}
+						]
+					},
+					{
+						"name":"091305",
+						"children": 
+						[
+							{
+								"name":"LTRAC-WebAndGitServer", "size": 0.3
+							},
+							{
+								"name":"MILD combustion jet in hot coflow", "size": 0.2
+							}
+						]
+					},
+					{
+						"name":"091301",
+						"children": 
+						[
+							{
+								"name":"Airfoil Noise: Wing in junction and porous", "size": 0.3
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0907",
+				"children": 
+				[
+					{
+						"name":"090703",
+						"children": 
+						[
+							{
+								"name":"QCIF eSpaces", "size": 0.4
+							},
+							{
+								"name":"QCIF CCDAM", "size": 1.6
+							},
+							{
+								"name":"Exposing JCU research", "size": 0.6
+							},
+							{
+								"name":"QCIF CLiMAS_1", "size": 0.8
+							},
+							{
+								"name":"QCIF CLiMAS_2", "size": 3.2
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0906",
+				"children": 
+				[
+					{
+						"name":"090602",
+						"children": 
+						[
+							{
+								"name":"USyd_Velodyne_processing", "size": 0.6
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0909",
+				"children": 
+				[
+					{
+						"name":"090903",
+						"children": 
+						[
+							{
+								"name":"Tzar-FW - Additional VMs", "size": 4.0
+							},
+							{
+								"name":"Tzar-FW - Additional VMs", "size": 4.0
+							},
+							{
+								"name":"Tzar-FW - Additional VMs", "size": 4.0
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	{
+		"name":"12",
+		"children": 
+		[
+			{
+				"name":"1203",
+				"children": 
+				[
+					{
+						"name":"120304",
+						"children": 
+						[
+							{
+								"name":"Solstice", "size": 1.2
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"12",
+				"children": 
+				[
+					{
+						"name":"12",
+						"children": 
+						[
+							{
+								"name":"AURIN", "size": 40.0
+							},
+							{
+								"name":"Indigenous Housing Knowledge Base", "size": 2.0
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"1204",
+				"children": 
+				[
+					{
+						"name":"120405",
+						"children": 
+						[
+							{
+								"name":"Jellyfish Migration Project", "size": 2.0
+							}
+						]
+					},
+					{
+						"name":"1204",
+						"children": 
+						[
+							{
+								"name":"MatlabEAIT", "size": 0.3
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"1205",
+				"children": 
+				[
+					{
+						"name":"120506",
+						"children": 
+						[
+							{
+								"name":"Translink", "size": 0.2
+							},
+							{
+								"name":"Translink", "size": 0.2
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	{
+		"name":"03",
+		"children": 
+		[
+			{
+				"name":"0307",
+				"children": 
+				[
+					{
+						"name":"030799",
+						"children": 
+						[
+							{
+								"name":"Automated Topology Builder Development", "size": 9.6
+							},
+							{
+								"name":"UQ_ATB", "size": 150.0
+							}
+						]
+					},
+					{
+						"name":"030704",
+						"children": 
+						[
+							{
+								"name":"Molecular Dynamics Simulations", "size": 1.0
+							}
+						]
+					},
+					{
+						"name":"030701",
+						"children": 
+						[
+							{
+								"name":"Ab initio calculations of physical properties of ionic and polymer materials", "size": 9.0
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0304",
+				"children": 
+				[
+					{
+						"name":"030403",
+						"children": 
+						[
+							{
+								"name":"Synchrotron Monash Storage Service", "size": 12.8
+							},
+							{
+								"name":"UniCarb_NeCTAR_Support", "size": 1.2
+							}
+						]
+					},
+					{
+						"name":"030402",
+						"children": 
+						[
+							{
+								"name":"UQ_ATB", "size": 200.0
+							},
+							{
+								"name":"Automated Topology Builder Development", "size": 6.4
+							}
+						]
+					},
+					{
+						"name":"0304",
+						"children": 
+						[
+							{
+								"name":"NeCTAR Image Processing and Analysis Toolkit", "size": 20.0
+							},
+							{
+								"name":"XAS", "size": 0.8
+							},
+							{
+								"name":"Monash_WilceLab-vec_hsqc", "size": 0.5
+							}
+						]
+					},
+					{
+						"name":"030405",
+						"children": 
+						[
+							{
+								"name":"Synchrotron Monash Storage Service", "size": 9.6
+							}
+						]
+					},
+					{
+						"name":"030401",
+						"children": 
+						[
+							{
+								"name":"UQ_ATB", "size": 150.0
+							}
+						]
+					},
+					{
+						"name":"030406",
+						"children": 
+						[
+							{
+								"name":"Synchrotron Monash Storage Service", "size": 9.6
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0302",
+				"children": 
+				[
+					{
+						"name":"030201",
+						"children": 
+						[
+							{
+								"name":"EPR and its Application to Structural Chemistry and Biology", "size": 16.0
+							},
+							{
+								"name":"Characterisation VL Development and Testing", "size": 60.0
+							},
+							{
+								"name":"CharacterisationVL - [Additional resource]", "size": 28.8
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0306",
+				"children": 
+				[
+					{
+						"name":"030601",
+						"children": 
+						[
+							{
+								"name":"Adelaide_Metal_Cluster_Catalysis ", "size": 10.0
+							}
+						]
+					},
+					{
+						"name":"030606",
+						"children": 
+						[
+							{
+								"name":"EPR and its Application to Structural Chemistry and Biology", "size": 16.0
+							},
+							{
+								"name":"Adelaide_Metal_Cluster_Catalysis ", "size": 10.0
+							},
+							{
+								"name":"UniCarb_NeCTAR_Support", "size": 0.8
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0303",
+				"children": 
+				[
+					{
+						"name":"030302",
+						"children": 
+						[
+							{
+								"name":"volume Calc", "size": 2.0
+							},
+							{
+								"name":"volume Calc", "size": 1.0
+							}
+						]
+					},
+					{
+						"name":"030304",
+						"children": 
+						[
+							{
+								"name":"Ab initio calculations of physical properties of ionic and polymer materials", "size": 6.0
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"03",
+				"children": 
+				[
+					{
+						"name":"03",
+						"children": 
+						[
+							{
+								"name":"Monash_Water_Quality-Gippsland_Lakes", "size": 12.8
+							},
+							{
+								"name":"eRSA Cloud Applications", "size": 16.0
+							},
+							{
+								"name":"Monash_Water_Quality-Gippsland_Lakes", "size": 0.4
+							},
+							{
+								"name":"eRSA Cloud Applications", "size": 2.0
+							},
+							{
+								"name":"eRSA Cloud Applications", "size": 16.0
+							},
+							{
+								"name":"HPC Workflows", "size": 3.0
+							},
+							{
+								"name":"XAS", "size": 0.6
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	{
+		"name":"17",
+		"children": 
+		[
+			{
+				"name":"1702",
+				"children": 
+				[
+					{
+						"name":"1702",
+						"children": 
+						[
+							{
+								"name":"HCSvLab", "size": 96.0
+							},
+							{
+								"name":"HCSvLab", "size": 6.0
+							}
+						]
+					},
+					{
+						"name":"170205",
+						"children": 
+						[
+							{
+								"name":"ANN Prototype", "size": 8.0
+							},
+							{
+								"name":"ANN Prototype", "size": 1.0
+							}
+						]
+					},
+					{
+						"name":"170203",
+						"children": 
+						[
+							{
+								"name":"Monash_EFTPOS_mining1", "size": 6.4
+							},
+							{
+								"name":"Monash_EFTPOS_mining1", "size": 6.4
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"1701",
+				"children": 
+				[
+					{
+						"name":"170199",
+						"children": 
+						[
+							{
+								"name":"ANU_Pro-ana_data_service", "size": 1.5
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	{
+		"name":"07",
+		"children": 
+		[
+			{
+				"name":"0703",
+				"children": 
+				[
+					{
+						"name":"070305",
+						"children": 
+						[
+							{
+								"name":"Murdoch_ACCWI", "size": 2.4
+							},
+							{
+								"name":"Crop Trait Mining Informatics Platform", "size": 0.5
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0702",
+				"children": 
+				[
+					{
+						"name":"070201",
+						"children": 
+						[
+							{
+								"name":"Advanced methods for genomic analysis in animal breeding ", "size": 1.6
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0701",
+				"children": 
+				[
+					{
+						"name":"070103",
+						"children": 
+						[
+							{
+								"name":"Murdoch_Agri_Bio_Data_Integration", "size": 0.2
+							}
+						]
+					},
+					{
+						"name":"070104",
+						"children": 
+						[
+							{
+								"name":"USQ eResearch Services Sandbox", "size": 0.8
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"0705",
+				"children": 
+				[
+					{
+						"name":"070503",
+						"children": 
+						[
+							{
+								"name":"NERP Web Fire Mapping", "size": 0.6
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	{
+		"name":"22",
+		"children": 
+		[
+			{
+				"name":"2202",
+				"children": 
+				[
+					{
+						"name":"220207",
+						"children": 
+						[
+							{
+								"name":"UoM Library", "size": 2.0
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	{
+		"name":"15",
+		"children": 
+		[
+			{
+				"name":"1506",
+				"children": 
+				[
+					{
+						"name":"1506",
+						"children": 
+						[
+							{
+								"name":"VU Phoenix Program", "size": 1.8
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"1507",
+				"children": 
+				[
+					{
+						"name":"1507",
+						"children": 
+						[
+							{
+								"name":"VU Phoenix Program", "size": 1.8
+							}
+						]
+					}
+				]
+			},
+			{
+				"name":"1503",
+				"children": 
+				[
+					{
+						"name":"150301",
+						"children": 
+						[
+							{
+								"name":"Monash_EFTPOS_mining1", "size": 6.4
+							},
+							{
+								"name":"Monash_EFTPOS_mining1", "size": 6.4
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	{
+		"name":"14",
+		"children": 
+		[
+			{
+				"name":"1402",
+				"children": 
+				[
+					{
+						"name":"1402",
+						"children": 
+						[
+							{
+								"name":"ClimateWorks_CART", "size": 5.0
+							}
+						]
+					},
+					{
+						"name":"140205",
+						"children": 
+						[
+							{
+								"name":"Plexos-Nimrod", "size": 120.0
+							},
+							{
+								"name":"Plexos-Nimrod", "size": 120.0
+							}
+						]
+					}
+				]
+			}
+		]
+	}
+	]
+}

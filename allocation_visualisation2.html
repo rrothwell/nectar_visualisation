@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>NeCTAR Virtual Machine Allocations</title>
+<meta name="description" content="A visualisation of virtual machine allocation on the NeCTAR Reseach Cloud.">
+<style>
+@import url(./media/style.css);
+path {
+  stroke: #000;
+  stroke-width: 1.5;
+  cursor: pointer;
+}
+
+text {
+  font: 11px sans-serif;
+  cursor: pointer;
+}
+
+body {
+  width: 880px;
+  margin: 0 auto;
+}
+
+h1 {
+  text-align: center;
+  margin: .5em 0;
+}
+
+p#intro {
+  text-align: center;
+  margin: 1em 0;
+}
+
+.legend-text {
+  text-align: left;
+  margin: 1em 0;
+  font-size: 12px;
+}
+
+h1.legend-text {
+  text-align: left;
+  margin: 1em 0;
+  font-size: 12px;
+}
+</style>
+
+<script src="http://d3js.org/d3.v3.min.js"></script>
+
+</head>
+<body>
+
+<h1>NeCTAR Virtual Machine Allocations</h1>
+
+<p>Virtual machine allocations are shown here partitioned by "Field Of Research" (FOR) code. 
+The inner ring represents allocations categorised by major research discipline,
+while successive middle rings represent finer categorisations by sub-discipline.
+The outer ring represents the total allocation subdivided by project.
+The allocation metric used here is either number of cores or number of virtual machines.
+</p>
+<p>
+To explore the allocation data click the rings to zoom in on the finer details and click
+the centre circle to zoom back out.
+</p>
+<p>
+<form>
+  <label><input type="radio" name="mode" value="cores">CPU cores</label>
+  <label><input type="radio" name="mode" value="machines" checked>Virtual machines</label>
+</form>
+</p>
+<div id="chart">
+<!-- script src="./scripts/test.js"></script -->
+<script src="./scripts/allocation_visualisation.js"></script>
+</div>
+
+</body>
+</html>
