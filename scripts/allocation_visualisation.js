@@ -1,3 +1,9 @@
+//---- Sunburst Plot of NeCTAR Allocations ----
+
+//---- Chart dimensions
+// x and y are x() and y() scaling functions used in function arc()
+// for the pseudo-dimensions x and y.
+
 var width = 840,
     height = width,
     radius = width / 2,
@@ -6,17 +12,17 @@ var width = 840,
     padding = 5,
     duration = 1000;
 
+//---- Chart area on web page. 
+// A div with id="chart" is located on the web page 
+// and then populated with chart elements.
+
 var chart = d3.select("#chart");
 
-var vis = chart.append("svg")
+var plotArea = chart.append("svg")
     .attr("width", width + padding * 2)
     .attr("height", height + padding * 2)
   .append("g")
     .attr("transform", "translate(" + [radius + padding, radius + padding] + ")");
-
-chart.append("p")
-    .attr("id", "intro")
-    .text("Click to zoom!");
 
 var partition = d3.layout.partition()
     .sort(null)
@@ -34,7 +40,9 @@ var arc = d3.svg.arc()
 d3.json("./coffee_wheel_data.json", function(error, json) {
   var nodes = partition.nodes({children: json});
 
-  var path = vis.selectAll("path").data(nodes);
+//---- Plot sectors
+
+  var path = plotArea.selectAll("path").data(nodes);
   path.enter().append("path")
       .attr("id", function(d, i) { return "path-" + i; })
       .attr("d", arc)
@@ -42,8 +50,10 @@ d3.json("./coffee_wheel_data.json", function(error, json) {
       .style("fill", colour)
       .on("click", click);
 
-  var text = vis.selectAll("text").data(nodes);
-  var textEnter = text.enter().append("text")
+//---- Plot labels
+
+  var plotLabel = plotArea.selectAll("text").data(nodes);
+  var plotLabelEnter = plotLabel.enter().append("text")
       .style("fill-opacity", 1)
       .style("fill", function(d) {
         return brightness(d3.rgb(colour(d))) < 125 ? "#eee" : "#000";
@@ -59,13 +69,19 @@ d3.json("./coffee_wheel_data.json", function(error, json) {
         return "rotate(" + rotate + ")translate(" + (y(d.y) + padding) + ")rotate(" + (angle > 90 ? -180 : 0) + ")";
       })
       .on("click", click);
-  textEnter.append("tspan")
+  plotLabelEnter.append("tspan")
       .attr("x", 0)
       .text(function(d) { return d.depth ? d.name.split(" ")[0] : ""; });
-  textEnter.append("tspan")
+  plotLabelEnter.append("tspan")
       .attr("x", 0)
       .attr("dy", "1em")
       .text(function(d) { return d.depth ? d.name.split(" ")[1] || "" : ""; });
+
+//---- Legend
+
+chart.append("p")
+    .attr("id", "intro")
+    .text("Click to zoom!");
 
 //----
 	var legend = chart.append("div")
@@ -83,7 +99,8 @@ d3.json("./coffee_wheel_data.json", function(error, json) {
       })
       .text(function(d) { return d.name; });
 
-//----
+//---- User interaction
+
   function click(d) {
     path.transition()
       .duration(duration)
@@ -115,6 +132,8 @@ d3.json("./coffee_wheel_data.json", function(error, json) {
   }
 });
 
+//---- Utilities
+
 function isParentOf(p, c) {
   if (p === c) return true;
   if (p.children) {
@@ -126,15 +145,7 @@ function isParentOf(p, c) {
 }
 
 function colour(d) {
-  if (d.children) {
-    // There is a maximum of two children!
-    var colours = d.children.map(colour),
-        a = d3.hsl(colours[0]),
-        b = d3.hsl(colours[1]);
-    // L*a*b* might be better here...
-    return d3.hsl((a.h + b.h) / 2, a.s * 1.2, a.l / 1.2);
-  }
-  return d.colour || "#fff";
+  return d.colour || "#ddd";
 }
 
 // Interpolate the scales!
