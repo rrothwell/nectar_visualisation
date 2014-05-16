@@ -6,9 +6,25 @@
 <meta name="description" content="A visualisation of virtual machine allocation on the NeCTAR Reseach Cloud.">
 <style>
 @import url(./media/style.css);
+
+
+circle,
 path {
-  stroke: #000;
-  stroke-width: 1.5;
+  cursor: pointer;
+}
+
+circle {
+  fill: none;
+  pointer-events: all;
+}
+
+#inner-circle {
+  fill: white;
+}
+
+path {
+  stroke: #fff;
+  stroke-width: 1.0;
   cursor: pointer;
 }
 

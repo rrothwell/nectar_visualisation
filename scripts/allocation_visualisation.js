@@ -21,7 +21,7 @@ var width = 700,
 
 var plotArea = d3.select("#plot-area");
 
-var plotArea = plotArea.append("svg")
+var plotObject = plotArea.append("svg")
     .attr("width", width + padding * 2)
     .attr("height", height + padding * 2)
   .append("g")
@@ -31,16 +31,9 @@ var plotArea = plotArea.append("svg")
 
 var partition = d3.layout.partition()
     .sort(function(a, b) { return d3.ascending(a.name, b.name); })
-    //.value(function(d) { return 5.8 - d.depth; })
     .value(function(d) { return d.coreQuota; })
     .size([2 * Math.PI, radius])
     ;
-
-//var arc = d3.svg.arc()
-//    .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x))); })
-//    .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x + d.dx))); })
-//    .innerRadius(function(d) { return Math.max(0, d.y ? y(d.y) : d.y); })
-//    .outerRadius(function(d) { return Math.max(0, y(d.y + d.dy)); });
 
 var arc = d3.svg.arc()
     .startAngle(function(d) { return d.x; })
@@ -68,11 +61,11 @@ d3.json("./for_codes_final_2.json", function(error, forItems) {
 
 d3.json("./allocation_tree_final_2.json", function(error, json) {
 
-  var nodes = partition.nodes({children: json});
+	var nodes = partition.nodes({children: json});
 
 //---- Plot sectors
 
-  var path = plotArea.selectAll("path").data(nodes);
+  var path = plotObject.selectAll("path").data(nodes);
   path.enter().append("path")
       .attr("id", function(d, i) { return "path-" + i; })
       .attr("d", arc)
@@ -80,30 +73,33 @@ d3.json("./allocation_tree_final_2.json", function(error, json) {
       .style("fill", colour)
       .on("click", click);
 
+  var zoomOutButton = plotObject.append("circle")
+      .attr("id", "inner-circle")
+      .attr("r", radius / (levels + 1))
+      .on("click", click);
+  zoomOutButton.append("title")
+      .text("Zoom out");
+
 //---- Plot labels
 
-  var plotLabel = plotArea.selectAll("text").data(nodes);
+  var plotLabel = plotObject.selectAll("text").data(nodes);
   var plotLabelEnter = plotLabel.enter().append("text")
       .style("fill-opacity", 1)
       .style("fill", function(d) {
-        return brightness(d3.rgb(colour(d))) < 125 ? "#eee" : "#000";
-      })
-      .attr("text-anchor", function(d) {
-        return x(d.x + d.dx / 2) > Math.PI ? "end" : "start";
+        //return brightness(d3.rgb(colourScale(d))) < 125 ? "#eee" : "#000";
+        return d.depth == 1 ? "#333" : "#333";
       })
       .attr("dy", ".2em")
       .attr("transform", function(d) {
-        var multiline = (d.name || "").split(" ").length > 1,
-            angle = x(d.x + d.dx / 2) * 180 / Math.PI - 90,
-            rotate = angle + (multiline ? -.5 : 0);
-        return "rotate(" + rotate + ")translate(" + (y(d.y) + padding) + ")rotate(" + (angle > 90 ? -180 : 0) + ")";
+        var multiline = isMultiline(d);
+        return textTransformation(d, multiline);
       })
       .on("click", click);
   plotLabelEnter.append("tspan")
-      .attr("x", 0)
+      .attr("x", "0")
       .text(function(d) { return d.depth ? d.name.split(" ")[0] : ""; });
   plotLabelEnter.append("tspan")
-      .attr("x", 0)
+      .attr("x", "0")
       .attr("dy", "1em")
       .text(function(d) { return d.depth ? d.name.split(" ")[1] || "" : ""; });
 
@@ -153,11 +149,9 @@ plotArea.append("p")
           };
         })
         .attrTween("transform", function(d) {
-          var multiline = (d.name || "").split(" ").length > 1;
+          var multiline = isMultiline(d);
           return function() {
-            var angle = x(d.x + d.dx / 2) * 180 / Math.PI - 90,
-                rotate = angle + (multiline ? -.5 : 0);
-            return "rotate(" + rotate + ")translate(" + (y(d.y) + padding) + ")rotate(" + (angle > 90 ? -180 : 0) + ")";
+            return textTransformation(d, multiline);
           };
         })
         .style("fill-opacity", function(e) { return isParentOf(d, e) ? 1 : 1e-6; })
@@ -180,10 +174,26 @@ function isParentOf(p, c) {
 }
 
 function colour(d) {
-	if (d.depth == 1) {
-  		return colourScale(d.name) || "#eee";
+	if (d.name) {
+		var majorCode = d.name.substring(0, 2);
+		var colourStr = colourScale(majorCode) || "#eee";
+		if (d.depth == 0) {
+			return "#fff";
+		} else if (d.depth == 1) {
+			return colourStr;
+		} else if (d.depth == 4) {
+			majorCode = d.parent.name.substring(0, 2);
+			colourStr = colourScale(majorCode) || "#eee";
+			return colourStr;
+		} else {
+			if (d.parity == 0) {
+				return d3.rgb(colourStr).toString();
+			} else {
+				return d3.rgb(colourStr).toString();
+			}
+		}
 	}
-	return 	"#edf";
+	return 	"#f0ff8";
 }
 
 // Interpolate the scales!
@@ -204,4 +214,18 @@ function maxY(d) {
 // http://www.w3.org/WAI/ER/WD-AERT/#color-contrast
 function brightness(rgb) {
   return rgb.r * .299 + rgb.g * .587 + rgb.b * .114;
+}
+
+function textTransformation(d, multiline) {
+	var angle = (d.x + d.dx / 2) * 180 / Math.PI - 90;
+	var preRotate = angle + (multiline ? -.5 : 0);
+	//var translate = y(d.y) + padding;
+	var translate = (d.depth * 1.0 / (levels + 1)) * radius  + padding;
+	//var postRotate = angle > 90 ? -180 : 0;
+	//return "rotate(" + preRotate + ") translate(" + translate + ") rotate(" + postRotate + ")";
+	return "rotate(" + preRotate + ")" + " translate(" + translate + ")";
+}
+
+function isMultiline(d) {
+	return (d.name || "").split(" ").length > 1;
 }
