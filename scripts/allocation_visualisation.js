@@ -7,6 +7,7 @@ var levels = 4;
 
 // Tried calculating this from the SVG text metrics, but it's too slow.
 var displayCharacterCount = 10;
+var textBoxHeight = 16;
 
 var width = 700,
     height = width,
@@ -19,6 +20,15 @@ var width = 700,
 // and then populated with chart elements.
 
 var plotArea = d3.select("#plot-area");
+
+plotArea.append("div")
+    .attr("class", "plot-title-container")	
+	.append("div")
+    //.attr("class", "plot-title-centre")	
+	//.append("div")
+    .attr("id", "title")
+    .attr("class", "plot-title")
+    .text("Core Quota");
 
 var plotGroup = plotArea.append("svg")
     .attr("width", width + padding * 2)
@@ -77,7 +87,8 @@ d3.json("./allocation_tree_final_2.json", function(error, json) {
       .attr("r", radius / (levels + 1))
       .on("click", click);
   zoomOutButton.append("title")
-      .text("Zoom out");
+  		.attr("class", "zoom-out")
+		.text("Zoom out");
 
 //---- Plot labels
 
@@ -105,8 +116,7 @@ d3.json("./allocation_tree_final_2.json", function(error, json) {
 	// Hide label if sector is not big enough.
 	.style("opacity", function(d) {
 			var available = availableSpace(d);
-			var box = this.getBBox();
-			if(box.height <= available.height) {
+			if(textBoxHeight <= available.height) {
 				return 1; 
 			} else {
 				return 0; 

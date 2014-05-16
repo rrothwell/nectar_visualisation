@@ -39,7 +39,7 @@ body {
 }
 
 h1 {
-  text-align: center;
+  text-align: left;
   margin: .5em 0;
 }
 
@@ -48,11 +48,49 @@ p#intro {
   margin: 1em 0;
 }
 
+.plot-title { 
+	width: 16em;
+	height: 2em;
+	line-height: 2em; 
+	vertical-align: middle;
+	font: 16px sans-serif;
+	text-align: center;
+	background-color: #eeeeee; 
+	border-radius:3px;
+	display: table-cell;
+}
+
+.plot-title-container { 
+    /* Firefox */
+    display:-moz-box;
+    -moz-box-pack:center;
+    -moz-box-align:center;
+
+    /* Safari and Chrome */
+    display:-webkit-box;
+    -webkit-box-pack:center;
+    -webkit-box-align:center;
+    
+	/* W3C */
+	display:box;
+    box-pack:center;
+    box-align:center;
+    box-orient:horizontal;
+}
+
+.zoom-out { 
+	font: 16px sans-serif;
+	text-align: center;
+	background-color: #eeeeee; 
+	color: grey;
+	font-weight: bold;
+}
+
 .legend { 
 	width: 200px; 
 	background-color: #eeeeee; 
 	float: left;
-	border-radius:3px;
+	border-radius:5px;
 }
 
 .plot { 
@@ -106,11 +144,8 @@ The allocation metric used here is either number of cores or number of virtual m
 To explore the allocation data click the rings to zoom in on the finer details and click
 the centre circle to zoom back out.
 </p>
+
 <p>
-<form>
-  <label><input type="radio" name="mode" value="cores">CPU cores</label>
-  <label><input type="radio" name="mode" value="machines" checked>Virtual machines</label>
-</form>
 </p>
 <div id="chart-area">
 	<div id="legend-area" class="legend">
