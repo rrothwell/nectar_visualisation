@@ -5,6 +5,9 @@
 // 3 inner levels of FOR codes and one outer level of projects.
 var levels = 4;
 
+// Tried calculating this from the SVG text metrics, but it's too slow.
+var displayCharacterCount = 8;
+
 var width = 700,
     height = width,
     radius = width / 2,
@@ -80,23 +83,43 @@ d3.json("./allocation_tree_final_2.json", function(error, json) {
 
   var plotLabel = plotGroup.selectAll("text").data(nodes);
   var plotLabelEnter = plotLabel.enter().append("text")
-      .style("fill-opacity", 1)
-      .style("fill", function(d) {
-        return d.depth == 1 ? "#333" : "#333";
-      })
-      .attr("dy", ".2em")
-      .attr("transform", function(d) {
-        var multiline = isMultiline(d);
-        return textTransformation(d, multiline);
-      })
-      .on("click", click);
-  plotLabelEnter.append("tspan")
-      .attr("x", "0")
-      .text(function(d) { return d.depth ? d.name.split(" ")[0] : ""; });
-  plotLabelEnter.append("tspan")
-      .attr("x", "0")
-      .attr("dy", "1em")
-      .text(function(d) { return d.depth ? d.name.split(" ")[1] || "" : ""; });
+	.style("fill-opacity", 1)
+	.style("fill", function(d) {
+		return d.depth == 1 ? "#333" : "#333";
+	})
+	.attr("dy", ".2em")
+	.attr("transform", function(d) {
+		var multiline = false;
+		return textTransformation(d, multiline);
+	})
+	.text(function(d) {
+		var labelStr = "";
+		if (d.depth) {
+			labelStr = d.name;
+			var limit = 10;
+			var available = availableSpace(d);
+			this.textContent = labelStr;
+			var box = this.getBBox();
+			while(limit && box.width > available.width) {
+				labelStr = labelStr.slice(0, -1);
+				this.textContent = labelStr + "...";
+				box = this.getBBox();
+				limit--;
+			} 
+		}
+		return labelStr;
+	})
+	// Hide label if sector is not big enough.
+	.style("opacity", function(d) {
+			var available = availableSpace(d);
+			var box = this.getBBox();
+			if(box.height <= available.height) {
+				return 1; 
+			} else {
+				return 0; 
+			}
+	})
+	.on("click", click);
 
 //---- Legend
 
@@ -137,7 +160,7 @@ plotArea.append("p")
       .transition()
         .duration(duration)
         .attrTween("transform", function(d) {
-          var multiline = isMultiline(d);
+          var multiline = false;
           return function() {
             return textTransformation(d, multiline);
           };
@@ -206,4 +229,13 @@ function textTransformation(d, multiline) {
 
 function isMultiline(d) {
 	return (d.name || "").split(" ").length > 1;
+}
+
+function availableSpace (d) {
+	var c2pi = 2.0 * Math.PI;
+	var circumference = c2pi * radius * (d.depth / (levels + 1));
+	var sectorWidth = (d.dx / c2pi) * circumference;
+	var sectorHeight = radius / (levels + 1);
+	available = {width: sectorHeight, height: sectorWidth};
+	return available;
 }
