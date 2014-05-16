@@ -6,7 +6,7 @@
 var levels = 4;
 
 // Tried calculating this from the SVG text metrics, but it's too slow.
-var displayCharacterCount = 8;
+var displayCharacterCount = 10;
 
 var width = 700,
     height = width,
@@ -96,16 +96,9 @@ d3.json("./allocation_tree_final_2.json", function(error, json) {
 		var labelStr = "";
 		if (d.depth) {
 			labelStr = d.name;
-			var limit = 10;
-			var available = availableSpace(d);
-			this.textContent = labelStr;
-			var box = this.getBBox();
-			while(limit && box.width > available.width) {
-				labelStr = labelStr.slice(0, -1);
-				this.textContent = labelStr + "...";
-				box = this.getBBox();
-				limit--;
-			} 
+			if (labelStr.length > displayCharacterCount) {
+				labelStr = labelStr.substring(0, displayCharacterCount - 3) + "...";
+			}
 		}
 		return labelStr;
 	})
