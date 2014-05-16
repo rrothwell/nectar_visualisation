@@ -1,8 +1,6 @@
 //---- Sunburst Plot of NeCTAR Allocations ----
 
 //---- Chart dimensions
-// x and y are x() and y() scaling functions used in function arc()
-// for the pseudo-dimensions x and y.
 
 // 3 inner levels of FOR codes and one outer level of projects.
 var levels = 4;
@@ -10,8 +8,6 @@ var levels = 4;
 var width = 700,
     height = width,
     radius = width / 2,
-    x = d3.scale.linear().range([0, 2 * Math.PI]),
-    y = d3.scale.linear().domain([0, 1]).range([0, radius]),
     padding = 5,
     duration = 1000;
 
@@ -21,7 +17,7 @@ var width = 700,
 
 var plotArea = d3.select("#plot-area");
 
-var plotObject = plotArea.append("svg")
+var plotGroup = plotArea.append("svg")
     .attr("width", width + padding * 2)
     .attr("height", height + padding * 2)
   .append("g")
@@ -65,7 +61,7 @@ d3.json("./allocation_tree_final_2.json", function(error, json) {
 
 //---- Plot sectors
 
-  var path = plotObject.selectAll("path").data(nodes);
+  var path = plotGroup.selectAll("path").data(nodes);
   path.enter().append("path")
       .attr("id", function(d, i) { return "path-" + i; })
       .attr("d", arc)
@@ -73,7 +69,7 @@ d3.json("./allocation_tree_final_2.json", function(error, json) {
       .style("fill", colour)
       .on("click", click);
 
-  var zoomOutButton = plotObject.append("circle")
+  var zoomOutButton = plotGroup.append("circle")
       .attr("id", "inner-circle")
       .attr("r", radius / (levels + 1))
       .on("click", click);
@@ -82,11 +78,10 @@ d3.json("./allocation_tree_final_2.json", function(error, json) {
 
 //---- Plot labels
 
-  var plotLabel = plotObject.selectAll("text").data(nodes);
+  var plotLabel = plotGroup.selectAll("text").data(nodes);
   var plotLabelEnter = plotLabel.enter().append("text")
       .style("fill-opacity", 1)
       .style("fill", function(d) {
-        //return brightness(d3.rgb(colourScale(d))) < 125 ? "#eee" : "#000";
         return d.depth == 1 ? "#333" : "#333";
       })
       .attr("dy", ".2em")
@@ -109,9 +104,6 @@ plotArea.append("p")
     .attr("id", "intro")
     .text("Click to zoom!");
 
-	//var legend = plotArea.select("div")
-	//	.attr("id", "legend");
-
 	var legend = d3.select("#legend-area");
 	legend.append("h1")
 			.attr("class", "legend-text")
@@ -128,7 +120,8 @@ plotArea.append("p")
       .style("border-color", function(d) {
           	return colourScale(d.name);
       })
-      .text(function(d) { return d.name + ":" + forTitleMap[d.name]; });
+      // Lowercase so the CSS can capitalise it.
+      .text(function(d) { return d.name + ":" + forTitleMap[d.name].toLowerCase(); });
 
 //---- User interaction
 
@@ -143,11 +136,6 @@ plotArea.append("p")
         })
       .transition()
         .duration(duration)
-        .attrTween("text-anchor", function(d) {
-          return function() {
-            return x(d.x + d.dx / 2) > Math.PI ? "end" : "start";
-          };
-        })
         .attrTween("transform", function(d) {
           var multiline = isMultiline(d);
           return function() {
@@ -173,6 +161,8 @@ function isParentOf(p, c) {
   return false;
 }
 
+// The colour is based on the major FOR code by
+// lookup from a palette.
 function colour(d) {
 	if (d.name) {
 		var majorCode = d.name.substring(0, 2);
@@ -186,11 +176,7 @@ function colour(d) {
 			colourStr = colourScale(majorCode) || "#eee";
 			return colourStr;
 		} else {
-			if (d.parity == 0) {
-				return d3.rgb(colourStr).toString();
-			} else {
-				return d3.rgb(colourStr).toString();
-			}
+			return d3.rgb(colourStr).toString();
 		}
 	}
 	return 	"#f0ff8";
@@ -211,19 +197,11 @@ function maxY(d) {
   return d.children ? Math.max.apply(Math, d.children.map(maxY)) : d.y + d.dy;
 }
 
-// http://www.w3.org/WAI/ER/WD-AERT/#color-contrast
-function brightness(rgb) {
-  return rgb.r * .299 + rgb.g * .587 + rgb.b * .114;
-}
-
 function textTransformation(d, multiline) {
 	var angle = (d.x + d.dx / 2) * 180 / Math.PI - 90;
-	var preRotate = angle + (multiline ? -.5 : 0);
-	//var translate = y(d.y) + padding;
+	var rotate = angle + (multiline ? -.5 : 0);
 	var translate = (d.depth * 1.0 / (levels + 1)) * radius  + padding;
-	//var postRotate = angle > 90 ? -180 : 0;
-	//return "rotate(" + preRotate + ") translate(" + translate + ") rotate(" + postRotate + ")";
-	return "rotate(" + preRotate + ")" + " translate(" + translate + ")";
+	return "rotate(" + rotate + ")" + " translate(" + translate + ")";
 }
 
 function isMultiline(d) {
