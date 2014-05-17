@@ -6,7 +6,9 @@ Some visualisation of NeCTAR statistics. Mainly HTML and Javascript.
 Deployment
 --------------------
 
-Copy the file nectar_visualisation.tgz to the web server. This can be done direclty from the code repository like so:
+Copy the file nectar_visualisation.tgz to the web server. This can be done directly from the code repository like so:
+
+wget https://code.vpac.org/gitorious/ncr002-dataanalysis/ncr002-dataanalysis/blobs/raw/f1535db848baa2785ae6c0fccd426cfed634c7ad/distribution/nectar_visualisation.tgz
 
 Un pack the archive file  using the command:
 
