@@ -24,8 +24,6 @@ var plotArea = d3.select("#plot-area");
 plotArea.append("div")
     .attr("class", "plot-title-container")	
 	.append("div")
-    //.attr("class", "plot-title-centre")	
-	//.append("div")
     .attr("id", "title")
     .attr("class", "plot-title")
     .text("Core Quota");
