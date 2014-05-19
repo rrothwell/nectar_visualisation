@@ -28,7 +28,12 @@ plotArea.append("div")
     .attr("class", "plot-title")
     .text("Core Quota");
 
-var plotGroup = plotArea.append("svg")
+var plotCanvas = plotArea.append("div")
+    .attr("class", "plot-canvas-container")	
+	.append("div")
+    .attr("id", "canvas");
+
+var plotGroup = plotCanvas.append("svg")
     .attr("width", width + padding * 2)
     .attr("height", height + padding * 2)
   .append("g")
@@ -68,7 +73,8 @@ d3.json("./data/for_codes_final_2.json", function(error, forItems) {
 
 d3.json("./data/allocation_tree_final_2.json", function(error, json) {
 
-	var nodes = partition.nodes({children: json});
+	var root = {children: json};
+	var nodes = partition.nodes(root);
 
 //---- Plot sectors
 
