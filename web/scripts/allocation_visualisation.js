@@ -43,9 +43,7 @@ var plotGroup = plotCanvas.append("svg")
 
 var partition = d3.layout.partition()
     .sort(function(a, b) { return d3.ascending(a.name, b.name); })
-    .value(function(d) { return d.coreQuota; })
-    .size([2 * Math.PI, radius])
-    ;
+    .size([2 * Math.PI, radius]);
 
 var arc = d3.svg.arc()
     .startAngle(function(d) { return d.x; })
@@ -63,35 +61,44 @@ var colourScale = d3.scale.ordinal()
 
 var forTitleMap = {};
 
-d3.json("./data/for_codes_final_2.json", function(error, forItems) {
-	var forItemCount = forItems.length;
-	for (var forItemIndex = 0; forItemIndex < forItemCount; forItemIndex++) {
-		var forItem = forItems[forItemIndex];
-		forTitleMap[forItem.FOR_CODE] = forItem.Title;
-	}	
-});
-
 d3.json("./data/allocation_tree_final_2.json", function(error, json) {
 
 	var root = {children: json};
-	var nodes = partition.nodes(root);
+	var nodes = partition
+    	.value(function(d) { return d.coreQuota; })
+    	.nodes(root);
+    	
+	nodes.forEach(function(d) {
+		d._children = d.children;
+		d.sum = d.value;
+		d.key = key(d);
+		d.fill = colour(d);
+	});
+
+  partition
+	.children(function(d, depth) { 
+		return depth < (levels - 1) ? d._children : null; 
+	})
+	.value(function(d) { return d.sum; });
+	
 
 //---- Plot sectors
 
-  var path = plotGroup.selectAll("path").data(nodes);
-  path.enter().append("path")
-      .attr("id", function(d, i) { return "path-" + i; })
-      .attr("d", arc)
-      .attr("fill-rule", "evenodd")
-      .style("fill", colour)
-      .each(stash)
-      .on("click", click)
-      ;
+	nodes = partition.nodes(root).slice(1);
+	var path = plotGroup.selectAll("path").data(nodes);
+	path.enter().append("path")
+		.attr("id", function(d, i) { return "path-" + i; })
+		.attr("d", arc)
+		.attr("fill-rule", "evenodd")
+		.style("fill", function(d) { return d.fill; })
+		.each(function(d) { this._current = updateArc(d); })
+		.on("click", zoomIn)
+		;
 
   var zoomOutButton = plotGroup.append("circle")
       .attr("id", "inner-circle")
       .attr("r", radius / (levels + 1))
-      .on("click", click);
+      .on("click", zoomOut);
   zoomOutButton.append("title")
   		.attr("class", "zoom-out")
 		.text("Zoom out");
@@ -128,53 +135,139 @@ d3.json("./data/allocation_tree_final_2.json", function(error, json) {
 				return 0; 
 			}
 	})
-	.on("click", click);
-
-//---- Legend
+	.on("click", zoomIn);
 
 plotArea.append("p")
     .attr("id", "intro")
     .text("Click to zoom!");
-
-	var legend = d3.select("#legend-area");
-	legend.append("h1")
-			.attr("class", "legend-text")
-			.text("Legend: ");
-
-  var legendItems = legend.selectAll("div").data(nodes
-  						.filter(function(d){return d.depth == 1})
-  						.sort(function(a, b) { return d3.ascending(a.name, b.name); }));
-  var legendEnter = legendItems.enter().append("div")
-      .attr("class", "legend-text legend-item")
-      .style("background-color", function(d) {
-          	return colourScale(d.name);
-      })
-      .style("border-color", function(d) {
-          	return colourScale(d.name);
-      })
-      // Lowercase so the CSS can capitalise it.
-      .text(function(d) { return d.name + ":" + forTitleMap[d.name].toLowerCase(); });
-
+    
 //---- User interaction
 
-  function click(d) {
-    path.transition()
-      .duration(duration)
-      .attrTween("d", arcTween(d));
+ function zoomIn(p) {
+ 
+    if (p.depth > 1) {
+    	p = p.parent;
+    }
+    
+    if (!p.children) {
+    	return;
+    }
+    zoom(p, p);
   }
+
+  function zoomOut(p) {
+  
+    if (!p.parent) {
+    	return;
+    }
+    
+    zoom(p.parent, p);
+  }
+
+  // Zoom to the specified new root.
+  function zoom(root, p) {
+  
+    if (document.documentElement.__transition__) {
+    	return;
+    }
+
+    // Rescale outside angles to match the new layout.
+    var enterArc,
+        exitArc,
+        outsideAngle = d3.scale.linear().domain([0, 2 * Math.PI]);
+
+    function insideArc(d) {
+      return p.key > d.key
+          ? {depth: d.depth - 1, x: 0, dx: 0} : p.key < d.key
+          ? {depth: d.depth - 1, x: 2 * Math.PI, dx: 0}
+          : {depth: 0, x: 0, dx: 2 * Math.PI};
+    }
+
+    function outsideArc(d) {
+      return {
+      	depth: d.depth + 1, 
+      	x: outsideAngle(d.x), 
+      	dx: outsideAngle(d.x + d.dx) - outsideAngle(d.x)};
+    }
+
+    zoomOutButton.datum(root);
+
+    // When zooming in, arcs enter from the outside and exit to the inside.
+    // Entering outside arcs start from the old layout.
+    if (root === p) {
+    	enterArc = outsideArc, 
+    	exitArc = insideArc, 
+    	outsideAngle.range([p.x, p.x + p.dx]);
+    }
+
+    path = path.data(partition.nodes(root).slice(1), function(d) { 
+    	return d.key; 
+    });
+
+    // When zooming out, arcs enter from the inside and exit to the outside.
+    // Exiting outside arcs transition to the new layout.
+    if (root !== p) {
+    	enterArc = insideArc, 
+    	exitArc = outsideArc, 
+    	outsideAngle.range([p.x, p.x + p.dx]);
+    }
+
+    d3.transition().duration(d3.event.altKey ? 7500 : 750).each(function() {
+      path.exit().transition()
+          .style("fill-opacity", function(d) { return d.depth === 1 + (root === p) ? 1 : 0; })
+          .attrTween("d", function(d) { return arcTween.call(this, exitArc(d)); })
+          .remove();
+
+      path.enter().append("path")
+          .style("fill-opacity", function(d) { return d.depth === 2 - (root === p) ? 1 : 0; })
+          .style("fill", function(d) { return d.fill; })
+          .on("click", zoomIn)
+          .each(function(d) { this._current = enterArc(d); });
+
+      path.transition()
+          .style("fill-opacity", 1)
+          .attrTween("d", function(d) { return arcTween.call(this, updateArc(d)); });
+    });
+  }
+
+//---- Load FOR codes and build legend
+
+	d3.json("./data/for_codes_final_2.json", function(error, forItems) {
+
+		//---- Load FOR codes
+		var forItemCount = forItems.length;
+		for (var forItemIndex = 0; forItemIndex < forItemCount; forItemIndex++) {
+			var forItem = forItems[forItemIndex];
+			forTitleMap[forItem.FOR_CODE] = forItem.Title;
+		}
+	
+		//---- Build and display legend
+
+		var legend = d3.select("#legend-area");
+		legend.append("h1")
+				.attr("class", "legend-text")
+				.text("Legend: ");
+
+		var legendItems = legend.selectAll("div").data(nodes
+							.filter(function(d){return d.depth == 1})
+							.sort(function(a, b) { return d3.ascending(a.name, b.name); }));
+							
+		var legendEnter = legendItems.enter().append("div")
+		  .attr("class", "legend-text legend-item")
+		  .style("background-color", function(d) {
+				return colourScale(d.name);
+		  })
+		  .style("border-color", function(d) {
+				return colourScale(d.name);
+		  })
+		  // Lowercase so the CSS can capitalise it.
+		  .text(function(d) { return d.name + ":" + forTitleMap[d.name].toLowerCase(); });
+	
+	});
+
 });
 
 //---- Utilities
-
-function isParentOf(p, c) {
-  if (p === c) return true;
-  if (p.children) {
-    return p.children.some(function(d) {
-      return isParentOf(d, c);
-    });
-  }
-  return false;
-}
 
 // The colour is based on the major FOR code by
 // lookup from a palette.
@@ -197,33 +290,11 @@ function colour(d) {
 	return 	"#f0ff8";
 }
 
-// Save the initial x values to support transitions.
-function stash(d) {
-  d.x0 = d.x;
-  d.dx0 = d.dx;
-}
-
-// Interpolate the arcs in data space.
-function arcTween(a) {
-  var i = d3.interpolate({x: a.x0, dx: a.dx0}, a);
-  return function(t) {
-    var b = i(t);
-    // Update the initial values to support the reverse transition.
-    a.x0 = b.x;
-    a.dx0 = b.dx;
-    return arc(b);
-  };
-}
-
 function textTransformation(d, multiline) {
 	var angle = (d.x + d.dx / 2) * 180 / Math.PI - 90;
 	var rotate = angle + (multiline ? -.5 : 0);
 	var translate = (d.depth * 1.0 / (levels + 1)) * radius  + padding;
 	return "rotate(" + rotate + ")" + " translate(" + translate + ")";
-}
-
-function isMultiline(d) {
-	return (d.name || "").split(" ").length > 1;
 }
 
 function availableSpace (d) {
@@ -234,3 +305,22 @@ function availableSpace (d) {
 	available = {width: sectorHeight, height: sectorWidth};
 	return available;
 }
+
+function arcTween(b) {
+  var i = d3.interpolate(this._current, b);
+  this._current = i(0);
+  return function(t) {
+    return arc(i(t));
+  };
+}
+
+function updateArc(d) {
+  return {depth: d.depth, x: d.x, dx: d.dx};
+}
+
+function key(d) {
+  var k = [], p = d;
+  while (p.depth) k.push(p.name), p = p.parent;
+  return k.reverse().join(".");
+}
+
