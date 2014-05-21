@@ -6,8 +6,8 @@
 var levels = 4;
 
 // Tried calculating this from the SVG text metrics, but it's too slow.
-var displayCharacterCount = 10;
-var textBoxHeight = 16;
+var DISPLAY_CHARACTER_COUNT = 10;
+var TEXT_BOX_HEIGHT = 16;
 
 var width = 700,
     height = width,
@@ -84,57 +84,49 @@ d3.json("./data/allocation_tree_final_2.json", function(error, json) {
 
 //---- Plot sectors
 
-	nodes = partition.nodes(root).slice(1);
-	var path = plotGroup.selectAll("path").data(nodes);
-	path.enter().append("path")
-		.attr("id", function(d, i) { return "path-" + i; })
+	nodes = partition.nodes(root);
+	// Remove the node representing the root data item. 
+	nodes = nodes.slice(1);
+	var sectors = plotGroup.selectAll("path").data(nodes);
+	sectors.enter().append("path")
 		.attr("d", arc)
-		.attr("fill-rule", "evenodd")
 		.style("fill", function(d) { return d.fill; })
 		.each(function(d) { this._current = updateArc(d); })
 		.on("click", zoomIn)
 		;
 
-  var zoomOutButton = plotGroup.append("circle")
-      .attr("id", "inner-circle")
-      .attr("r", radius / (levels + 1))
-      .on("click", zoomOut);
-  zoomOutButton.append("title")
-  		.attr("class", "zoom-out")
+	var zoomOutButton = plotGroup.append("circle")
+		.attr("id", "inner-circle")
+		.attr("r", radius / (levels + 1))
+		.on("click", zoomOut);
+	zoomOutButton.append("title")
+		.attr("class", "zoom-out")
 		.text("Zoom out");
+	zoomOutButton.datum({});
 
 //---- Plot labels
 
-  var plotLabel = plotGroup.selectAll("text").data(nodes);
-  var plotLabelEnter = plotLabel.enter().append("text")
+  var plotLabels = plotGroup.selectAll("text").data(nodes);
+  var plotLabelEnter = plotLabels.enter().append("text")
 	.style("fill-opacity", 1)
-	.style("fill", function(d) {
-		return d.depth == 1 ? "#333" : "#333";
-	})
+	.style("fill", "#333")
+	.each(function(d) { this._current = updateArc(d); })
 	.attr("dy", ".2em")
 	.attr("transform", function(d) {
-		var multiline = false;
-		return textTransformation(d, multiline);
+		return textTransformation(d);
 	})
 	.text(function(d) {
 		var labelStr = "";
 		if (d.depth) {
 			labelStr = d.name;
-			if (labelStr.length > displayCharacterCount) {
-				labelStr = labelStr.substring(0, displayCharacterCount - 3) + "...";
+			if (labelStr.length > DISPLAY_CHARACTER_COUNT) {
+				labelStr = labelStr.substring(0, DISPLAY_CHARACTER_COUNT - 3) + "...";
 			}
 		}
 		return labelStr;
 	})
 	// Hide label if sector is not big enough.
-	.style("opacity", function(d) {
-			var available = availableSpace(d);
-			if(textBoxHeight <= available.height) {
-				return 1; 
-			} else {
-				return 0; 
-			}
-	})
+	.style("opacity", textOpacity)
 	.on("click", zoomIn);
 
 plotArea.append("p")
@@ -145,10 +137,12 @@ plotArea.append("p")
 
  function zoomIn(p) {
  
+ 	// Set p to next ring in unless p is already innermost ring.
     if (p.depth > 1) {
     	p = p.parent;
     }
     
+    // Can't zoom in with no children.
     if (!p.children) {
     	return;
     }
@@ -157,6 +151,7 @@ plotArea.append("p")
 
   function zoomOut(p) {
   
+  // Can't zoom out without a parent.
     if (!p.parent) {
     	return;
     }
@@ -164,8 +159,10 @@ plotArea.append("p")
     zoom(p.parent, p);
   }
 
+//---- Animation
+
   // Zoom to the specified new root.
-  function zoom(root, p) {
+  function zoom(newRoot, p) {
   
     if (document.documentElement.__transition__) {
     	return;
@@ -190,44 +187,139 @@ plotArea.append("p")
       	dx: outsideAngle(d.x + d.dx) - outsideAngle(d.x)};
     }
 
-    zoomOutButton.datum(root);
+    zoomOutButton.datum(newRoot);
 
     // When zooming in, arcs enter from the outside and exit to the inside.
     // Entering outside arcs start from the old layout.
-    if (root === p) {
+    if (newRoot === p) {
     	enterArc = outsideArc, 
     	exitArc = insideArc, 
     	outsideAngle.range([p.x, p.x + p.dx]);
     }
 
-    path = path.data(partition.nodes(root).slice(1), function(d) { 
+	// Get the new set of nodes and use it to update the 
+	// sectors list, based on matching by the key value.
+	var nodes = partition.nodes(newRoot);
+	if (nodes[0].key == "") {
+		nodes = nodes.slice(1);
+	}
+
+	// Make sure button and labels stay on top by removing then re-adding them.
+    plotLabels.remove();
+	zoomOutButton.remove();
+    		
+	// Reselect to fix the sector indexing.
+    sectors = plotGroup.selectAll("path").data(nodes, function(d) { 
     	return d.key; 
     });
+    
+    var plotLabelCount = plotLabels[0].length;
+	for (var plotLabelIndex = 0; plotLabelIndex < plotLabelCount; plotLabelIndex++) {
+		var plotLabel = plotLabels[0][plotLabelIndex];
+		if (!(plotLabel == undefined)) {
+			plotGroup.append(function() {return plotLabel} );
+		}
+	}
+    
+	// Re-add the plot labels above the 
+	plotLabels = plotGroup.selectAll("text").data(nodes, function(d) { 
+		return d.key; 
+	});
 
     // When zooming out, arcs enter from the inside and exit to the outside.
     // Exiting outside arcs transition to the new layout.
-    if (root !== p) {
+    if (newRoot !== p) {
     	enterArc = insideArc, 
     	exitArc = outsideArc, 
     	outsideAngle.range([p.x, p.x + p.dx]);
     }
 
     d3.transition().duration(d3.event.altKey ? 7500 : 750).each(function() {
-      path.exit().transition()
-          .style("fill-opacity", function(d) { return d.depth === 1 + (root === p) ? 1 : 0; })
-          .attrTween("d", function(d) { return arcTween.call(this, exitArc(d)); })
+      sectors.exit().transition()
+          .style("fill-opacity", function(d) { 
+          		return d.depth === 1 + (newRoot === p) ? 1 : 0; 
+          	})
+          .attrTween("d", function(d) { 
+          		return arcTween.call(this, exitArc(d)); 
+          	})
           .remove();
 
-      path.enter().append("path")
-          .style("fill-opacity", function(d) { return d.depth === 2 - (root === p) ? 1 : 0; })
-          .style("fill", function(d) { return d.fill; })
+      sectors.enter().append("path")
+          .style("fill-opacity", function(d) { 
+          		return d.depth === 3 - (newRoot === p) ? 1 : 0;
+          	})
+          .style("fill", function(d) {
+          		return d.fill; 
+          	})
           .on("click", zoomIn)
-          .each(function(d) { this._current = enterArc(d); });
+          .each(function(d) { 
+          		this._current = enterArc(d); 
+          	})
+          	;
 
-      path.transition()
-          .style("fill-opacity", 1)
-          .attrTween("d", function(d) { return arcTween.call(this, updateArc(d)); });
+      sectors.transition()
+			.style("fill-opacity", 1)
+			.attrTween("d", function(d) { 
+          		return arcTween.call(this, updateArc(d)); 
+          	});
+          
+        plotLabels.exit().transition()
+			.style("opacity", 0)
+			.style("fill", "#333")
+        	.attr("transform", function(d) { 
+          		return transformationTween.call(this, exitArc(d)); 
+          	})
+          .remove();
+
+        plotLabels.enter().append("text")
+          .style("opacity", 1)
+			.style("fill", "#333")
+			.on("click", zoomIn)
+          	.each(function(d) { 
+          		this._current = enterArc(d); 
+          	})
+          	.attr("transform", function(d) { 
+          		return textTransformation(d); 
+          	})
+         	.text(function(d) {
+				var labelStr = "";
+				if (d.depth) {
+					labelStr = d.name;
+					if (labelStr.length > DISPLAY_CHARACTER_COUNT) {
+						labelStr = labelStr.substring(0, DISPLAY_CHARACTER_COUNT - 3) + "...";
+					}
+				}
+				return labelStr;
+			})
+			;
+          	
+        plotLabels.transition()
+			.style("opacity", 1)
+			.style("fill", "#333")
+        	.attrTween("transform", function(d) { 
+          		return transformationTween.call(this, updateArc(d)); 
+         	})
+         	.text(function(d) {
+				var labelStr = "";
+				if (d.depth) {
+					labelStr = d.name;
+					if (labelStr.length > DISPLAY_CHARACTER_COUNT) {
+						labelStr = labelStr.substring(0, DISPLAY_CHARACTER_COUNT - 3) + "...";
+					}
+				}
+				return labelStr;
+			})
+			;
+
+		// Make sure the inner-circle is on top.
+		plotGroup.transition().each("end", function() {
+			plotGroup.append(function() {
+				return zoomOutButton[0][0];
+				} )
+			});
     });
+	
+
   }
 
 //---- Load FOR codes and build legend
@@ -290,9 +382,9 @@ function colour(d) {
 	return 	"#f0ff8";
 }
 
-function textTransformation(d, multiline) {
+function textTransformation(d) {
 	var angle = (d.x + d.dx / 2) * 180 / Math.PI - 90;
-	var rotate = angle + (multiline ? -.5 : 0);
+	var rotate = angle;
 	var translate = (d.depth * 1.0 / (levels + 1)) * radius  + padding;
 	return "rotate(" + rotate + ")" + " translate(" + translate + ")";
 }
@@ -306,12 +398,29 @@ function availableSpace (d) {
 	return available;
 }
 
+function textOpacity(d) {
+	var available = availableSpace(d);
+	if(TEXT_BOX_HEIGHT <= available.height) {
+		return 1; 
+	} else {
+		return 0; 
+	}
+}
+
 function arcTween(b) {
   var i = d3.interpolate(this._current, b);
   this._current = i(0);
   return function(t) {
     return arc(i(t));
   };
+}
+
+function transformationTween(b) {
+  var i = d3.interpolate(this._current, b);
+  this._current = i(0);
+  return function(t) {
+    return textTransformation(i(t));
+	};
 }
 
 function updateArc(d) {
