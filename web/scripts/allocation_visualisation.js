@@ -131,7 +131,7 @@ d3.json("./data/allocation_tree_final_2.json", function(error, json) {
 
 plotArea.append("p")
     .attr("id", "intro")
-    .text("Click to zoom!");
+    .text("Click a sector to zoom in!");
     
 //---- User interaction
 
@@ -161,7 +161,7 @@ plotArea.append("p")
 
 //---- Animation
 
-  // Zoom to the specified new root.
+  // Zoom in/out to the specified new root.
   function zoom(newRoot, p) {
   
   	var isZoomIn = newRoot === p;
@@ -203,18 +203,25 @@ plotArea.append("p")
 	// sectors list, based on matching by the key value.
 	var nodes = partition.nodes(newRoot);
 	if (nodes[0].key == "") {
+		// Again get rid of the root node.
 		nodes = nodes.slice(1);
 	}
 
-	// Make sure button and labels stay on top by removing then re-adding them.
+	// Make sure button and plot labels stay on top by removing then re-adding them.
+	// Remove them first.
     plotLabels.remove();
 	zoomOutButton.remove();
-    		
-	// Reselect to fix the sector indexing.
+    	
+    // Reselect the sectors.	
+	// This fixes the sector node array indexing.
+	// This is needed because of a D3.js bug:
+	// - internal code traverses an array by index, 
+	// - but the array has gaps so the internal code fails.
     sectors = plotGroup.selectAll("path").data(nodes, function(d) { 
     	return d.key; 
     });
     
+    // Now re-add the plot labels so they stay on top of the sectors.
     var plotLabelCount = plotLabels[0].length;
 	for (var plotLabelIndex = 0; plotLabelIndex < plotLabelCount; plotLabelIndex++) {
 		var plotLabel = plotLabels[0][plotLabelIndex];
@@ -223,7 +230,7 @@ plotArea.append("p")
 		}
 	}
     
-	// Re-add the plot labels above the 
+	// Reselect the plotLabels.
 	plotLabels = plotGroup.selectAll("text").data(nodes, function(d) { 
 		return d.key; 
 	});
@@ -236,10 +243,13 @@ plotArea.append("p")
     	outsideAngle.range([p.x, p.x + p.dx]);
     }
 
-    d3.transition().duration(d3.event.altKey ? 7500 : 750).each(function() {
+	// Manage the zoom transition.
+	// We try 1sec. Too fast looks bad on slower machines.
+    d3.transition().duration(d3.event.altKey ? 10000 : 1000).each(function() {
     
-    	// Anivate the slices
+    	// Animate the sectors
     	
+    	// Handle the obsolete sectors
       sectors.exit().transition()
           .style("fill-opacity", function(d) { 
           		return d.depth === 1 + isZoomIn ? 1 : 0; 
@@ -249,6 +259,7 @@ plotArea.append("p")
           	})
           .remove();
 
+    	// Handle the new sectors
       sectors.enter().append("path")
           .style("fill-opacity", function(d) { 
           		return d.depth === 3 - isZoomIn ? 1 : 0;
@@ -262,12 +273,16 @@ plotArea.append("p")
           	})
           	;
 
+    	// Handle the retained sectors
       sectors.transition()
 			.style("fill-opacity", 1)
 			.attrTween("d", function(d) { 
           		return arcTween.call(this, updateArc(d)); 
           	});
-          
+
+    	// Animate the plot labels
+    	          
+    	// Handle the obsolete plot labels
         plotLabels.exit()
         	.style("opacity", 0)
 			.transition()
@@ -277,6 +292,7 @@ plotArea.append("p")
           	})
           .remove();
 
+    	// Handle the new plot labels
         plotLabels.enter().append("text")
 			.style("opacity", 0)
 			.style("fill", "#333")
@@ -299,6 +315,7 @@ plotArea.append("p")
 			})
 			;
           	
+    	// Handle the retained plot labels
         plotLabels.transition()
 			.style("opacity", textOpacity)
 			.style("fill", "#333")
@@ -318,6 +335,8 @@ plotArea.append("p")
 			;
 
 		// Make sure the inner-circle is on top.
+		// and that the plot labels transition in, with regard to the
+		// text clipping behaviour inside small sectors.
 		plotGroup.transition().each("end", function() {
 			plotGroup.append(function() {
 				return zoomOutButton[0][0];
@@ -330,11 +349,14 @@ plotArea.append("p")
 
   }
 
-//---- Load FOR codes and build legend
+//---- Load FOR codes and build legend.
+//     The load is asynchronous and dependent on the asynchronous
+//     load of the allocation data being completed.
 
 	d3.json("./data/for_codes_final_2.json", function(error, forItems) {
 
-		//---- Load FOR codes
+		//---- Restructure FOR codes as a map.
+		
 		var forItemCount = forItems.length;
 		for (var forItemIndex = 0; forItemIndex < forItemCount; forItemIndex++) {
 			var forItem = forItems[forItemIndex];
@@ -369,7 +391,7 @@ plotArea.append("p")
 
 //---- Utilities
 
-// The colour is based on the major FOR code by
+// The colour is based on the major FOR2 code by
 // lookup from a palette.
 function colour(d) {
 	if (d.name) {
@@ -435,9 +457,14 @@ function updateArc(d) {
   return {depth: d.depth, x: d.x, dx: d.dx};
 }
 
+// Assemble the unique key for the current record
+// by concatenating the name with the parent names
+// through to the tree root.
 function key(d) {
-  var k = [], p = d;
-  while (p.depth) k.push(p.name), p = p.parent;
-  return k.reverse().join(".");
+  var names = [], currentRecord = d;
+  while (currentRecord.depth) {
+  	names.push(currentRecord.name), currentRecord = currentRecord.parent;
+  }
+  return names.reverse().join(".");
 }
 
