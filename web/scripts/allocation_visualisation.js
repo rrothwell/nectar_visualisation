@@ -164,6 +164,8 @@ plotArea.append("p")
   // Zoom to the specified new root.
   function zoom(newRoot, p) {
   
+  	var isZoomIn = newRoot === p;
+  	
     if (document.documentElement.__transition__) {
     	return;
     }
@@ -191,7 +193,7 @@ plotArea.append("p")
 
     // When zooming in, arcs enter from the outside and exit to the inside.
     // Entering outside arcs start from the old layout.
-    if (newRoot === p) {
+    if (isZoomIn) {
     	enterArc = outsideArc, 
     	exitArc = insideArc, 
     	outsideAngle.range([p.x, p.x + p.dx]);
@@ -228,16 +230,19 @@ plotArea.append("p")
 
     // When zooming out, arcs enter from the inside and exit to the outside.
     // Exiting outside arcs transition to the new layout.
-    if (newRoot !== p) {
+    if (!isZoomIn) {
     	enterArc = insideArc, 
     	exitArc = outsideArc, 
     	outsideAngle.range([p.x, p.x + p.dx]);
     }
 
     d3.transition().duration(d3.event.altKey ? 7500 : 750).each(function() {
+    
+    	// Anivate the slices
+    	
       sectors.exit().transition()
           .style("fill-opacity", function(d) { 
-          		return d.depth === 1 + (newRoot === p) ? 1 : 0; 
+          		return d.depth === 1 + isZoomIn ? 1 : 0; 
           	})
           .attrTween("d", function(d) { 
           		return arcTween.call(this, exitArc(d)); 
@@ -246,7 +251,7 @@ plotArea.append("p")
 
       sectors.enter().append("path")
           .style("fill-opacity", function(d) { 
-          		return d.depth === 3 - (newRoot === p) ? 1 : 0;
+          		return d.depth === 3 - isZoomIn ? 1 : 0;
           	})
           .style("fill", function(d) {
           		return d.fill; 
@@ -263,8 +268,9 @@ plotArea.append("p")
           		return arcTween.call(this, updateArc(d)); 
           	});
           
-        plotLabels.exit().transition()
-			.style("opacity", 0)
+        plotLabels.exit()
+        	.style("opacity", 0)
+			.transition()
 			.style("fill", "#333")
         	.attr("transform", function(d) { 
           		return transformationTween.call(this, exitArc(d)); 
@@ -272,7 +278,7 @@ plotArea.append("p")
           .remove();
 
         plotLabels.enter().append("text")
-          .style("opacity", 1)
+			.style("opacity", 0)
 			.style("fill", "#333")
 			.on("click", zoomIn)
           	.each(function(d) { 
@@ -294,7 +300,7 @@ plotArea.append("p")
 			;
           	
         plotLabels.transition()
-			.style("opacity", 1)
+			.style("opacity", textOpacity)
 			.style("fill", "#333")
         	.attrTween("transform", function(d) { 
           		return transformationTween.call(this, updateArc(d)); 
@@ -316,6 +322,8 @@ plotArea.append("p")
 			plotGroup.append(function() {
 				return zoomOutButton[0][0];
 				} )
+			plotGroup.selectAll("text").transition().duration(500)
+				.style("opacity", textOpacity)
 			});
     });
 	
