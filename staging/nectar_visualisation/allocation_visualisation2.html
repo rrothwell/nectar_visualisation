@@ -34,7 +34,7 @@ text {
 }
 
 body {
-  width: 950px;
+  width: 1000px;
   margin: 0 auto;
 }
 
@@ -61,6 +61,9 @@ p#intro {
 }
 
 .plot-title-container { 
+
+	width: 100%;
+
     /* Firefox */
     display:-moz-box;
     -moz-box-pack:center;
@@ -78,6 +81,26 @@ p#intro {
     box-orient:horizontal;
 }
 
+.plot-canvas-container { 
+	width: 100%;
+    /* Firefox */
+    display:-moz-box;
+    -moz-box-pack:center;
+    -moz-box-align:center;
+
+    /* Safari and Chrome */
+    display:-webkit-box;
+    -webkit-box-pack:center;
+    -webkit-box-align:center;
+    
+	/* W3C */
+	display:box;
+    box-pack:center;
+    box-align:center;
+    box-orient:horizontal;
+}
+
+
 .zoom-out { 
 	font: 16px sans-serif;
 	text-align: center;
@@ -94,6 +117,7 @@ p#intro {
 }
 
 .plot { 
+	width: 800px; 
 	float: right;
 }
 
