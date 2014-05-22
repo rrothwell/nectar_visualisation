@@ -6,7 +6,7 @@
 var levels = 4;
 
 // Tried calculating this from the SVG text metrics, but it's too slow.
-var DISPLAY_CHARACTER_COUNT = 10;
+var DISPLAY_CHARACTER_COUNT = 9;
 var TEXT_BOX_HEIGHT = 16;
 
 var width = 700,
@@ -91,9 +91,11 @@ d3.json("./data/allocation_tree_final_2.json", function(error, json) {
 
 //---- Plot sectors
 
+	// Build the node list.
+	// - remove the node representing the root data item. 
 	nodes = partition.nodes(root);
-	// Remove the node representing the root data item. 
 	nodes = nodes.slice(1);
+	
 	var sectors = plotGroup.selectAll("path").data(nodes);
 	sectors.enter().append("path")
 		.attr("d", arc)
@@ -106,7 +108,7 @@ d3.json("./data/allocation_tree_final_2.json", function(error, json) {
 		.attr("id", "inner-circle")
 		.attr("r", radius / (levels + 1))
 		.on("click", zoomOut);
-	zoomOutButton.datum({});
+	zoomOutButton.datum({}); // Avoid "undefined" error on clicking. 
 	plotGroup.append("text")
 		.attr("class", "click-message")
 		.attr("text-anchor", "middle")
@@ -121,10 +123,11 @@ d3.json("./data/allocation_tree_final_2.json", function(error, json) {
 	.style("fill", "#333")
 	.each(function(d) { this._current = updateArc(d); })
 	.attr("dy", "0.2em")
-	.attr("class", "plot-label")
+	.attr("class", "plot-label") // Used to reselect just the plot labels.
 	.attr("transform", function(d) {
 		return textTransformation(d);
 	})
+	// Truncate label if sector is not long enough.
 	.text(function(d) {
 		var labelStr = "";
 		if (d.depth) {
@@ -135,7 +138,7 @@ d3.json("./data/allocation_tree_final_2.json", function(error, json) {
 		}
 		return labelStr;
 	})
-	// Hide label if sector is not big enough.
+	// Hide label if sector is not wide enough.
 	.style("opacity", textOpacity)
 	.on("click", zoomIn);
     
@@ -357,8 +360,8 @@ d3.json("./data/allocation_tree_final_2.json", function(error, json) {
   }
 
 //---- Load FOR codes and build legend.
-//     The load is asynchronous and dependent on the asynchronous
-//     load of the allocation data being completed.
+//     The load is asynchronous and dependent on the previous asynchronous
+//     load of the allocation data already being completed.
 
 	d3.json("./data/for_codes_final_2.json", function(error, forItems) {
 
