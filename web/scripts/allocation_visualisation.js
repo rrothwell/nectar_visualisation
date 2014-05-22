@@ -21,7 +21,7 @@ var width = 700,
 
 var plotArea = d3.select("#plot-area");
 
-plotArea.append("div")
+var plotTitle = plotArea.append("div")
     .attr("class", "plot-title-container")	
 	.append("div")
     .attr("id", "title")
@@ -32,6 +32,13 @@ var plotCanvas = plotArea.append("div")
     .attr("class", "plot-canvas-container")	
 	.append("div")
     .attr("id", "canvas");
+    
+var plotFooter = plotArea.append("div")
+    .attr("class", "plot-title-container")	
+	.append("div")
+    .attr("id", "footer")
+    .attr("class", "click-message")
+    .text("Click a sector to zoom in!");
 
 var plotGroup = plotCanvas.append("svg")
     .attr("width", width + padding * 2)
@@ -99,10 +106,12 @@ d3.json("./data/allocation_tree_final_2.json", function(error, json) {
 		.attr("id", "inner-circle")
 		.attr("r", radius / (levels + 1))
 		.on("click", zoomOut);
-	zoomOutButton.append("title")
-		.attr("class", "zoom-out")
-		.text("Zoom out");
 	zoomOutButton.datum({});
+	plotGroup.append("text")
+		.attr("class", "click-message")
+		.attr("text-anchor", "middle")
+		.attr("dy", "0.3em")
+		.text("Click to zoom out!");
 
 //---- Plot labels
 
@@ -111,7 +120,8 @@ d3.json("./data/allocation_tree_final_2.json", function(error, json) {
 	.style("fill-opacity", 1)
 	.style("fill", "#333")
 	.each(function(d) { this._current = updateArc(d); })
-	.attr("dy", ".2em")
+	.attr("dy", "0.2em")
+	.attr("class", "plot-label")
 	.attr("transform", function(d) {
 		return textTransformation(d);
 	})
@@ -128,10 +138,6 @@ d3.json("./data/allocation_tree_final_2.json", function(error, json) {
 	// Hide label if sector is not big enough.
 	.style("opacity", textOpacity)
 	.on("click", zoomIn);
-
-plotArea.append("p")
-    .attr("id", "intro")
-    .text("Click a sector to zoom in!");
     
 //---- User interaction
 
@@ -231,7 +237,7 @@ plotArea.append("p")
 	}
     
 	// Reselect the plotLabels.
-	plotLabels = plotGroup.selectAll("text").data(nodes, function(d) { 
+	plotLabels = plotGroup.selectAll(".plot-label").data(nodes, function(d) { 
 		return d.key; 
 	});
 
@@ -297,6 +303,7 @@ plotArea.append("p")
 			.style("opacity", 0)
 			.style("fill", "#333")
 			.on("click", zoomIn)
+			.attr("class", "plot-label")
           	.each(function(d) { 
           		this._current = enterArc(d); 
           	})
@@ -463,7 +470,8 @@ function updateArc(d) {
 function key(d) {
   var names = [], currentRecord = d;
   while (currentRecord.depth) {
-  	names.push(currentRecord.name), currentRecord = currentRecord.parent;
+  	names.push(currentRecord.name);
+  	currentRecord = currentRecord.parent;
   }
   return names.reverse().join(".");
 }
