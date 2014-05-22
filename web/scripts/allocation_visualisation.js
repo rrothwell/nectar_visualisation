@@ -8,6 +8,9 @@ var levels = 4;
 // Tried calculating this from the SVG text metrics, but it's too slow.
 var DISPLAY_CHARACTER_COUNT = 9;
 var TEXT_BOX_HEIGHT = 16;
+var zoomOutMessage = "Click to zoom out!";
+
+var zoomLevel = 0;
 
 var width = 700,
     height = width,
@@ -68,7 +71,23 @@ var colourScale = d3.scale.ordinal()
 
 var forTitleMap = {};
 
+//---- Load FOR codes and build legend.
+//     The load is asynchronous and dependent on the previous asynchronous
+//     load of the allocation data already being completed.
+
+d3.json("./data/for_codes_final_2.json", function(error, forItems) {
+
+	//---- Restructure FOR codes as a map.
+	
+	var forItemCount = forItems.length;
+	for (var forItemIndex = 0; forItemIndex < forItemCount; forItemIndex++) {
+		var forItem = forItems[forItemIndex];
+		forTitleMap[forItem.FOR_CODE] = forItem.Title;
+	}
+
 d3.json("./data/allocation_tree_final_2.json", function(error, json) {
+
+//---- Build the sunburst.
 
 	var root = {children: json};
 	var nodes = partition
@@ -95,13 +114,17 @@ d3.json("./data/allocation_tree_final_2.json", function(error, json) {
 	// - remove the node representing the root data item. 
 	nodes = partition.nodes(root);
 	nodes = nodes.slice(1);
-	
+		
 	var sectors = plotGroup.selectAll("path").data(nodes);
 	sectors.enter().append("path")
 		.attr("d", arc)
 		.style("fill", function(d) { return d.fill; })
-		.each(function(d) { this._current = updateArc(d); })
+		.each(function(d) { 
+			this._current = updateArc(d); 
+		})
 		.on("click", zoomIn)
+		.on("mouseover", mouseOverHandler)
+		.on("mouseout", mouseOutHandler);		
 		;
 
 	var zoomOutButton = plotGroup.append("g")
@@ -114,8 +137,8 @@ d3.json("./data/allocation_tree_final_2.json", function(error, json) {
 		.attr("class", "click-message")
 		.attr("text-anchor", "middle")
 		.attr("dy", "0.3em")
-		.text("Click to zoom out!");
-
+		.text(zoomOutMessage);
+		
 //---- Plot labels
 
   var plotLabels = plotGroup.selectAll("text").data(nodes);
@@ -141,33 +164,46 @@ d3.json("./data/allocation_tree_final_2.json", function(error, json) {
 	})
 	// Hide label if sector is not wide enough.
 	.style("opacity", textOpacity)
-	.on("click", zoomIn);
+	.on("click", zoomIn)
+	.on("mouseover", mouseOverHandler)
+	.on("mouseout", mouseOutHandler);		
+	;
     
 //---- User interaction
 
  function zoomIn(p) {
- 
  	// Set p to next ring in unless p is already innermost ring.
     if (p.depth > 1) {
     	p = p.parent;
-    }
-    
+    }   
     // Can't zoom in with no children.
     if (!p.children) {
     	return;
     }
+  	zoomLevel++;
     zoom(p, p);
   }
 
-  function zoomOut(p) {
-  
+  function zoomOut(p) { 
   // Can't zoom out without a parent.
     if (!p.parent) {
     	return;
     }
-    
+  	zoomLevel--;
     zoom(p.parent, p);
   }
+  
+	function mouseOverHandler(d) {
+		zoomOutButton.select('text')
+                .text(d.depth == (levels - zoomLevel) ? d.name : forTitleMap[d.name]); 
+            };
+	function mouseOutHandler(d) {
+            zoomOutButton.select('text')
+                .text(function(d){
+                    return zoomOutMessage;
+                });
+            };
+
 
 //---- Animation
 
@@ -281,7 +317,9 @@ d3.json("./data/allocation_tree_final_2.json", function(error, json) {
           .style("fill", function(d) {
           		return d.fill; 
           	})
-          .on("click", zoomIn)
+		.on("click", zoomIn)
+		.on("mouseover", mouseOverHandler)
+		.on("mouseout", mouseOutHandler)		
           .each(function(d) { 
           		this._current = enterArc(d); 
           	})
@@ -312,6 +350,9 @@ d3.json("./data/allocation_tree_final_2.json", function(error, json) {
 			.style("fill", "#333")
 			.on("click", zoomIn)
 			.attr("class", "plot-label")
+		.on("click", zoomIn)
+		.on("mouseover", mouseOverHandler)
+		.on("mouseout", mouseOutHandler)		
           	.each(function(d) { 
           		this._current = enterArc(d); 
           	})
@@ -356,7 +397,7 @@ d3.json("./data/allocation_tree_final_2.json", function(error, json) {
 			plotGroup.append(function() {
 				return zoomOutButton[0][0];
 				} )
-			plotGroup.selectAll("text").transition().duration(500)
+			plotGroup.selectAll(".plot-label").transition().duration(500)
 				.style("opacity", textOpacity)
 			});
     });
@@ -364,45 +405,32 @@ d3.json("./data/allocation_tree_final_2.json", function(error, json) {
 
   }
 
-//---- Load FOR codes and build legend.
-//     The load is asynchronous and dependent on the previous asynchronous
-//     load of the allocation data already being completed.
+	//---- Build and display legend
 
-	d3.json("./data/for_codes_final_2.json", function(error, forItems) {
+	var legend = d3.select("#legend-area");
+	legend.append("h1")
+			.attr("class", "legend-text")
+			.text("Legend: ");
 
-		//---- Restructure FOR codes as a map.
-		
-		var forItemCount = forItems.length;
-		for (var forItemIndex = 0; forItemIndex < forItemCount; forItemIndex++) {
-			var forItem = forItems[forItemIndex];
-			forTitleMap[forItem.FOR_CODE] = forItem.Title;
-		}
-	
-		//---- Build and display legend
-
-		var legend = d3.select("#legend-area");
-		legend.append("h1")
-				.attr("class", "legend-text")
-				.text("Legend: ");
-
-		var legendItems = legend.selectAll("div").data(nodes
-							.filter(function(d){return d.depth == 1})
-							.sort(function(a, b) { return d3.ascending(a.name, b.name); }));
-							
-		var legendEnter = legendItems.enter().append("div")
-		  .attr("class", "legend-text legend-item")
-		  .style("background-color", function(d) {
-				return colourScale(d.name);
-		  })
-		  .style("border-color", function(d) {
-				return colourScale(d.name);
-		  })
-		  // Lowercase so the CSS can capitalise it.
-		  .text(function(d) { return d.name + ":" + forTitleMap[d.name].toLowerCase(); });
-	
-	});
+	var legendItems = legend.selectAll("div").data(nodes
+						.filter(function(d){return d.depth == 1})
+						.sort(function(a, b) { return d3.ascending(a.name, b.name); }));
+						
+	var legendEnter = legendItems.enter().append("div")
+	  .attr("class", "legend-text legend-item")
+	  .style("background-color", function(d) {
+			return colourScale(d.name);
+	  })
+	  .style("border-color", function(d) {
+			return colourScale(d.name);
+	  })
+	  // Lowercase so the CSS can capitalise it.
+	  .text(function(d) { return d.name + ":" + forTitleMap[d.name].toLowerCase(); });
 
 });
+
+});
+
 
 //---- Utilities
 
