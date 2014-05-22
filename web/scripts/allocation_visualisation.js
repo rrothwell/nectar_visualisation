@@ -1,24 +1,26 @@
 //---- Sunburst Plot of NeCTAR Allocations ----
 
-//---- Chart dimensions
+//---- Constants
 
 // 3 inner levels of FOR codes and one outer level of projects.
-var levels = 4;
-
-// Tried calculating this from the SVG text metrics, but it's too slow.
+var LEVELS = 4;
+// Tried calculating these plot label dimensions from the SVG text metrics, but it's too slow.
 var DISPLAY_CHARACTER_COUNT = 9;
 var TEXT_BOX_HEIGHT = 16;
-var zoomOutMessage = "Click to zoom out!";
-
+// Message for zoom button.
+var ZOOM_OUT_MESSAGE = "Click to zoom out!";
+// Chart dimensions
 var width = 700,
     height = width,
     radius = width / 2,
-    padding = 5,
-    duration = 1000;
+    padding = 5;
+// Animation speed - duration in msec.
+var duration = 1000;
 
-//---- Chart area on web page. 
-// A div with id="chart" is located on the web page 
-// and then populated with chart elements.
+//---- Chart area on web page.
+ 
+// A div with id="plot-area" is located on the web page 
+// and then populated with these chart elements.
 
 var plotArea = d3.select("#plot-area");
 
@@ -35,7 +37,7 @@ var plotCanvas = plotArea.append("div")
     .attr("id", "canvas");
     
 var plotFooter = plotArea.append("div")
-    .attr("class", "plot-title-container")	
+    .attr("class", "plot-footer-container")	
 	.append("div")
     .attr("id", "footer")
     .attr("class", "click-message")
@@ -56,8 +58,8 @@ var partition = d3.layout.partition()
 var arc = d3.svg.arc()
     .startAngle(function(d) { return d.x; })
     .endAngle(function(d) { return d.x + d.dx - .01 / (d.depth + .5); })
-    .innerRadius(function(d) { return radius / (levels + 1) * d.depth; })
-    .outerRadius(function(d) { return radius / (levels + 1) * (d.depth + 1) - 1; });
+    .innerRadius(function(d) { return radius / (LEVELS + 1) * d.depth; })
+    .outerRadius(function(d) { return radius / (LEVELS + 1) * (d.depth + 1) - 1; });
     
 var colourScale = d3.scale.ordinal()
     .domain(["00", "01", "01", "02", "03", "04", "05", "06", "07", "08", 
@@ -69,9 +71,7 @@ var colourScale = d3.scale.ordinal()
 
 var forTitleMap = {};
 
-//---- Load FOR codes and build legend.
-//     The load is asynchronous and dependent on the previous asynchronous
-//     load of the allocation data already being completed.
+//---- Load FOR codes. Used to build mouseover and legend (later).
 
 d3.json("./data/for_codes_final_2.json", function(error, forItems) {
 
@@ -83,9 +83,13 @@ d3.json("./data/for_codes_final_2.json", function(error, forItems) {
 		forTitleMap[forItem.FOR_CODE] = forItem.Title;
 	}
 
+// Load the allocation data to be plotted.
+//     The load is asynchronous and dependent on the previous asynchronous
+//     load of the FOR codes already being completed.
+
 d3.json("./data/allocation_tree_final_2.json", function(error, json) {
 
-//---- Build the sunburst.
+//---- Populate the sunburst with plot data.
 
 	var root = {children: json};
 	var nodes = partition
@@ -101,7 +105,7 @@ d3.json("./data/allocation_tree_final_2.json", function(error, json) {
 
   partition
 	.children(function(d, depth) { 
-		return depth < (levels - 1) ? d._children : null; 
+		return depth < (LEVELS - 1) ? d._children : null; 
 	})
 	.value(function(d) { return d.sum; });
 	
@@ -130,12 +134,12 @@ d3.json("./data/allocation_tree_final_2.json", function(error, json) {
 		.datum({}); // Avoid "undefined" error on clicking.
 	zoomOutButton.append("circle")
 		.attr("id", "inner-circle")
-		.attr("r", radius / (levels + 1));
+		.attr("r", radius / (LEVELS + 1));
 	zoomOutButton.append("text")
 		.attr("class", "click-message")
 		.attr("text-anchor", "middle")
 		.attr("dy", "0.3em")
-		.text(zoomOutMessage);
+		.text(ZOOM_OUT_MESSAGE);
 		
 //---- Plot labels
 
@@ -196,7 +200,7 @@ d3.json("./data/allocation_tree_final_2.json", function(error, json) {
 	function mouseOutHandler(d) {
             zoomOutButton.select('text')
                 .text(function(d){
-                    return zoomOutMessage;
+                    return ZOOM_OUT_MESSAGE;
                 });
             };
 
@@ -403,7 +407,7 @@ d3.json("./data/allocation_tree_final_2.json", function(error, json) {
 
 	//---- Build and display legend
 
-	var legend = d3.select("#legend-area");
+	var legend = d3.select("#legend-container");
 	legend.append("h1")
 			.attr("class", "legend-text")
 			.text("Legend: ");
@@ -421,7 +425,7 @@ d3.json("./data/allocation_tree_final_2.json", function(error, json) {
 			return colourScale(d.name);
 	  })
 	  // Lowercase so the CSS can capitalise it.
-	  .text(function(d) { return d.name + ":" + forTitleMap[d.name].toLowerCase(); });
+	  .text(function(d) { return d.name + ": " + forTitleMap[d.name].toLowerCase(); });
 
 });
 
@@ -454,15 +458,15 @@ function colour(d) {
 function textTransformation(d) {
 	var angle = (d.x + d.dx / 2) * 180 / Math.PI - 90;
 	var rotate = angle;
-	var translate = (d.depth * 1.0 / (levels + 1)) * radius  + padding;
+	var translate = (d.depth * 1.0 / (LEVELS + 1)) * radius  + padding;
 	return "rotate(" + rotate + ")" + " translate(" + translate + ")";
 }
 
 function availableSpace (d) {
 	var c2pi = 2.0 * Math.PI;
-	var circumference = c2pi * radius * (d.depth / (levels + 1));
+	var circumference = c2pi * radius * (d.depth / (LEVELS + 1));
 	var sectorWidth = (d.dx / c2pi) * circumference;
-	var sectorHeight = radius / (levels + 1);
+	var sectorHeight = radius / (LEVELS + 1);
 	available = {width: sectorHeight, height: sectorWidth};
 	return available;
 }
@@ -499,6 +503,8 @@ function updateArc(d) {
 // Assemble the unique key for the current record
 // by concatenating the name with the parent names
 // through to the tree root.
+// The index is incorporated to ensure uniqueness 
+// as the projects often have duplicated names.
 function key(d, i) {
   var names = [i], currentRecord = d;
   while (currentRecord.depth) {

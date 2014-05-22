@@ -61,7 +61,26 @@ p#intro {
 }
 
 .plot-title-container { 
+	width: 100%;
 
+    /* Firefox */
+    display:-moz-box;
+    -moz-box-pack:center;
+    -moz-box-align:center;
+
+    /* Safari and Chrome */
+    display:-webkit-box;
+    -webkit-box-pack:center;
+    -webkit-box-align:center;
+    
+	/* W3C */
+	display:box;
+    box-pack:center;
+    box-align:center;
+    box-orient:horizontal;
+}
+
+.plot-footer-container { 
 	width: 100%;
 
     /* Firefox */
@@ -100,14 +119,14 @@ p#intro {
     box-orient:horizontal;
 }
 
-.legend { 
+.legend-container { 
 	width: 200px; 
 	background-color: #eeeeee; 
 	float: left;
 	border-radius:5px;
 }
 
-.plot { 
+.plot-container { 
 	width: 800px; 
 	float: right;
 }
@@ -182,10 +201,14 @@ the centre circle to zoom back out.
 
 <p>
 </p>
-<div id="chart-area">
-	<div id="legend-area" class="legend">
+<div id="chart-container">
+	<div id="legend-container" class="legend-container">
 	</div>
-	<div id="plot-area" class="plot">
+	<div id="plot-container" class="plot-container">
+		<div id="plot-area" class="plot-area">
+		</div>
+		<div id="plot-details" class="plot-details">
+		</div>
 	</div>
 	<div class="clear">
 	</div>
