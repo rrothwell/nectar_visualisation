@@ -10,8 +10,6 @@ var DISPLAY_CHARACTER_COUNT = 9;
 var TEXT_BOX_HEIGHT = 16;
 var zoomOutMessage = "Click to zoom out!";
 
-var zoomLevel = 0;
-
 var width = 700,
     height = width,
     radius = width / 2,
@@ -180,7 +178,6 @@ d3.json("./data/allocation_tree_final_2.json", function(error, json) {
     if (!p.children) {
     	return;
     }
-  	zoomLevel++;
     zoom(p, p);
   }
 
@@ -189,13 +186,12 @@ d3.json("./data/allocation_tree_final_2.json", function(error, json) {
     if (!p.parent) {
     	return;
     }
-  	zoomLevel--;
     zoom(p.parent, p);
   }
   
 	function mouseOverHandler(d) {
 		zoomOutButton.select('text')
-                .text(d.depth == (levels - zoomLevel) ? d.name : forTitleMap[d.name]); 
+                .text(d._children ? forTitleMap[d.name] : d.name); 
             };
 	function mouseOutHandler(d) {
             zoomOutButton.select('text')
