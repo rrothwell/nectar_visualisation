@@ -75,10 +75,10 @@ d3.json("./data/allocation_tree_final_2.json", function(error, json) {
     	.value(function(d) { return d.coreQuota; })
     	.nodes(root);
     	
-	nodes.forEach(function(d) {
+	nodes.forEach(function(d, i) {
 		d._children = d.children;
 		d.sum = d.value;
-		d.key = key(d);
+		d.key = key(d, i);
 		d.fill = colour(d);
 	});
 
@@ -104,12 +104,13 @@ d3.json("./data/allocation_tree_final_2.json", function(error, json) {
 		.on("click", zoomIn)
 		;
 
-	var zoomOutButton = plotGroup.append("circle")
+	var zoomOutButton = plotGroup.append("g")
+		.on("click", zoomOut)
+		.datum({}); // Avoid "undefined" error on clicking.
+	zoomOutButton.append("circle")
 		.attr("id", "inner-circle")
-		.attr("r", radius / (levels + 1))
-		.on("click", zoomOut);
-	zoomOutButton.datum({}); // Avoid "undefined" error on clicking. 
-	plotGroup.append("text")
+		.attr("r", radius / (levels + 1));
+	zoomOutButton.append("text")
 		.attr("class", "click-message")
 		.attr("text-anchor", "middle")
 		.attr("dy", "0.3em")
@@ -218,8 +219,12 @@ d3.json("./data/allocation_tree_final_2.json", function(error, json) {
 
 	// Make sure button and plot labels stay on top by removing then re-adding them.
 	// Remove them first.
+	// Bug! 
+	// Remove zoomOutButton first as plotLabels.remove() 
+	// removes the zoomOutButton grouped text element.
+	zoomOutButton.remove(); 
+	plotLabels = plotGroup.selectAll(".plot-label");
     plotLabels.remove();
-	zoomOutButton.remove();
     	
     // Reselect the sectors.	
 	// This fixes the sector node array indexing.
@@ -470,8 +475,8 @@ function updateArc(d) {
 // Assemble the unique key for the current record
 // by concatenating the name with the parent names
 // through to the tree root.
-function key(d) {
-  var names = [], currentRecord = d;
+function key(d, i) {
+  var names = [i], currentRecord = d;
   while (currentRecord.depth) {
   	names.push(currentRecord.name);
   	currentRecord = currentRecord.parent;
