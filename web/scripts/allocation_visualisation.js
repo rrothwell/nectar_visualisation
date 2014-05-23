@@ -17,6 +17,15 @@ var width = 700,
 // Animation speed - duration in msec.
 var duration = 1000;
 
+//---- Popup on mouseover for sectors and table rows.
+
+var toolTip = d3.select("body")
+    .append("div")
+    .style("position", "absolute")
+    .style("z-index", "10")
+    .style("visibility", "hidden")
+    .text("a simple tooltip");
+
 //---- Chart area on web page.
  
 // A div with id="plot-area" is located on the web page 
@@ -170,48 +179,55 @@ d3.json("./data/allocation_tree_final_2.json", function(error, json) {
 	.on("mouseover", mouseOverHandler)
 	.on("mouseout", mouseOutHandler);		
 	;
-    
+
+	  //----- Build and display project table
+
+	var masterListArea = d3.select("#master-list-area");
+	var masterListTable = masterListArea
+		.append("div")
+		.attr("class", "master-list-container")
+			.append("table")
+				.attr("class", "master-list-table");
+	masterListTable.append("caption")
+		.attr("class", "master-list-text")
+		.text("Project list: ");
+	var masterListBody = masterListTable.append("tbody")
+			.attr("class", "master-list-text");
+			
+	var masterListHeader = masterListBody.append("tr");		
+	masterListHeader.append("th").text("Name");		
+	
+	var masterListItems = masterListBody.selectAll("tr").data(nodes
+						.filter(function(d){return !d._children})
+						.sort(function(a, b) { return d3.ascending(a.name, b.name); }));
+						
+	var masterListEnter = masterListItems.enter()
+		.append("tr")
+			.append("td")
+			.on("mouseover", handleProjectMouseOver)
+			.on("mousemove", handleProjectMouseMove)
+			.on("mouseout", handleProjectMouseOut)
+			.text(function(d) { return d.name; });
+
+
+	function handleProjectMouseOver(d) {
+		showDetails(d)
+		return toolTip.style("visibility", "visible");
+	}	
+	
+	function handleProjectMouseMove () {
+		return toolTip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");
+	}
+	   
+	function handleProjectMouseOut() {
+		return toolTip.style("visibility", "hidden");
+	}
+	   
 //---- User interaction
 
  function zoomIn(p) {
  	if (!p._children) {
- 		var markup = "<div class='details-container centred-container'>" 
- 			+ "<table class='details-table'>" 
- 			+ "<tr>"
- 			+ "<th>"
- 			+ "Name: " 
- 			+ "</th>"
- 			+ "<td>"
- 			+ p.name
- 			+ "</td>"
- 			+ "</tr>"
- 			+ "<tr>"
- 			+ "<th>"
- 			+ "Core quota: " 
- 			+ "</th>"
- 			+ "<td>"
- 			+ p.coreQuota
- 			+ "</td>"
- 			+ "</tr>"
- 			+ "<tr>"
- 			+ "<th>"
- 			+ "Instance quota: " 
- 			+ "</th>"
- 			+ "<td>"
- 			+ p.instanceQuota
- 			+ "</td>"
- 			+ "</tr>"
- 			+ "<tr>"
- 			+ "<th>"
- 			+ "Use case: " 
- 			+ "</th>"
- 			+ "<td>"
- 			+ p.useCase
- 			+ "</td>"
- 			+ "</tr>"
- 			+ "</table>"
- 			+ "</div>";
-		var plotDetails = d3.select("#details-area").html(markup);
+ 		// Do nothing
  	} else {
 		// Set p to next ring in unless p is already innermost ring.
 		if (p.depth > 1) {
@@ -440,8 +456,25 @@ d3.json("./data/allocation_tree_final_2.json", function(error, json) {
 			plotGroup.selectAll(".plot-label").transition().duration(500)
 				.style("opacity", textOpacity)
 			});
+					
     });
-	
+    
+    	// Handle the project list update.
+		
+		var masterListItems = masterListBody.selectAll("tr").data(nodes
+							.filter(function(d){return !d._children})
+							.sort(function(a, b) { return d3.ascending(a.name, b.name); }));
+
+		masterListItems.exit().remove();
+		
+						
+		var masterListEnter = masterListItems.enter()
+			.append("tr")
+				.append("td")
+				.on("mouseover", handleProjectMouseOver)
+				.on("mousemove", handleProjectMouseMove)
+				.on("mouseout", handleProjectMouseOut)
+				.text(function(d) { return d.name; });
 
   }
 
@@ -466,6 +499,46 @@ d3.json("./data/allocation_tree_final_2.json", function(error, json) {
 	  })
 	  // Lowercase so the CSS can capitalise it.
 	  .text(function(d) { return d.name + ": " + forTitleMap[d.name].toLowerCase(); });
+	  	
+	function showDetails(d) {
+	 		var markup = "<div class='details-container centred-container'>" 
+ 			+ "<table class='details-table'>" 
+ 			+ "<tr>"
+ 			+ "<th>"
+ 			+ "Name: " 
+ 			+ "</th>"
+ 			+ "<td>"
+ 			+ d.name
+ 			+ "</td>"
+ 			+ "</tr>"
+ 			+ "<tr>"
+ 			+ "<th>"
+ 			+ "Core quota: " 
+ 			+ "</th>"
+ 			+ "<td>"
+ 			+ d.coreQuota
+ 			+ "</td>"
+ 			+ "</tr>"
+ 			+ "<tr>"
+ 			+ "<th>"
+ 			+ "Instance quota: " 
+ 			+ "</th>"
+ 			+ "<td>"
+ 			+ d.instanceQuota
+ 			+ "</td>"
+ 			+ "</tr>"
+ 			+ "<tr>"
+ 			+ "<th>"
+ 			+ "Use case: " 
+ 			+ "</th>"
+ 			+ "<td>"
+ 			+ d.useCase
+ 			+ "</td>"
+ 			+ "</tr>"
+ 			+ "</table>"
+ 			+ "</div>";
+		var plotDetails = toolTip.html(markup);
+	}
 
 });
 
