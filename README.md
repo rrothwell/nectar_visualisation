@@ -28,6 +28,19 @@ git clone git@code.vpac.org:ncr002-dataanalysis/ncr002-dataanalysis.git
 
 Run the script build.sh in place. The resulting artefact will be found in the distribution folder.
 
+Version History
+--------------------
+
+By git tag name:
+
+Version: sunburst_v1
+Features: 
+	(a) sunburst
+	(b) legend for projects
+	(c) name labels inside sectors
+	(d) mouseover shows name in centre
+	(e) clicking shows details in a table.
+
 
 
 
