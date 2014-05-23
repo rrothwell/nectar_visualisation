@@ -60,47 +60,7 @@ p#intro {
 	display: table-cell;
 }
 
-.plot-title-container { 
-	width: 100%;
-
-    /* Firefox */
-    display:-moz-box;
-    -moz-box-pack:center;
-    -moz-box-align:center;
-
-    /* Safari and Chrome */
-    display:-webkit-box;
-    -webkit-box-pack:center;
-    -webkit-box-align:center;
-    
-	/* W3C */
-	display:box;
-    box-pack:center;
-    box-align:center;
-    box-orient:horizontal;
-}
-
-.plot-footer-container { 
-	width: 100%;
-
-    /* Firefox */
-    display:-moz-box;
-    -moz-box-pack:center;
-    -moz-box-align:center;
-
-    /* Safari and Chrome */
-    display:-webkit-box;
-    -webkit-box-pack:center;
-    -webkit-box-align:center;
-    
-	/* W3C */
-	display:box;
-    box-pack:center;
-    box-align:center;
-    box-orient:horizontal;
-}
-
-.plot-canvas-container { 
+.centred-container { 
 	width: 100%;
     /* Firefox */
     display:-moz-box;
@@ -124,6 +84,36 @@ p#intro {
 	background-color: #eeeeee; 
 	float: left;
 	border-radius:5px;
+}
+
+.details-container { 
+	width: 40em;
+	vertical-align: middle;
+	background-color: #eeeeee; 
+	border-radius:3px;
+	margin: 0 auto;
+	padding: 10px;
+}
+
+
+table.details-table { 
+	width: 100%;
+	line-height: 2em; 
+	vertical-align: middle;
+	font: 12px sans-serif;
+	text-align: center;
+	background-color: #eeeeee; 
+	border-radius:3px;
+	margin: 0 auto;
+}
+
+table.details-table td {
+	padding: 3px 5px 3px 5px;
+}
+
+table.details-table th {
+	padding: 3px 5px 3px 5px;
+	width: 8em;
 }
 
 .plot-container { 
@@ -207,7 +197,7 @@ the centre circle to zoom back out.
 	<div id="plot-container" class="plot-container">
 		<div id="plot-area" class="plot-area">
 		</div>
-		<div id="plot-details" class="plot-details">
+		<div id="details-area" class="details-area">
 		</div>
 	</div>
 	<div class="clear">

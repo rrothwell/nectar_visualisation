@@ -25,19 +25,19 @@ var duration = 1000;
 var plotArea = d3.select("#plot-area");
 
 var plotTitle = plotArea.append("div")
-    .attr("class", "plot-title-container")	
+    .attr("class", "centred-container")	
 	.append("div")
     .attr("id", "title")
     .attr("class", "plot-title")
     .text("Core Quota");
 
 var plotCanvas = plotArea.append("div")
-    .attr("class", "plot-canvas-container")	
+    .attr("class", "centred-container")	
 	.append("div")
     .attr("id", "canvas");
     
 var plotFooter = plotArea.append("div")
-    .attr("class", "plot-footer-container")	
+    .attr("class", "centred-container")	
 	.append("div")
     .attr("id", "footer")
     .attr("class", "click-message")
@@ -174,15 +174,55 @@ d3.json("./data/allocation_tree_final_2.json", function(error, json) {
 //---- User interaction
 
  function zoomIn(p) {
- 	// Set p to next ring in unless p is already innermost ring.
-    if (p.depth > 1) {
-    	p = p.parent;
-    }   
-    // Can't zoom in with no children.
-    if (!p.children) {
-    	return;
-    }
-    zoom(p, p);
+ 	if (!p._children) {
+ 		var markup = "<div class='details-container centred-container'>" 
+ 			+ "<table class='details-table'>" 
+ 			+ "<tr>"
+ 			+ "<th>"
+ 			+ "Name: " 
+ 			+ "</th>"
+ 			+ "<td>"
+ 			+ p.name
+ 			+ "</td>"
+ 			+ "</tr>"
+ 			+ "<tr>"
+ 			+ "<th>"
+ 			+ "Core quota: " 
+ 			+ "</th>"
+ 			+ "<td>"
+ 			+ p.coreQuota
+ 			+ "</td>"
+ 			+ "</tr>"
+ 			+ "<tr>"
+ 			+ "<th>"
+ 			+ "Instance quota: " 
+ 			+ "</th>"
+ 			+ "<td>"
+ 			+ p.instanceQuota
+ 			+ "</td>"
+ 			+ "</tr>"
+ 			+ "<tr>"
+ 			+ "<th>"
+ 			+ "Use case: " 
+ 			+ "</th>"
+ 			+ "<td>"
+ 			+ p.useCase
+ 			+ "</td>"
+ 			+ "</tr>"
+ 			+ "</table>"
+ 			+ "</div>";
+		var plotDetails = d3.select("#details-area").html(markup);
+ 	} else {
+		// Set p to next ring in unless p is already innermost ring.
+		if (p.depth > 1) {
+			p = p.parent;
+		}   
+		// Can't zoom in with no children.
+		if (!p.children) {
+			return;
+		}
+		zoom(p, p);
+ 	}
   }
 
   function zoomOut(p) { 
