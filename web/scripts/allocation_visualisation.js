@@ -80,7 +80,7 @@ var colourScale = d3.scale.ordinal()
 
 var forTitleMap = {};
 
-//---- Load FOR codes. Used to build mouseover and legend (later).
+//---- Load FOR codes. Used to build mouseover.
 
 d3.json("./data/for_codes_final_2.json", function(error, forItems) {
 
@@ -478,28 +478,8 @@ d3.json("./data/allocation_tree_final_2.json", function(error, json) {
 
   }
 
-	//---- Build and display legend
-
-	var legend = d3.select("#legend-container");
-	legend.append("h1")
-			.attr("class", "legend-text")
-			.text("Legend: ");
-
-	var legendItems = legend.selectAll("div").data(nodes
-						.filter(function(d){return d.depth == 1})
-						.sort(function(a, b) { return d3.ascending(a.name, b.name); }));
-						
-	var legendEnter = legendItems.enter().append("div")
-	  .attr("class", "legend-text legend-item")
-	  .style("background-color", function(d) {
-			return colourScale(d.name);
-	  })
-	  .style("border-color", function(d) {
-			return colourScale(d.name);
-	  })
-	  // Lowercase so the CSS can capitalise it.
-	  .text(function(d) { return d.name + ": " + forTitleMap[d.name].toLowerCase(); });
-	  	
+	//---- Popup showing details.
+		  	
 	function showDetails(d) {
 	 		var markup = "<div class='details-container centred-container'>" 
  			+ "<table class='details-table'>" 
