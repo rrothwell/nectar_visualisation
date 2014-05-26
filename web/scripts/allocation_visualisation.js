@@ -114,7 +114,8 @@ d3.json("./data/allocation_tree_final_2.json", function(error, json) {
 
   partition
 	.children(function(d, depth) { 
-		return depth < (LEVELS - 1) ? d._children : null; 
+		var ringsShownCount = LEVELS - 2;
+		return depth < ringsShownCount ? d._children : null; 
 	})
 	.value(function(d) { return d.sum; });
 	
