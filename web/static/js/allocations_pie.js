@@ -1,6 +1,43 @@
 //---- Hierarchical Pie Plot of NeCTAR Allocations ----
 
-//---- Constants
+//---- Data manipulation
+
+// Perform an in-place update of the data
+function update(dest, source) {
+  hash_map = {};
+  for (var i in source) {
+	var source_item = source[i]
+    hash_map[source[i]['target']] = source_item;
+  }
+
+  for (var j in dest) {
+    var key = dest[i]['target'];
+    if (source[key]) {
+      dest[i]['value'] = source[key]['value'];
+    }
+  }
+
+  for (var k in hash_map) {
+    if (hash_map.hasOwnProperty(k)) {
+      dest.push(hash_map[k]);
+    }
+  }
+}
+
+	function zero(array) {
+	  for (var i in array) {
+		array[i].value = 0;
+	  }
+	};
+
+function restructureData(responseData) {
+    var dataset = [];
+    zero(dataset);
+    update(dataset,  responseData);
+    return dataset;
+}
+
+//---- Visualisation Constants
 
 // Chart dimensions
 var WIDTH = 960,
@@ -31,12 +68,12 @@ var x = d3.scale.linear()
 
 var color = d3.scale.category20();
 
-var pie = d3.layout.pie()
-      .value(function(d) { return d.value; });
+var TEXT_HEIGHT_ALLOWANCE = .1;
 
-var arc = d3.svg.arc()
-      .innerRadius(innerRadius)
-      .outerRadius(outerRadius);
+//---- Chart area on web page.
+ 
+// A div with id="plot-area" is located on the web page 
+// and then populated with these chart elements.
 
 var plotGroup = d3.select("#plot-area").append("svg")
       .attr("width", WIDTH)
@@ -44,10 +81,24 @@ var plotGroup = d3.select("#plot-area").append("svg")
       .append("g")
       .attr("transform", "translate(" + WIDTH / 2 + "," + HEIGHT / 2 + ")");
 
-plotGroup.append("text").attr("class", "total");
+//---- Define the plot layout and plotting algorithm - a pie chart.
 
-// set the start and end angles to 0 so we can transition
-// clockwise to the actual values later
+var pie = d3.layout.pie()
+      .value(function(d) { return d.value; });
+
+var arc = d3.svg.arc()
+      .innerRadius(innerRadius)
+      .outerRadius(outerRadius);
+
+// Text for showing totals.
+var totalText = plotGroup.append("text")
+	.attr("class", "total")
+	.attr("dy", ".40em")
+	.style("text-anchor", "middle");
+
+// Pie slices showing sub-totals.
+// Set the start and end angles to 0 so we can transition
+// clockwise to the actual values later.
 var slices = plotGroup.selectAll("g.slice")
       .data(pie([]))
       .enter()
@@ -57,75 +108,28 @@ var slices = plotGroup.selectAll("g.slice")
 slices.transition()  // update
   .duration(DURATION)
   .attrTween("d", arcTween);
+  
 
-d3.selectAll("button").on("click", change);
+function visualise( dataset, totalVirtualCpus ) {
 
+    totalText.text(function(d) { return "VCPU Used: " + totalVirtualCpus; });
 
-// Perform an in-place update of the data
-function update(dest, source) {
-  hash_map = {};
-  for (var i in source) {
-	var source_item = source[i]
-    hash_map[source[i]['target']] = source_item;
-  }
-
-  for (var j in dest) {
-    var key = dest[i]['target'];
-    if (source[key]) {
-      dest[i]['value'] = source[key]['value'];
-    }
-  }
-
-  for (var k in hash_map) {
-    if (hash_map.hasOwnProperty(k)) {
-      dest.push(hash_map[k]);
-    }
-  }
-}
-
-function processResponse(responseObject) {
-	var dataset = restructureData(responseObject);
-	visualise(dataset);	
-}
-
-	function zero(array) {
-	  for (var i in array) {
-		array[i].value = 0;
-	  }
-	};
-
-function restructureData(responseData) {
-    var dataset = [];
-    zero(dataset);
-    update(dataset,  responseData);
-    return dataset;
-}
-
-function visualise( dataset ) {
-
-    // clearTimeout(timeout);
-    var new_path = plotGroup.selectAll("g.slice").data(pie(dataset));
-
-    var total_vcpu = d3.sum(dataset, function (d) {
-      return d.value;
-    });
-
-
-    // update elements
-    plotGroup.select("text.total")
-      .attr("dy", ".40em")
-      .style("text-anchor", "middle")
-      .text(function(d) { return "VCPU Used: " + total_vcpu; });
-
-    new_path.select('path')
+	// Build the node list, attaching the new data.
+	var nodes = pie(dataset);
+	
+    slices = plotGroup.selectAll("g.slice").data(nodes);
+    
+    slices.select('path')
       .transition()
       .duration(DURATION)
       .attrTween("d", arcTween);
 
-    new_path.selectAll('text').remove();
+	// Begin text annotation.
+    slices.selectAll('text').remove();
 
-    new_path
-      .filter(function(d) { return d.endAngle - d.startAngle > .1; })
+	// Annotate slices with name of corresponding domain.
+    slices
+      .filter(function(d) { return d.endAngle - d.startAngle > TEXT_HEIGHT_ALLOWANCE; })
       .append("text")
       .text(function(d) {
         return d.data.target;
@@ -138,7 +142,8 @@ function visualise( dataset ) {
       .duration(DURATION_FAST)
       .style("opacity", 1);
 
-    new_path.filter(function(d) { return d.endAngle - d.startAngle > .1; })
+	// Annotate slices with virtual CPU count for corresponding domain.
+    slices.filter(function(d) { return d.endAngle - d.startAngle > TEXT_HEIGHT_ALLOWANCE; })
       .append("text")
       .attr("dy", ".35em")
       .attr("text-anchor", "middle")
@@ -156,14 +161,15 @@ function visualise( dataset ) {
       .style("opacity", 1);
 
 
-
-
-    // new elements
-    var g = new_path.enter()
+    // Display new data items:
+    
+    // -- slices first.
+    
+    var newSlices = slices.enter()
           .append('g')
           .attr('class', 'slice');
 
-    g.append("path")
+    newSlices.append("path")
       .attr("fill", function (d, i) {
         return color(i);
       })
@@ -180,7 +186,9 @@ function visualise( dataset ) {
       .duration(DURATION)
       .attrTween("d", arcTween);
 
-    g.filter(function(d) { return d.endAngle - d.startAngle > .1; })
+    // -- Text annotations second, domain names.
+    
+    newSlices.filter(function(d) { return d.endAngle - d.startAngle > TEXT_HEIGHT_ALLOWANCE; })
       .append("text")
       .text(function(d) {
         return d.data.target;
@@ -192,7 +200,8 @@ function visualise( dataset ) {
       .duration(DURATION_FAST)
       .style("opacity", 1);
 
-    g.filter(function(d) { return d.endAngle - d.startAngle > .1; }).append("svg:text")
+    // -- Text annotations third, virtual CPU count for corresponding domain.
+    newSlices.filter(function(d) { return d.endAngle - d.startAngle > TEXT_HEIGHT_ALLOWANCE; }).append("text")
       .attr("dy", ".35em")
       .attr("text-anchor", "middle")
       .attr("transform", function(d) {
@@ -208,24 +217,26 @@ function visualise( dataset ) {
       .duration(DURATION_FAST)
       .style("opacity", 1);
 
-
-
-    // remove old elements
-    new_path.exit().select('text')
+    // Remove old elements:
+    
+    // -- remove old annotations 
+    slices.exit().select('text')
       .transition()
       .duration(DURATION_FAST)
       .style("opacity", 0)
       .remove();
 
-    new_path.exit().select('fill')
+    // -- remove old slices 
+    slices.exit().select('fill')
       .transition()
       .duration(DURATION)
       .attrTween('d', arcTweenOut)
       .remove();
-
-    new_path.exit().transition().remove();
+    slices.exit().transition().remove();
     
   }
+
+//---- Plotting and Animation Utilities
 
 function offset_label(d, length) {
   //we have to make sure to set these before calling arc.centroid
@@ -269,11 +280,24 @@ function arcTweenOut(a) {
   };
 }
 
+//---- Main Function: Process the data and visualise it.
+
+function processResponse(responseObject) {
+	var dataset = restructureData(responseObject);
+	var totalVirtualCpus = d3.sum(dataset, function (d) {
+      return d.value;
+    });
+	visualise(dataset, totalVirtualCpus);	
+}
+
+//---- Additional User Interactions.
+
 function change() {
   $('#graph-buttons button').removeClass('active');
   $(this).addClass('active');
-
   $.get( "./domain/cores_per_domain_2", {'az': this.id}, processResponse, 'json');
 }
+
+d3.selectAll("button").on("click", change);
 
 $("#all").click();
