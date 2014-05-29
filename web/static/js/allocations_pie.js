@@ -1,19 +1,20 @@
+//---- Hierarchical Pie Plot of NeCTAR Allocations ----
 
-var dataset = [];
+//---- Constants
 
-function zero(array) {
-  for (var i in array) {
-    array[i].value = 0;
-  }
-};
+// Chart dimensions
+var WIDTH = 960,
+    HEIGHT = 700,
+    PIE_WIDTH = 960,
+    PIE_HEIGHT = 500,
+    radius = Math.min(PIE_WIDTH, PIE_HEIGHT) / 2;
 
-var width = 960,
-    height = 700,
-    pie_width = 960,
-    pie_height = 500,
-    radius = Math.min(pie_width, pie_height) / 2;
-
+var innerRadius = radius - 120;
 var outerRadius = radius - 20;
+
+// Animation speed - duration in msec.
+var DURATION = 750;
+var DURATION_FAST = 400;
 
 var enterClockwise = {
   startAngle: 0,
@@ -25,7 +26,6 @@ var enterAntiClockwise = {
   endAngle: Math.PI * 2
 };
 
-
 var x = d3.scale.linear()
       .range([0, 2 * Math.PI]);
 
@@ -35,27 +35,27 @@ var pie = d3.layout.pie()
       .value(function(d) { return d.value; });
 
 var arc = d3.svg.arc()
-      .innerRadius(radius - 120)
+      .innerRadius(innerRadius)
       .outerRadius(outerRadius);
 
-var svg = d3.select("#viz").append("svg")
-      .attr("width", width)
-      .attr("height", height)
+var plotGroup = d3.select("#plot-area").append("svg")
+      .attr("width", WIDTH)
+      .attr("height", HEIGHT)
       .append("g")
-      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+      .attr("transform", "translate(" + WIDTH / 2 + "," + HEIGHT / 2 + ")");
 
-svg.append("text").attr("class", "total");
+plotGroup.append("text").attr("class", "total");
 
 // set the start and end angles to 0 so we can transition
 // clockwise to the actual values later
-var path = svg.selectAll("g.slice")
+var slices = plotGroup.selectAll("g.slice")
       .data(pie([]))
       .enter()
       .append('g')
       .attr('class', 'slice');
 
-path.transition()  // update
-  .duration(750)
+slices.transition()  // update
+  .duration(DURATION)
   .attrTween("d", arcTween);
 
 d3.selectAll("button").on("click", change);
@@ -83,16 +83,28 @@ function update(dest, source) {
   }
 }
 
+function processResponse(responseObject) {
+	var dataset = restructureData(responseObject);
+	visualise(dataset);	
+}
 
-function change() {
-  $('#graph-buttons button').removeClass('active');
-  $(this).addClass('active');
+	function zero(array) {
+	  for (var i in array) {
+		array[i].value = 0;
+	  }
+	};
 
-  $.get( "./domain/cores_per_domain_2", {'az': this.id}, function( data ) {
+function restructureData(responseData) {
+    var dataset = [];
     zero(dataset);
-    update(dataset,  data);
+    update(dataset,  responseData);
+    return dataset;
+}
+
+function visualise( dataset ) {
+
     // clearTimeout(timeout);
-    var new_path = svg.selectAll("g.slice").data(pie(dataset));
+    var new_path = plotGroup.selectAll("g.slice").data(pie(dataset));
 
     var total_vcpu = d3.sum(dataset, function (d) {
       return d.value;
@@ -100,14 +112,14 @@ function change() {
 
 
     // update elements
-    svg.select("text.total")
+    plotGroup.select("text.total")
       .attr("dy", ".40em")
       .style("text-anchor", "middle")
       .text(function(d) { return "VCPU Used: " + total_vcpu; });
 
     new_path.select('path')
       .transition()
-      .duration(750)
+      .duration(DURATION)
       .attrTween("d", arcTween);
 
     new_path.selectAll('text').remove();
@@ -123,7 +135,7 @@ function change() {
       })
       .style("opacity", 0)
       .transition()
-      .duration(400)
+      .duration(DURATION_FAST)
       .style("opacity", 1);
 
     new_path.filter(function(d) { return d.endAngle - d.startAngle > .1; })
@@ -140,7 +152,7 @@ function change() {
       .text(function(d) { return d.data.value; })
       .style("opacity", 0)
       .transition()
-      .duration(400)
+      .duration(DURATION_FAST)
       .style("opacity", 1);
 
 
@@ -165,7 +177,7 @@ function change() {
         };
       })
       .transition()
-      .duration(750)
+      .duration(DURATION)
       .attrTween("d", arcTween);
 
     g.filter(function(d) { return d.endAngle - d.startAngle > .1; })
@@ -177,7 +189,7 @@ function change() {
         return "translate(" + offset_label(d, this.getComputedTextLength()) + ") rotate(" + angle(d) + ")";
       }).style("opacity", 0)
       .transition()
-      .duration(400)
+      .duration(DURATION_FAST)
       .style("opacity", 1);
 
     g.filter(function(d) { return d.endAngle - d.startAngle > .1; }).append("svg:text")
@@ -193,7 +205,7 @@ function change() {
       .text(function(d) { return d.data.value; })
       .style("opacity", 0)
       .transition()
-      .duration(400)
+      .duration(DURATION_FAST)
       .style("opacity", 1);
 
 
@@ -201,20 +213,19 @@ function change() {
     // remove old elements
     new_path.exit().select('text')
       .transition()
-      .duration(400)
+      .duration(DURATION_FAST)
       .style("opacity", 0)
       .remove();
 
     new_path.exit().select('fill')
       .transition()
-      .duration(750)
+      .duration(DURATION)
       .attrTween('d', arcTweenOut)
       .remove();
 
     new_path.exit().transition().remove();
-
-  }, 'json');
-}
+    
+  }
 
 function offset_label(d, length) {
   //we have to make sure to set these before calling arc.centroid
@@ -256,6 +267,13 @@ function arcTweenOut(a) {
   return function (t) {
     return arc(i(t));
   };
+}
+
+function change() {
+  $('#graph-buttons button').removeClass('active');
+  $(this).addClass('active');
+
+  $.get( "./domain/cores_per_domain_2", {'az': this.id}, processResponse, 'json');
 }
 
 $("#all").click();
