@@ -1,0 +1,25 @@
+
+.table-sorter th {
+    cursor: pointer;
+}
+
+
+table .service {
+    width: 200px;
+}
+
+
+#averages {
+    padding-right:  200px;
+}
+
+img.graphite {
+    background-image: url("/static/img/loader.gif");
+    background-repeat: no-repeat;
+    background-position: center;
+    min-height: 300px;
+}
+
+.chart {
+    height: 400px;
+}

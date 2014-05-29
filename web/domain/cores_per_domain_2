@@ -1,0 +1,270 @@
+[
+    {
+        "target": "awri.com.au",
+        "value": 1.0
+    },
+    {
+        "target": "au1.ibm.com",
+        "value": 1.0
+    },
+    {
+        "target": "uow.edu.au",
+        "value": 1.0
+    },
+    {
+        "target": "newcastle.edu.au",
+        "value": 1.0
+    },
+    {
+        "target": "aucklanduni.ac.nz",
+        "value": 1.0
+    },
+    {
+        "target": "tomfifield.nettomfifield",
+        "value": 1.0
+    },
+    {
+        "target": "nicta.com.au",
+        "value": 2.0
+    },
+    {
+        "target": "myacu.edu.au",
+        "value": 2.0
+    },
+    {
+        "target": "petermac.org",
+        "value": 2.0
+    },
+    {
+        "target": "metaverse.org",
+        "value": 2.0
+    },
+    {
+        "target": "hotmail.com",
+        "value": 2.0
+    },
+    {
+        "target": "yahoo.com",
+        "value": 2.0
+    },
+    {
+        "target": "florey.edu.au",
+        "value": 2.0
+    },
+    {
+        "target": "rcswa.edu.au",
+        "value": 2.0
+    },
+    {
+        "target": "bond.edu.au",
+        "value": 3.0
+    },
+    {
+        "target": "cdu.edu.au",
+        "value": 3.0
+    },
+    {
+        "target": "myune.edu.au",
+        "value": 3.0
+    },
+    {
+        "target": "mcri.edu.au",
+        "value": 3.0
+    },
+    {
+        "target": "aad.gov.au",
+        "value": 3.0
+    },
+    {
+        "target": "irb.hr",
+        "value": 4.0
+    },
+    {
+        "target": "acu.edu.au",
+        "value": 4.0
+    },
+    {
+        "target": "federation.edu.au",
+        "value": 4.0
+    },
+    {
+        "target": "csu.edu.au",
+        "value": 4.0
+    },
+    {
+        "target": "ecu.edu.au",
+        "value": 5.0
+    },
+    {
+        "target": "aarnet.edu.au",
+        "value": 6.0
+    },
+    {
+        "target": "une.edu.au",
+        "value": 6.0
+    },
+    {
+        "target": "dsto.defence.gov.au",
+        "value": 7.0
+    },
+    {
+        "target": "aims.gov.au",
+        "value": 7.0
+    },
+    {
+        "target": "uon.edu.au",
+        "value": 8.0
+    },
+    {
+        "target": "latrobe.edu.au",
+        "value": 9.0
+    },
+    {
+        "target": "usyd.edu.au",
+        "value": 10.0
+    },
+    {
+        "target": "aaf.edu.au",
+        "value": 10.0
+    },
+    {
+        "target": "usq.edu.au",
+        "value": 12.0
+    },
+    {
+        "target": "unisa.edu.au",
+        "value": 14.0
+    },
+    {
+        "target": "larosa.org.au",
+        "value": 14.0
+    },
+    {
+        "target": "canberra.edu.au",
+        "value": 14.0
+    },
+    {
+        "target": "ballarat.edu.au",
+        "value": 19.0
+    },
+    {
+        "target": "griffithuni.edu.au",
+        "value": 20.0
+    },
+    {
+        "target": "student.monash.edu",
+        "value": 25.0
+    },
+    {
+        "target": "cqu.edu.au",
+        "value": 27.0
+    },
+    {
+        "target": "uts.edu.au",
+        "value": 34.0
+    },
+    {
+        "target": "versi.edu.au",
+        "value": 34.0
+    },
+    {
+        "target": "deakin.edu.au",
+        "value": 36.0
+    },
+    {
+        "target": "vu.edu.au",
+        "value": 37.0
+    },
+    {
+        "target": "murdoch.edu.au",
+        "value": 41.0
+    },
+    {
+        "target": "swin.edu.au",
+        "value": 41.0
+    },
+    {
+        "target": "uws.edu.au",
+        "value": 44.0
+    },
+    {
+        "target": "gmail.com",
+        "value": 45.0
+    },
+    {
+        "target": "flinders.edu.au",
+        "value": 51.0
+    },
+    {
+        "target": "jcu.edu.au",
+        "value": 57.0
+    },
+    {
+        "target": "mq.edu.au",
+        "value": 86.0
+    },
+    {
+        "target": "unsw.edu.au",
+        "value": 94.0
+    },
+    {
+        "target": "usc.edu.au",
+        "value": 94.0
+    },
+    {
+        "target": "intersect.org.au",
+        "value": 129.0
+    },
+    {
+        "target": "utas.edu.au",
+        "value": 143.0
+    },
+    {
+        "target": "uwa.edu.au",
+        "value": 145.0
+    },
+    {
+        "target": "rmit.edu.au",
+        "value": 146.0
+    },
+    {
+        "target": "qut.edu.au",
+        "value": 183.0
+    },
+    {
+        "target": "griffith.edu.au",
+        "value": 189.0
+    },
+    {
+        "target": "anu.edu.au",
+        "value": 189.0
+    },
+    {
+        "target": "curtin.edu.au",
+        "value": 243.0
+    },
+    {
+        "target": "sydney.edu.au",
+        "value": 301.0
+    },
+    {
+        "target": "csiro.au",
+        "value": 326.0
+    },
+    {
+        "target": "uq.edu.au",
+        "value": 1097.0
+    },
+    {
+        "target": "adelaide.edu.au",
+        "value": 1372.0
+    },
+    {
+        "target": "monash.edu",
+        "value": 2158.0
+    },
+    {
+        "target": "unimelb.edu.au",
+        "value": 2207.0
+    }
+]
