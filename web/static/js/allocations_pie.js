@@ -2,40 +2,44 @@
 
 //---- Data manipulation
 
-// Perform an in-place update of the data
-function update(dest, source) {
-  hash_map = {};
-  for (var i in source) {
-	var source_item = source[i]
-    hash_map[source[i]['target']] = source_item;
-  }
-
-  for (var j in dest) {
-    var key = dest[i]['target'];
-    if (source[key]) {
-      dest[i]['value'] = source[key]['value'];
-    }
-  }
-
-  for (var k in hash_map) {
-    if (hash_map.hasOwnProperty(k)) {
-      dest.push(hash_map[k]);
-    }
-  }
-}
-
-	function zero(array) {
-	  for (var i in array) {
-		array[i].value = 0;
-	  }
-	};
-
-function restructureData(responseData) {
+// Restructure allocations as a single level array of objects.
+function restructureAllocations(allocationObjects) {
     var dataset = [];
-    zero(dataset);
-    update(dataset,  responseData);
+    
+    var allocationCount = allocationObjects.length;
+    for (var allocationIndex = 0; allocationIndex < allocationCount; allocationIndex++) {
+    	var value = 0.0;
+    	var name = allocationObjects[allocationIndex].name;
+    	var children = allocationObjects[allocationIndex].children;
+    	var childCount = children.length;
+    	for (var childIndex = 0; childIndex < childCount; childIndex++) {
+			var children1 = children[childIndex].children;
+			var childCount1 = children1.length;
+			for (var childIndex1 = 0; childIndex1 < childCount1; childIndex1++) {
+				var children2 = children1[childIndex1].children;
+				var childCount2 = children2.length;
+				for (var childIndex2 = 0; childIndex2 < childCount2; childIndex2++) {
+					value += children2[childIndex2].coreQuota;
+				}
+			}
+    	}
+    	var allocationItem = {"target": name, "value": value};
+    	dataset.push(allocationItem);
+    }
+    
     return dataset;
 }
+
+// Restructure FOR codes as a map.
+var forTitleMap = {};
+function restructureForCodes(forObjects) {	
+	var forItemCount = forObjects.length;
+	for (var forItemIndex = 0; forItemIndex < forItemCount; forItemIndex++) {
+		var forItem = forObjects[forItemIndex];
+		forTitleMap[forItem.FOR_CODE] = forItem.Title;
+	}
+}
+
 
 //---- Visualisation Constants
 
@@ -112,7 +116,7 @@ slices.transition()  // update
 
 function visualise( dataset, totalVirtualCpus ) {
 
-    totalText.text(function(d) { return "VCPU Used: " + totalVirtualCpus; });
+    totalText.text(function(d) { return "VCPU Used: " + totalVirtualCpus.toFixed(2); });
 
 	// Build the node list, attaching the new data.
 	var nodes = pie(dataset);
@@ -154,7 +158,7 @@ function visualise( dataset, totalVirtualCpus ) {
       })
       .style("fill", "White")
       .style("font", "bold 12px Arial")
-      .text(function(d) { return d.data.value; })
+      .text(function(d) { return d.data.value.toFixed(2); })
       .style("opacity", 0)
       .transition()
       .duration(DURATION_FAST)
@@ -211,7 +215,7 @@ function visualise( dataset, totalVirtualCpus ) {
       })
       .style("fill", "White")
       .style("font", "bold 12px Arial")
-      .text(function(d) { return d.data.value; })
+      .text(function(d) { return d.data.value.toFixed(2); })
       .style("opacity", 0)
       .transition()
       .duration(DURATION_FAST)
@@ -282,20 +286,25 @@ function arcTweenOut(a) {
 
 //---- Main Function: Process the data and visualise it.
 
-function processResponse(responseObject) {
-	var dataset = restructureData(responseObject);
+function processResponse(allocationObjects, forObjects) {
+	restructureForCodes(forObjects);
+	var dataset = restructureAllocations(allocationObjects);
 	var totalVirtualCpus = d3.sum(dataset, function (d) {
       return d.value;
     });
 	visualise(dataset, totalVirtualCpus);	
 }
 
-//---- Additional User Interactions.
+//---- Additional User Interactions and Data Loading.
 
 function change() {
-  $('#graph-buttons button').removeClass('active');
-  $(this).addClass('active');
-  $.get( "./domain/cores_per_domain_2", {'az': this.id}, processResponse, 'json');
+	$('#graph-buttons button').removeClass('active');
+	$(this).addClass('active');
+	d3.json("./data/for_codes_final_2.json", function(error, forObjects) {
+		d3.json("./data/allocation_tree_final_2.json", function(error, allocationObjects) {
+			processResponse(allocationObjects, forObjects);
+		});
+	});
 }
 
 d3.selectAll("button").on("click", change);
