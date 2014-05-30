@@ -2,6 +2,36 @@
 
 //---- Data manipulation
 
+// Breadcrumbs - keep track of the current hierarchy level.
+var breadCrumbs = [];
+var allocationTree = {};
+
+function traverseHierarchy(targetName, allocationObjects) {
+	var children = allocationObjects;
+	var targetLevel = targetName.length / 2;
+	var targets = [];
+	for (var targetIndex = 0; targetIndex < targetLevel; targetIndex++) {
+		targetName = targetName.substring(0, (targetLevel - targetIndex) * 2);
+		targets.push(targetName);
+	}
+	return nextLevel(targets, children);
+}
+
+function nextLevel(targets, children) {
+	var target = targets.pop();
+	if (target) {
+		var childCount = children.length;
+		for (var childIndex = 0; childIndex < childCount; childIndex++) {
+			var child = children[childIndex];
+			var name = child.name;
+			if (name == target) {
+				return nextLevel(targets, child.children);
+			} 
+		}
+	}
+	return children;
+}
+
 // Restructure allocations as a single level array of objects.
 function restructureAllocations(allocationObjects) {
     var dataset = [];
@@ -20,7 +50,6 @@ function restructureAllocations(allocationObjects) {
     }    
     return dataset;
 }
-
     
 function nextLevelSum(children) {
     var sum = 0.0;
@@ -35,7 +64,6 @@ function nextLevelSum(children) {
 	}
 	return sum;
 }
-
 
 // Restructure FOR codes as a map.
 var forTitleMap = {};
@@ -118,8 +146,7 @@ var slices = plotGroup.selectAll("g.slice")
 
 slices.transition()  // update
   .duration(DURATION)
-  .attrTween("d", arcTween);
-  
+  .attrTween("d", arcTween);    
 
 function visualise( dataset, totalVirtualCpus ) {
 
@@ -131,6 +158,7 @@ function visualise( dataset, totalVirtualCpus ) {
     slices = plotGroup.selectAll("g.slice").data(nodes);
     
     slices.select('path')
+       .on("click", zoomIn)
       .transition()
       .duration(DURATION)
       .attrTween("d", arcTween);
@@ -149,6 +177,7 @@ function visualise( dataset, totalVirtualCpus ) {
         return "translate(" + offset_label(d, this.getComputedTextLength()) + ") rotate(" + angle(d) + ")";
       })
       .style("opacity", 0)
+       .on("click", zoomIn)
       .transition()
       .duration(DURATION_FAST)
       .style("opacity", 1);
@@ -167,6 +196,7 @@ function visualise( dataset, totalVirtualCpus ) {
       .style("font", "bold 12px Arial")
       .text(function(d) { return d.data.value.toFixed(2); })
       .style("opacity", 0)
+       .on("click", zoomIn)
       .transition()
       .duration(DURATION_FAST)
       .style("opacity", 1);
@@ -193,9 +223,11 @@ function visualise( dataset, totalVirtualCpus ) {
           endAngle: enterAntiClockwise.endAngle
         };
       })
+      .on("click", zoomIn)
       .transition()
       .duration(DURATION)
-      .attrTween("d", arcTween);
+      .attrTween("d", arcTween)
+		;
 
     // -- Text annotations second, domain names.
     
@@ -207,9 +239,11 @@ function visualise( dataset, totalVirtualCpus ) {
       .attr("transform", function(d) {
         return "translate(" + offset_label(d, this.getComputedTextLength()) + ") rotate(" + angle(d) + ")";
       }).style("opacity", 0)
+       .on("click", zoomIn)
       .transition()
       .duration(DURATION_FAST)
-      .style("opacity", 1);
+      .style("opacity", 1)
+		;
 
     // -- Text annotations third, virtual CPU count for corresponding domain.
     newSlices.filter(function(d) { return d.endAngle - d.startAngle > TEXT_HEIGHT_ALLOWANCE; }).append("text")
@@ -224,9 +258,11 @@ function visualise( dataset, totalVirtualCpus ) {
       .style("font", "bold 12px Arial")
       .text(function(d) { return d.data.value.toFixed(2); })
       .style("opacity", 0)
+       .on("click", zoomIn)
       .transition()
       .duration(DURATION_FAST)
-      .style("opacity", 1);
+      .style("opacity", 1)
+		;
 
     // Remove old elements:
     
@@ -244,7 +280,19 @@ function visualise( dataset, totalVirtualCpus ) {
       .attrTween('d', arcTweenOut)
       .remove();
     slices.exit().transition().remove();
-    
+
+	 function zoomIn(p) {
+	 	var target = p.data.target;
+	 	if (breadCrumbs.length < 3) {
+	 		breadCrumbs.push(target);
+			var children = traverseHierarchy(target, allocationTree);
+			var dataset = restructureAllocations(children);
+			var totalVirtualCpus = d3.sum(dataset, function (d) {
+			  return d.value;
+			});
+			visualise(dataset, totalVirtualCpus);	
+	 	}
+	  }
   }
 
 //---- Plotting and Animation Utilities
@@ -309,6 +357,7 @@ function change() {
 	$(this).addClass('active');
 	d3.json("./data/for_codes_final_2.json", function(error, forObjects) {
 		d3.json("./data/allocation_tree_final_2.json", function(error, allocationObjects) {
+			allocationTree = allocationObjects;
 			processResponse(allocationObjects, forObjects);
 		});
 	});
