@@ -5,30 +5,37 @@
 // Restructure allocations as a single level array of objects.
 function restructureAllocations(allocationObjects) {
     var dataset = [];
-    
     var allocationCount = allocationObjects.length;
     for (var allocationIndex = 0; allocationIndex < allocationCount; allocationIndex++) {
-    	var value = 0.0;
-    	var name = allocationObjects[allocationIndex].name;
-    	var children = allocationObjects[allocationIndex].children;
-    	var childCount = children.length;
-    	for (var childIndex = 0; childIndex < childCount; childIndex++) {
-			var children1 = children[childIndex].children;
-			var childCount1 = children1.length;
-			for (var childIndex1 = 0; childIndex1 < childCount1; childIndex1++) {
-				var children2 = children1[childIndex1].children;
-				var childCount2 = children2.length;
-				for (var childIndex2 = 0; childIndex2 < childCount2; childIndex2++) {
-					value += children2[childIndex2].coreQuota;
-				}
-			}
+    	var sum = 0.0;
+    	var child = allocationObjects[allocationIndex]
+    	var name = child.name;
+    	if (child.children) {
+			sum = nextLevelSum(child.children);
+    	} else {
+			sum = child.coreQuota;
     	}
-    	var allocationItem = {"target": name, "value": value};
+    	var allocationItem = {"target": name, "value": sum};
     	dataset.push(allocationItem);
-    }
-    
+    }    
     return dataset;
 }
+
+    
+function nextLevelSum(children) {
+    var sum = 0.0;
+	var childCount = children.length;
+	for (var childIndex = 0; childIndex < childCount; childIndex++) {
+		var child = children[childIndex];
+		if (child.children) {
+			sum += nextLevelSum(child.children);
+		} else {
+			sum += child.coreQuota;
+		}
+	}
+	return sum;
+}
+
 
 // Restructure FOR codes as a map.
 var forTitleMap = {};
