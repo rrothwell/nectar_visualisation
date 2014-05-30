@@ -85,6 +85,8 @@ var WIDTH = 960,
     PIE_HEIGHT = 500,
     radius = Math.min(PIE_WIDTH, PIE_HEIGHT) / 2;
 
+var ZOOM_OUT_MESSAGE = "Click to zoom out!";
+
 var innerRadius = radius - 120;
 var outerRadius = radius - 20;
 
@@ -129,12 +131,6 @@ var arc = d3.svg.arc()
       .innerRadius(innerRadius)
       .outerRadius(outerRadius);
 
-// Text for showing totals.
-var totalText = plotGroup.append("text")
-	.attr("class", "total")
-	.attr("dy", ".40em")
-	.style("text-anchor", "middle");
-
 // Pie slices showing sub-totals.
 // Set the start and end angles to 0 so we can transition
 // clockwise to the actual values later.
@@ -146,7 +142,58 @@ var slices = plotGroup.selectAll("g.slice")
 
 slices.transition()  // update
   .duration(DURATION)
-  .attrTween("d", arcTween);    
+  .attrTween("d", arcTween); 
+  
+
+var zoomOutButton = plotGroup.append("g")
+	.on("click", zoomOut)
+	.datum({}); // Avoid "undefined" error on clicking.
+zoomOutButton.append("circle")
+	.attr("id", "inner-circle")
+	.attr("r", innerRadius)
+	.style("fill", "white");
+zoomOutButton.append("text")
+	.attr("class", "click-message")
+	.attr("text-anchor", "middle")
+	.attr("dy", "0.3em")
+	.text(ZOOM_OUT_MESSAGE);
+
+// Text for showing totals.
+var statisticsArea = d3.select("#statistics-area");
+var totalText = statisticsArea.append("text")
+	.attr("class", "total")
+	.attr("dy", ".40em")
+	.style("text-anchor", "middle");
+  
+	 function zoomIn(p) {
+	 	var target = p.data.target;
+	 	if (breadCrumbs.length < 3) {
+	 		breadCrumbs.push(target);
+			var children = traverseHierarchy(target, allocationTree);
+			var dataset = restructureAllocations(children);
+			var totalVirtualCpus = d3.sum(dataset, function (d) {
+			  return d.value;
+			});
+			visualise(dataset, totalVirtualCpus);	
+	 	}
+	  }
+
+	function zoomOut(p) { 
+	 	if (breadCrumbs.length > 0) {
+	 		breadCrumbs.pop();
+	 		var target = breadCrumbs[breadCrumbs.length - 1];
+	 		if (!target) {
+	 			target = "";
+	 		}	 		
+			var children = traverseHierarchy(target, allocationTree);
+			var dataset = restructureAllocations(children);
+			var totalVirtualCpus = d3.sum(dataset, function (d) {
+			  return d.value;
+			});
+			visualise(dataset, totalVirtualCpus);	
+	 	}
+	}
+   
 
 function visualise( dataset, totalVirtualCpus ) {
 
@@ -280,19 +327,6 @@ function visualise( dataset, totalVirtualCpus ) {
       .attrTween('d', arcTweenOut)
       .remove();
     slices.exit().transition().remove();
-
-	 function zoomIn(p) {
-	 	var target = p.data.target;
-	 	if (breadCrumbs.length < 3) {
-	 		breadCrumbs.push(target);
-			var children = traverseHierarchy(target, allocationTree);
-			var dataset = restructureAllocations(children);
-			var totalVirtualCpus = d3.sum(dataset, function (d) {
-			  return d.value;
-			});
-			visualise(dataset, totalVirtualCpus);	
-	 	}
-	  }
   }
 
 //---- Plotting and Animation Utilities
@@ -365,4 +399,4 @@ function change() {
 
 d3.selectAll("button").on("click", change);
 
-$("#all").click();
+$("#cores").click();
