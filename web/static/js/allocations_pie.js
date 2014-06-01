@@ -1,38 +1,44 @@
-//---- Hierarchical Pie Plot of NeCTAR Allocations ----
+////// Hierarchical Pie Plot of NeCTAR Allocations
 
-//---- Data manipulation
+//==== Data manipulation
 
 // Breadcrumbs - keep track of the current hierarchy level.
+// Made up of an array of FOR codes.
 var breadCrumbs = [];
 var allocationTree = {};
 
-function traverseHierarchy(targetName, allocationObjects) {
+// Recursive code to return allocation tree branch (children) addressed by FOR code.
+// The forCode is the FOR2, FOR4 or FOR6 code.
+// The allocationObjects is the allocationTree object being passed in.
+function traverseHierarchy(forCode, allocationObjects) {
 	var children = allocationObjects;
-	var targetLevel = targetName.length / 2;
-	var targets = [];
-	for (var targetIndex = 0; targetIndex < targetLevel; targetIndex++) {
-		targetName = targetName.substring(0, (targetLevel - targetIndex) * 2);
-		targets.push(targetName);
+	var forCodeLevel = forCode.length / 2;
+	var forCodes = [];
+	for (var forCodeIndex = 0; forCodeIndex < forCodeLevel; forCodeIndex++) {
+		forCode = forCode.substring(0, (forCodeLevel - forCodeIndex) * 2);
+		forCodes.push(forCode);
 	}
-	return nextLevel(targets, children);
+	return nextLevel(forCodes, children);
 }
 
-function nextLevel(targets, children) {
-	var target = targets.pop();
-	if (target) {
+// Recurse the allocation tree to return a branch.
+function nextLevel(forCodes, children) {
+	var forCode = forCodes.pop();
+	if (forCode) {
 		var childCount = children.length;
 		for (var childIndex = 0; childIndex < childCount; childIndex++) {
 			var child = children[childIndex];
 			var name = child.name;
-			if (name == target) {
-				return nextLevel(targets, child.children);
+			if (name == forCode) {
+				return nextLevel(forCodes, child.children);
 			} 
 		}
 	}
 	return children;
 }
 
-// Restructure allocations as a single level array of objects.
+// Restructure allocation tree into a single level array of objects.
+// The tree is flattened by taking the sum of all allocations on the branch.
 function restructureAllocations(allocationObjects) {
     var dataset = [];
     var allocationCount = allocationObjects.length;
@@ -41,8 +47,10 @@ function restructureAllocations(allocationObjects) {
     	var child = allocationObjects[allocationIndex]
     	var name = child.name;
     	if (child.children) {
+    		//add the branch value.
 			sum = nextLevelSum(child.children);
     	} else {
+    		// add the leaf value.
 			sum = child.coreQuota;
     	}
     	var allocationItem = {"target": name, "value": sum};
@@ -51,6 +59,7 @@ function restructureAllocations(allocationObjects) {
     return dataset;
 }
     
+// Recurse the allocation tree to return a sum.
 function nextLevelSum(children) {
     var sum = 0.0;
 	var childCount = children.length;
@@ -75,6 +84,7 @@ function restructureForCodes(forObjects) {
 	}
 }
 
+//==== Data visualisation
 
 //---- Visualisation Constants
 
@@ -83,12 +93,12 @@ var WIDTH = 960,
     HEIGHT = 700,
     PIE_WIDTH = 960,
     PIE_HEIGHT = 500,
-    radius = Math.min(PIE_WIDTH, PIE_HEIGHT) / 2;
+    RADIUS = Math.min(PIE_WIDTH, PIE_HEIGHT) / 2;
 
 var ZOOM_OUT_MESSAGE = "Click to zoom out!";
 
-var innerRadius = radius - 120;
-var outerRadius = radius - 20;
+var INNER_RADIUS = RADIUS - 120;
+var OUTER_RADIUS = RADIUS - 20;
 
 // Animation speed - duration in msec.
 var DURATION = 750;
@@ -128,8 +138,8 @@ var pie = d3.layout.pie()
       .value(function(d) { return d.value; });
 
 var arc = d3.svg.arc()
-      .innerRadius(innerRadius)
-      .outerRadius(outerRadius);
+      .innerRadius(INNER_RADIUS)
+      .outerRadius(OUTER_RADIUS);
 
 // Pie slices showing sub-totals.
 // Set the start and end angles to 0 so we can transition
@@ -150,7 +160,7 @@ var zoomOutButton = plotGroup.append("g")
 	.datum({}); // Avoid "undefined" error on clicking.
 zoomOutButton.append("circle")
 	.attr("id", "inner-circle")
-	.attr("r", innerRadius)
+	.attr("r", INNER_RADIUS)
 	.style("fill", "white");
 zoomOutButton.append("text")
 	.attr("class", "click-message")
@@ -168,8 +178,9 @@ var totalText = statisticsArea.append("text")
 	 function zoomIn(p) {
 	 	var target = p.data.target;
 	 	if (breadCrumbs.length < 3) {
-	 		breadCrumbs.push(target);
-			var children = traverseHierarchy(target, allocationTree);
+			var forCode = target;
+	 		breadCrumbs.push(forCode);
+			var children = traverseHierarchy(forCode, allocationTree);
 			var dataset = restructureAllocations(children);
 			var totalVirtualCpus = d3.sum(dataset, function (d) {
 			  return d.value;
@@ -181,11 +192,11 @@ var totalText = statisticsArea.append("text")
 	function zoomOut(p) { 
 	 	if (breadCrumbs.length > 0) {
 	 		breadCrumbs.pop();
-	 		var target = breadCrumbs[breadCrumbs.length - 1];
-	 		if (!target) {
-	 			target = "";
+	 		var forCode = breadCrumbs[breadCrumbs.length - 1];
+	 		if (!forCode) {
+	 			forCode = "";
 	 		}	 		
-			var children = traverseHierarchy(target, allocationTree);
+			var children = traverseHierarchy(forCode, allocationTree);
 			var dataset = restructureAllocations(children);
 			var totalVirtualCpus = d3.sum(dataset, function (d) {
 			  return d.value;
@@ -235,8 +246,8 @@ function visualise( dataset, totalVirtualCpus ) {
       .attr("dy", ".35em")
       .attr("text-anchor", "middle")
       .attr("transform", function(d) {
-        d.outerRadius = outerRadius;
-        d.innerRadius = outerRadius/2;
+        d.outerRadius = OUTER_RADIUS;
+        d.innerRadius = OUTER_RADIUS/2;
         return "translate(" + arc.centroid(d) + ")rotate(" + angle(d) + ")";
       })
       .style("fill", "White")
@@ -297,8 +308,8 @@ function visualise( dataset, totalVirtualCpus ) {
       .attr("dy", ".35em")
       .attr("text-anchor", "middle")
       .attr("transform", function(d) {
-        d.outerRadius = outerRadius;
-        d.innerRadius = outerRadius/2;
+        d.outerRadius = OUTER_RADIUS;
+        d.innerRadius = OUTER_RADIUS/2;
         return "translate(" + arc.centroid(d) + ")rotate(" + angle(d) + ")";
       })
       .style("fill", "White")
@@ -333,8 +344,8 @@ function visualise( dataset, totalVirtualCpus ) {
 
 function offset_label(d, length) {
   //we have to make sure to set these before calling arc.centroid
-  d.outerRadius = outerRadius; // Set Outer Coordinate
-  d.innerRadius = outerRadius/2; // Set Inner Coordinate
+  d.outerRadius = OUTER_RADIUS; // Set Outer Coordinate
+  d.innerRadius = OUTER_RADIUS/2; // Set Inner Coordinate
   var center = arc.centroid(d), // gives you the center point of the slice
       x = center[0],
       y = center[1],
