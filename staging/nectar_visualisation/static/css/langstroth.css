@@ -1,0 +1,46 @@
+
+.table-sorter th {
+    cursor: pointer;
+}
+
+
+table .service {
+    width: 200px;
+}
+
+
+#averages {
+    padding-right:  200px;
+}
+
+img.graphite {
+    background-image: url("/static/img/loader.gif");
+    background-repeat: no-repeat;
+    background-position: center;
+    min-height: 300px;
+}
+
+.chart {
+    height: 400px;
+}
+
+ul.breadcrumb {
+	height: 36px;
+}
+
+.top-buffer { 
+	margin-top:20px; 
+}
+
+.bottom-buffer { 
+	margin-bottom:100px; 
+}
+
+.navigation-area {
+	background-color: #eee;
+}
+
+.plot-alignment {
+	text-align: center;
+}
+
