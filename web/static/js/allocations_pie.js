@@ -7,6 +7,11 @@
 var breadCrumbs = ['*'];
 var allocationTree = {};
 
+// Is this the level for FOR codes or projects.
+function isForCodeLevel() {
+	return breadCrumbs.length < 4;
+}  
+
 // Recursive code to return allocation tree branch (children) addressed by FOR code.
 // The forCode is the FOR2, FOR4 or FOR6 code.
 // The allocationObjects is the allocationTree object being passed in.
@@ -41,14 +46,20 @@ function restructureAllocations(allocationObjects) {
     	var sum = 0.0;
     	var child = allocationObjects[allocationIndex]
     	var name = child.name;
+    	var allocationItem = {};
     	if (child.children) {
     		//add the branch value.
 			sum = nextLevelSum(child.children);
     	} else {
     		// add the leaf value.
+			allocationItem.projectName = child.name;
+			allocationItem.coreQuota = child.coreQuota;
+			allocationItem.instanceQuota = child.instanceQuota;
+			allocationItem.useCase = child.useCase;			
 			sum = child.coreQuota;
     	}
-    	var allocationItem = {"target": name, "value": sum};
+    	allocationItem.target = name
+    	allocationItem.value = sum;
     	dataset.push(allocationItem);
     }    
     return dataset;
@@ -116,6 +127,16 @@ var color = d3.scale.category20();
 
 var TEXT_HEIGHT_ALLOWANCE = .1;
 
+//---- Popup on mouseover for sectors and table rows.
+
+var toolTip = d3.select("body")
+    .append("div")
+    .style("position", "absolute")
+    .style("z-index", "10")
+    .style("visibility", "hidden")
+    .text("a simple tooltip");
+
+
 //---- Chart area on web page.
  
 // A div with id="plot-area" is located on the web page 
@@ -170,9 +191,7 @@ var totalText = statisticsArea.append("text")
 	.attr("dy", ".40em")
 	.style("text-anchor", "middle");
 
-function isForCodeLevel() {
-	return breadCrumbs.length < 4;
-}  
+
 	 function zoomIn(p) {
 	 	var target = p.data.target;
 	 	if (isForCodeLevel()) {
@@ -200,7 +219,80 @@ function isForCodeLevel() {
 			visualise(dataset, totalVirtualCpus);	
 	 	}
 	}
-   
+	
+	//----- Build and display project table
+
+	var masterListArea = d3.select("#master-list-area");
+	var masterListTable = masterListArea
+		.append("div")
+		.attr("class", "master-list-container")
+			.append("table")
+				.attr("class", "master-list-table");
+	masterListTable.append("caption")
+		.attr("class", "master-list-text")
+		.text("Project list: ");
+	var masterListBody = masterListTable.append("tbody")
+			.attr("class", "master-list-text");
+			
+	var masterListHeader = masterListBody.append("tr");		
+	masterListHeader.append("th").text("Name");		
+
+	function handleProjectMouseOver(d) {
+		showDetails(d)
+		return toolTip.style("visibility", "visible");
+	}	
+	
+	function handleProjectMouseMove () {
+		return toolTip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");
+	}
+	   
+	function handleProjectMouseOut() {
+		return toolTip.style("visibility", "hidden");
+	}
+
+	//---- Popup showing details.
+		  	
+	function showDetails(d) {
+	 		var markup = "<div class='details-container centred-container'>" 
+ 			+ "<table class='details-table'>" 
+ 			+ "<tr>"
+ 			+ "<th>"
+ 			+ "Name: " 
+ 			+ "</th>"
+ 			+ "<td>"
+ 			+ d.data.projectName
+ 			+ "</td>"
+ 			+ "</tr>"
+ 			+ "<tr>"
+ 			+ "<th>"
+ 			+ "Core quota: " 
+ 			+ "</th>"
+ 			+ "<td>"
+ 			+ d.data.coreQuota
+ 			+ "</td>"
+ 			+ "</tr>"
+ 			+ "<tr>"
+ 			+ "<th>"
+ 			+ "Instance quota: " 
+ 			+ "</th>"
+ 			+ "<td>"
+ 			+ d.data.instanceQuota
+ 			+ "</td>"
+ 			+ "</tr>"
+ 			+ "<tr>"
+ 			+ "<th>"
+ 			+ "Use case: " 
+ 			+ "</th>"
+ 			+ "<td>"
+ 			+ d.data.useCase
+ 			+ "</td>"
+ 			+ "</tr>"
+ 			+ "</table>"
+ 			+ "</div>";
+		var plotDetails = toolTip.html(markup);
+	}
+
+	//----- Visualise Data
 
 function visualise( dataset, totalVirtualCpus ) {
 
@@ -280,7 +372,7 @@ function visualise( dataset, totalVirtualCpus ) {
           value: d.value,
           startAngle: enterAntiClockwise.startAngle,
           endAngle: enterAntiClockwise.endAngle
-        };
+        };        
       })
       .on("click", zoomIn)
       .transition()
@@ -345,8 +437,30 @@ function visualise( dataset, totalVirtualCpus ) {
       .remove();
     slices.exit().transition().remove();
     
+	  //----- Build and display breadcrumbs
+
     navigate();
     
+	  //----- Update project table
+	
+	var masterListItems = masterListBody.selectAll("tr").data(nodes
+						.filter(function(d){
+								return !isForCodeLevel()
+							})
+						.sort(function(a, b) { 
+								return d3.ascending(a.data.target, b.data.target); 
+							}));
+						
+	var masterListEnter = masterListItems.enter()
+		.append("tr")
+			.append("td")
+			.on("mouseover", handleProjectMouseOver)
+			.on("mousemove", handleProjectMouseMove)
+			.on("mouseout", handleProjectMouseOut)
+			.text(function(d) {
+					return d.data.target; 
+				});
+
   }
 
 function navigate() {
