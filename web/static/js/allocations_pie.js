@@ -359,7 +359,7 @@ function navigate() {
         .attr("class", function(d, i) { return i == breadCrumbs.length - 1 ? "active" : ""})
         .html(function(d, i) {
         	var forCode = d;
-        	var markup = forCode == '*' ? "*" : forTitleMap[forCode];
+        	var markup = forCode == '*' ? '<span class="glyphicon glyphicon-home"></span>' : forTitleMap[forCode];
         	if (i < breadCrumbs.length - 1) {
         		markup = '<a href="#">' + markup + '</a>';
         	}
