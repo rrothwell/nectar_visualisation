@@ -10,14 +10,14 @@ var allocationTree = {};
 // Recursive code to return allocation tree branch (children) addressed by FOR code.
 // The forCode is the FOR2, FOR4 or FOR6 code.
 // The allocationObjects is the allocationTree object being passed in.
-function traverseHierarchy(forCode, allocationObjects) {
+function traverseHierarchy(route, allocationObjects) {
 	var children = allocationObjects;
-	var forCodeLevel = forCode.length / 2;
-	var forCodes = [];
-	for (var forCodeIndex = 0; forCodeIndex < forCodeLevel; forCodeIndex++) {
-		forCode = forCode.substring(0, (forCodeLevel - forCodeIndex) * 2);
-		forCodes.push(forCode);
-	}
+	//var forCodeLevel = forCode.length / 2;
+	var forCodes = route;
+	//for (var forCodeIndex = 0; forCodeIndex < forCodeLevel; forCodeIndex++) {
+	//	forCode = forCode.substring(0, (forCodeLevel - forCodeIndex) * 2);
+	//	forCodes.push(forCode);
+	//}
 	return nextLevel(forCodes, children);
 }
 
@@ -174,13 +174,17 @@ var totalText = statisticsArea.append("text")
 	.attr("class", "total")
 	.attr("dy", ".40em")
 	.style("text-anchor", "middle");
-  
+
+function isForCodeLevel() {
+	return breadCrumbs.length < 3;
+}  
 	 function zoomIn(p) {
 	 	var target = p.data.target;
-	 	if (breadCrumbs.length < 3) {
+	 	if (isForCodeLevel()) {
 			var forCode = target;
 	 		breadCrumbs.push(forCode);
-			var children = traverseHierarchy(forCode, allocationTree);
+	 		var route = breadCrumbs.slice().reverse();
+			var children = traverseHierarchy(route, allocationTree);
 			var dataset = restructureAllocations(children);
 			var totalVirtualCpus = d3.sum(dataset, function (d) {
 			  return d.value;
@@ -192,11 +196,12 @@ var totalText = statisticsArea.append("text")
 	function zoomOut(p) { 
 	 	if (breadCrumbs.length > 0) {
 	 		breadCrumbs.pop();
-	 		var forCode = breadCrumbs[breadCrumbs.length - 1];
-	 		if (!forCode) {
-	 			forCode = "";
-	 		}	 		
-			var children = traverseHierarchy(forCode, allocationTree);
+	 		//var forCode = breadCrumbs[breadCrumbs.length - 1];
+	 		//if (!forCode) {
+	 		//	forCode = "";
+	 		//}	
+	 		var route = breadCrumbs.slice().reverse(); 		
+			var children = traverseHierarchy(route, allocationTree);
 			var dataset = restructureAllocations(children);
 			var totalVirtualCpus = d3.sum(dataset, function (d) {
 			  return d.value;
@@ -229,7 +234,12 @@ function visualise( dataset, totalVirtualCpus ) {
       .filter(function(d) { return d.endAngle - d.startAngle > TEXT_HEIGHT_ALLOWANCE; })
       .append("text")
       .text(function(d) {
-        return d.data.target;
+      	var label = d.data.target;
+      	if (isForCodeLevel()) {
+      		var forCode = d.data.target;
+      		label = forTitleMap[forCode] + "(" + forCode + ")";
+      	}
+        return label;
       })
       .attr("transform", function(d) {
         return "translate(" + offset_label(d, this.getComputedTextLength()) + ") rotate(" + angle(d) + ")";
@@ -292,7 +302,12 @@ function visualise( dataset, totalVirtualCpus ) {
     newSlices.filter(function(d) { return d.endAngle - d.startAngle > TEXT_HEIGHT_ALLOWANCE; })
       .append("text")
       .text(function(d) {
-        return d.data.target;
+      	var label = d.data.target;
+      	if (isForCodeLevel()) {
+      		var forCode = d.data.target;
+      		label = forTitleMap[forCode] + "(" + forCode + ")";
+      	}
+        return label;
       })
       .attr("transform", function(d) {
         return "translate(" + offset_label(d, this.getComputedTextLength()) + ") rotate(" + angle(d) + ")";
