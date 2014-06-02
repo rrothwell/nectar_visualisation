@@ -12,12 +12,7 @@ var allocationTree = {};
 // The allocationObjects is the allocationTree object being passed in.
 function traverseHierarchy(route, allocationObjects) {
 	var children = allocationObjects;
-	//var forCodeLevel = forCode.length / 2;
 	var forCodes = route;
-	//for (var forCodeIndex = 0; forCodeIndex < forCodeLevel; forCodeIndex++) {
-	//	forCode = forCode.substring(0, (forCodeLevel - forCodeIndex) * 2);
-	//	forCodes.push(forCode);
-	//}
 	return nextLevel(forCodes, children);
 }
 
@@ -196,10 +191,6 @@ function isForCodeLevel() {
 	function zoomOut(p) { 
 	 	if (breadCrumbs.length > 0) {
 	 		breadCrumbs.pop();
-	 		//var forCode = breadCrumbs[breadCrumbs.length - 1];
-	 		//if (!forCode) {
-	 		//	forCode = "";
-	 		//}	
 	 		var route = breadCrumbs.slice().reverse(); 		
 			var children = traverseHierarchy(route, allocationTree);
 			var dataset = restructureAllocations(children);
