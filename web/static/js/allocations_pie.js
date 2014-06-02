@@ -4,7 +4,7 @@
 
 // Breadcrumbs - keep track of the current hierarchy level.
 // Made up of an array of FOR codes.
-var breadCrumbs = [];
+var breadCrumbs = ['*'];
 var allocationTree = {};
 
 // Recursive code to return allocation tree branch (children) addressed by FOR code.
@@ -171,14 +171,14 @@ var totalText = statisticsArea.append("text")
 	.style("text-anchor", "middle");
 
 function isForCodeLevel() {
-	return breadCrumbs.length < 3;
+	return breadCrumbs.length < 4;
 }  
 	 function zoomIn(p) {
 	 	var target = p.data.target;
 	 	if (isForCodeLevel()) {
 			var forCode = target;
 	 		breadCrumbs.push(forCode);
-	 		var route = breadCrumbs.slice().reverse();
+	 		var route = breadCrumbs.slice(1).reverse();
 			var children = traverseHierarchy(route, allocationTree);
 			var dataset = restructureAllocations(children);
 			var totalVirtualCpus = d3.sum(dataset, function (d) {
@@ -189,9 +189,9 @@ function isForCodeLevel() {
 	  }
 
 	function zoomOut(p) { 
-	 	if (breadCrumbs.length > 0) {
+	 	if (breadCrumbs.length > 1) {
 	 		breadCrumbs.pop();
-	 		var route = breadCrumbs.slice().reverse(); 		
+	 		var route = breadCrumbs.slice(1).reverse(); 		
 			var children = traverseHierarchy(route, allocationTree);
 			var dataset = restructureAllocations(children);
 			var totalVirtualCpus = d3.sum(dataset, function (d) {
@@ -359,11 +359,23 @@ function navigate() {
         .attr("class", function(d, i) { return i == breadCrumbs.length - 1 ? "active" : ""})
         .html(function(d, i) {
         	var forCode = d;
-        	var markup = forTitleMap[forCode];
+        	var markup = forCode == '*' ? "*" : forTitleMap[forCode];
         	if (i < breadCrumbs.length - 1) {
         		markup = '<a href="#">' + markup + '</a>';
         	}
 			return markup;
+        })
+        .on("click", function(d, i) {
+			if (breadCrumbs.length > 1 && i < breadCrumbs.length - 1) {
+				breadCrumbs = breadCrumbs.slice(0, i + 1);
+				var route = breadCrumbs.slice(1).reverse(); 		
+				var children = traverseHierarchy(route, allocationTree);
+				var dataset = restructureAllocations(children);
+				var totalVirtualCpus = d3.sum(dataset, function (d) {
+				  return d.value;
+				});
+				visualise(dataset, totalVirtualCpus);
+			}	
         });
   }
 
