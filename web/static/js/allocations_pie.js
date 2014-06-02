@@ -243,7 +243,10 @@ var totalText = statisticsArea.append("text")
 	}	
 	
 	function handleProjectMouseMove () {
-		return toolTip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");
+		var cellLocation = this.getBoundingClientRect();
+		var top = (d3.event.pageY-10)+"px";
+		var left = (cellLocation.right + 5)+"px";
+		return toolTip.style("top", top).style("left", left);
 	}
 	   
 	function handleProjectMouseOut() {
@@ -450,6 +453,8 @@ function visualise( dataset, totalVirtualCpus ) {
 						.sort(function(a, b) { 
 								return d3.ascending(a.data.target, b.data.target); 
 							}));
+
+	masterListItems.exit().remove();
 						
 	var masterListEnter = masterListItems.enter()
 		.append("tr")

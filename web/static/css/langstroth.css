@@ -32,6 +32,10 @@ ul.breadcrumb {
 	margin-top:20px; 
 }
 
+.bottom-buffer { 
+	margin-bottom:100px; 
+}
+
 .navigation-area {
 	background-color: #eee;
 }
