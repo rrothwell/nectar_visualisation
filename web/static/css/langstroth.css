@@ -23,3 +23,19 @@ img.graphite {
 .chart {
     height: 400px;
 }
+
+ul.breadcrumb {
+	height: 36px;
+}
+
+.top-buffer { 
+	margin-top:20px; 
+}
+
+.navigation-area {
+	background-color: #eee;
+}
+
+.plot-alignment {
+	text-align: center;
+}

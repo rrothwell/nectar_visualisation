@@ -344,6 +344,27 @@ function visualise( dataset, totalVirtualCpus ) {
       .attrTween('d', arcTweenOut)
       .remove();
     slices.exit().transition().remove();
+    
+    navigate();
+    
+  }
+
+function navigate() {
+    var breadcrumb = d3.select("#chart-navigator-1").select('.breadcrumb');
+    breadcrumb.selectAll('li').remove();
+    breadcrumb.selectAll('li')
+      .data(breadCrumbs)
+      .enter()
+        .append("li")
+        .attr("class", function(d, i) { return i == breadCrumbs.length - 1 ? "active" : ""})
+        .html(function(d, i) {
+        	var forCode = d;
+        	var markup = forTitleMap[forCode];
+        	if (i < breadCrumbs.length - 1) {
+        		markup = '<a href="#">' + markup + '</a>';
+        	}
+			return markup;
+        });
   }
 
 //---- Plotting and Animation Utilities
