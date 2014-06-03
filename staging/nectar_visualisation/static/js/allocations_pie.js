@@ -39,7 +39,7 @@ function nextLevel(forCodes, children) {
 
 // Restructure allocation tree into a single level array of objects.
 // The tree is flattened by taking the sum of all allocations on the branch.
-function restructureAllocations(allocationObjects) {
+function restructureAllocations(allocationObjects, isCoreQuota) {
     var dataset = [];
     var allocationCount = allocationObjects.length;
     for (var allocationIndex = 0; allocationIndex < allocationCount; allocationIndex++) {
@@ -49,14 +49,14 @@ function restructureAllocations(allocationObjects) {
     	var allocationItem = {};
     	if (child.children) {
     		//add the branch value.
-			sum = nextLevelSum(child.children);
+			sum = nextLevelSum(child.children, isCoreQuota);
     	} else {
     		// add the leaf value.
 			allocationItem.projectName = child.name;
 			allocationItem.coreQuota = child.coreQuota;
 			allocationItem.instanceQuota = child.instanceQuota;
 			allocationItem.useCase = child.useCase;			
-			sum = child.coreQuota;
+			sum = isCoreQuota ? child.coreQuota : child.instanceQuota;
     	}
     	allocationItem.target = name
     	allocationItem.value = sum;
@@ -66,15 +66,15 @@ function restructureAllocations(allocationObjects) {
 }
     
 // Recurse the allocation tree to return a sum.
-function nextLevelSum(children) {
+function nextLevelSum(children, isCoreQuota) {
     var sum = 0.0;
 	var childCount = children.length;
 	for (var childIndex = 0; childIndex < childCount; childIndex++) {
 		var child = children[childIndex];
 		if (child.children) {
-			sum += nextLevelSum(child.children);
+			sum += nextLevelSum(child.children, isCoreQuota);
 		} else {
-			sum += child.coreQuota;
+			sum += isCoreQuota ? child.coreQuota : child.instanceQuota;
 		}
 	}
 	return sum;
@@ -199,11 +199,12 @@ var totalText = statisticsArea.append("text")
 	 		breadCrumbs.push(forCode);
 	 		var route = breadCrumbs.slice(1).reverse();
 			var children = traverseHierarchy(route, allocationTree);
-			var dataset = restructureAllocations(children);
-			var totalVirtualCpus = d3.sum(dataset, function (d) {
+			var isCoreQuota = selectedCoreQuota();
+			var dataset = restructureAllocations(children, isCoreQuota);
+			var totalResource = d3.sum(dataset, function (d) {
 			  return d.value;
 			});
-			visualise(dataset, totalVirtualCpus);	
+			visualise(dataset, totalResource);	
 	 	}
 	  }
 
@@ -212,11 +213,12 @@ var totalText = statisticsArea.append("text")
 	 		breadCrumbs.pop();
 	 		var route = breadCrumbs.slice(1).reverse(); 		
 			var children = traverseHierarchy(route, allocationTree);
-			var dataset = restructureAllocations(children);
-			var totalVirtualCpus = d3.sum(dataset, function (d) {
+			var isCoreQuota = selectedCoreQuota();
+			var dataset = restructureAllocations(children, isCoreQuota);
+			var totalResource = d3.sum(dataset, function (d) {
 			  return d.value;
 			});
-			visualise(dataset, totalVirtualCpus);	
+			visualise(dataset, totalResource);	
 	 	}
 	}
 	
@@ -238,6 +240,7 @@ var totalText = statisticsArea.append("text")
 	masterListHeader.append("th").text("Name");		
 
 	function handleProjectMouseOver(d) {
+		$(this).find('span.glyphicon').removeClass('glyphicon-inactive').addClass('glyphicon-active');
 		showDetails(d)
 		return toolTip.style("visibility", "visible");
 	}	
@@ -245,11 +248,12 @@ var totalText = statisticsArea.append("text")
 	function handleProjectMouseMove () {
 		var cellLocation = this.getBoundingClientRect();
 		var top = (d3.event.pageY-10)+"px";
-		var left = (cellLocation.right + 5)+"px";
+		var left = (cellLocation.right + 8)+"px";
 		return toolTip.style("top", top).style("left", left);
 	}
 	   
 	function handleProjectMouseOut() {
+		$(this).find('span.glyphicon').removeClass('glyphicon-active').addClass('glyphicon-inactive');
 		return toolTip.style("visibility", "hidden");
 	}
 
@@ -287,7 +291,7 @@ var totalText = statisticsArea.append("text")
  			+ "Use case: " 
  			+ "</th>"
  			+ "<td>"
- 			+ d.data.useCase
+ 			+ d.data.useCase 
  			+ "</td>"
  			+ "</tr>"
  			+ "</table>"
@@ -297,9 +301,10 @@ var totalText = statisticsArea.append("text")
 
 	//----- Visualise Data
 
-function visualise( dataset, totalVirtualCpus ) {
+function visualise( dataset, totalResource ) {
 
-    totalText.text(function(d) { return "VCPU Used: " + totalVirtualCpus.toFixed(2); });
+	var countLabelPrefix = selectedCoreQuota() ? "Core count: " : "Instance count: "; 
+    totalText.text(function(d) { return countLabelPrefix + totalResource.toFixed(2); });
 
 	// Build the node list, attaching the new data.
 	var nodes = pie(dataset);
@@ -323,7 +328,7 @@ function visualise( dataset, totalVirtualCpus ) {
       	var label = d.data.target;
       	if (isForCodeLevel()) {
       		var forCode = d.data.target;
-      		label = forTitleMap[forCode] + "(" + forCode + ")";
+      		label = forTitleMap[forCode].toLowerCase() + " (" + forCode + ")";
       	}
         return label;
       })
@@ -331,6 +336,7 @@ function visualise( dataset, totalVirtualCpus ) {
         return "translate(" + offset_label(d, this.getComputedTextLength()) + ") rotate(" + angle(d) + ")";
       })
       .style("opacity", 0)
+      .style("text-transform", "capitalize")
        .on("click", zoomIn)
       .transition()
       .duration(DURATION_FAST)
@@ -391,13 +397,14 @@ function visualise( dataset, totalVirtualCpus ) {
       	var label = d.data.target;
       	if (isForCodeLevel()) {
       		var forCode = d.data.target;
-      		label = forTitleMap[forCode] + "(" + forCode + ")";
+      		label = forTitleMap[forCode].toLowerCase() + " (" + forCode + ")";
       	}
         return label;
       })
       .attr("transform", function(d) {
         return "translate(" + offset_label(d, this.getComputedTextLength()) + ") rotate(" + angle(d) + ")";
       }).style("opacity", 0)
+      .style("text-transform", "capitalize")
        .on("click", zoomIn)
       .transition()
       .duration(DURATION_FAST)
@@ -462,8 +469,10 @@ function visualise( dataset, totalVirtualCpus ) {
 			.on("mouseover", handleProjectMouseOver)
 			.on("mousemove", handleProjectMouseMove)
 			.on("mouseout", handleProjectMouseOut)
-			.text(function(d) {
-					return d.data.target; 
+			.html(function(d) {
+					return d.data.target 
+					+ '&nbsp;'
+					+ '<span class="glyphicon glyphicon-info-sign glyphicon-inactive"></span>'; 
 				});
 
   }
@@ -478,7 +487,11 @@ function navigate() {
         .attr("class", function(d, i) { return i == breadCrumbs.length - 1 ? "active" : ""})
         .html(function(d, i) {
         	var forCode = d;
-        	var markup = forCode == '*' ? '<span class="glyphicon glyphicon-home"></span>' : forTitleMap[forCode];
+        	var markup = forCode == '*' 
+        		? '<span class="glyphicon glyphicon-home"></span>' 
+        		: '<span style="text-transform: capitalize">' 
+        			+ forTitleMap[forCode].toLowerCase() 
+        			+ '</span>';
         	if (i < breadCrumbs.length - 1) {
         		markup = '<a href="#">' + markup + '</a>';
         	}
@@ -489,11 +502,12 @@ function navigate() {
 				breadCrumbs = breadCrumbs.slice(0, i + 1);
 				var route = breadCrumbs.slice(1).reverse(); 		
 				var children = traverseHierarchy(route, allocationTree);
-				var dataset = restructureAllocations(children);
-				var totalVirtualCpus = d3.sum(dataset, function (d) {
+				var isCoreQuota = selectedCoreQuota();
+				var dataset = restructureAllocations(children, isCoreQuota);
+				var totalResource = d3.sum(dataset, function (d) {
 				  return d.value;
 				});
-				visualise(dataset, totalVirtualCpus);
+				visualise(dataset, totalResource);
 			}	
         });
   }
@@ -544,13 +558,20 @@ function arcTweenOut(a) {
 
 //---- Main Function: Process the data and visualise it.
 
+function selectedCoreQuota() {
+	var activeButton = $('button#cores.active').text();
+	var isCoreQuota = activeButton == "Cores";
+	return isCoreQuota;
+}
+
 function processResponse(allocationObjects, forObjects) {
 	restructureForCodes(forObjects);
-	var dataset = restructureAllocations(allocationObjects);
-	var totalVirtualCpus = d3.sum(dataset, function (d) {
+	var isCoreQuota = selectedCoreQuota();
+	var dataset = restructureAllocations(allocationObjects, isCoreQuota);
+	var totalResource = d3.sum(dataset, function (d) {
       return d.value;
     });
-	visualise(dataset, totalVirtualCpus);	
+	visualise(dataset, totalResource);	
 }
 
 //---- Additional User Interactions and Data Loading.
