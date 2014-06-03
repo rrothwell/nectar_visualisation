@@ -36,6 +36,18 @@ ul.breadcrumb {
 	margin-bottom:100px; 
 }
 
+.chart-footer {
+	background-color: #eee;
+	border-radius: 4px;
+	display: block;
+	list-style-type: disc;
+	-webkit-margin-before: 1em;
+	-webkit-margin-after: 1em;
+	-webkit-margin-start: 0px;
+	-webkit-margin-end: 0px;
+	-webkit-padding-start: 40px;
+}
+
 .navigation-area {
 	background-color: #eee;
 }

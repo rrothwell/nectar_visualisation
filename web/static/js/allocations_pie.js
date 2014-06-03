@@ -238,6 +238,7 @@ var totalText = statisticsArea.append("text")
 	masterListHeader.append("th").text("Name");		
 
 	function handleProjectMouseOver(d) {
+		$(this).find('span.glyphicon').removeClass('glyphicon-inactive').addClass('glyphicon-active');
 		showDetails(d)
 		return toolTip.style("visibility", "visible");
 	}	
@@ -245,11 +246,12 @@ var totalText = statisticsArea.append("text")
 	function handleProjectMouseMove () {
 		var cellLocation = this.getBoundingClientRect();
 		var top = (d3.event.pageY-10)+"px";
-		var left = (cellLocation.right + 5)+"px";
+		var left = (cellLocation.right + 8)+"px";
 		return toolTip.style("top", top).style("left", left);
 	}
 	   
 	function handleProjectMouseOut() {
+		$(this).find('span.glyphicon').removeClass('glyphicon-active').addClass('glyphicon-inactive');
 		return toolTip.style("visibility", "hidden");
 	}
 
@@ -287,7 +289,7 @@ var totalText = statisticsArea.append("text")
  			+ "Use case: " 
  			+ "</th>"
  			+ "<td>"
- 			+ d.data.useCase
+ 			+ d.data.useCase 
  			+ "</td>"
  			+ "</tr>"
  			+ "</table>"
@@ -462,8 +464,10 @@ function visualise( dataset, totalVirtualCpus ) {
 			.on("mouseover", handleProjectMouseOver)
 			.on("mousemove", handleProjectMouseMove)
 			.on("mouseout", handleProjectMouseOut)
-			.text(function(d) {
-					return d.data.target; 
+			.html(function(d) {
+					return d.data.target 
+					+ '&nbsp;'
+					+ '<span class="glyphicon glyphicon-info-sign glyphicon-inactive"></span>'; 
 				});
 
   }
