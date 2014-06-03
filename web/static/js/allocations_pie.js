@@ -6,6 +6,7 @@
 // Made up of an array of FOR codes.
 var breadCrumbs = ['*'];
 var allocationTree = {};
+var forList = [];
 
 // Is this the level for FOR codes or projects.
 function isForCodeLevel() {
@@ -15,8 +16,8 @@ function isForCodeLevel() {
 // Recursive code to return allocation tree branch (children) addressed by FOR code.
 // The forCode is the FOR2, FOR4 or FOR6 code.
 // The allocationObjects is the allocationTree object being passed in.
-function traverseHierarchy(route, allocationObjects) {
-	var children = allocationObjects;
+function traverseHierarchy(route, allocationTree) {
+	var children = allocationTree;
 	var forCodes = route;
 	return nextLevel(forCodes, children);
 }
@@ -39,12 +40,12 @@ function nextLevel(forCodes, children) {
 
 // Restructure allocation tree into a single level array of objects.
 // The tree is flattened by taking the sum of all allocations on the branch.
-function restructureAllocations(allocationObjects, isCoreQuota) {
+function restructureAllocations(allocationTree, isCoreQuota) {
     var dataset = [];
-    var allocationCount = allocationObjects.length;
+    var allocationCount = allocationTree.length;
     for (var allocationIndex = 0; allocationIndex < allocationCount; allocationIndex++) {
     	var sum = 0.0;
-    	var child = allocationObjects[allocationIndex]
+    	var child = allocationTree[allocationIndex]
     	var name = child.name;
     	var allocationItem = {};
     	if (child.children) {
@@ -82,10 +83,10 @@ function nextLevelSum(children, isCoreQuota) {
 
 // Restructure FOR codes as a map.
 var forTitleMap = {};
-function restructureForCodes(forObjects) {	
-	var forItemCount = forObjects.length;
+function restructureForCodes(forList) {	
+	var forItemCount = forList.length;
 	for (var forItemIndex = 0; forItemIndex < forItemCount; forItemIndex++) {
-		var forItem = forObjects[forItemIndex];
+		var forItem = forList[forItemIndex];
 		forTitleMap[forItem.FOR_CODE] = forItem.Title;
 	}
 }
@@ -564,29 +565,44 @@ function selectedCoreQuota() {
 	return isCoreQuota;
 }
 
-function processResponse(allocationObjects, forObjects) {
-	restructureForCodes(forObjects);
+function processResponse(allocationTree, forList, resource) {
 	var isCoreQuota = selectedCoreQuota();
-	var dataset = restructureAllocations(allocationObjects, isCoreQuota);
-	var totalResource = d3.sum(dataset, function (d) {
+	var dataset = restructureAllocations(allocationTree, isCoreQuota);
+	var sum = d3.sum(dataset, function (d) {
       return d.value;
     });
-	visualise(dataset, totalResource);	
+    resource.total = sum;
+    return dataset;
 }
 
 //---- Additional User Interactions and Data Loading.
 
-function change() {
-	$('#graph-buttons button').removeClass('active');
-	$(this).addClass('active');
+function load() {
 	d3.json("./data/for_codes_final_2.json", function(error, forObjects) {
 		d3.json("./data/allocation_tree_final_2.json", function(error, allocationObjects) {
+			breadCrumbs = ['*'];
+			forList = forObjects;
+			restructureForCodes(forList);
 			allocationTree = allocationObjects;
-			processResponse(allocationObjects, forObjects);
+			var resource = {};
+			var dataset = processResponse(allocationTree, forList, resource);
+			visualise(dataset, resource.total);	
 		});
 	});
 }
 
+load();
+
+function change() {
+	$('#graph-buttons button').removeClass('active');
+	$(this).addClass('active');
+	var route = breadCrumbs.slice(1).reverse();
+	var children = traverseHierarchy(route, allocationTree);
+	var resource = {};
+	var dataset = processResponse(children, forList, resource);
+	visualise(dataset, resource.total);	
+}
+
 d3.selectAll("button").on("click", change);
 
-$("#cores").click();
+//$("#cores").click();
