@@ -223,6 +223,23 @@ var totalText = statisticsArea.append("text")
 	 	}
 	}
 	
+	function isCramped(d) { 
+		var isCramped = d.endAngle - d.startAngle > TEXT_HEIGHT_ALLOWANCE
+		return isCramped ; 
+	}
+	
+	function calculateOpacity(d) { 
+		return isCramped(d) ? 1.0 : 0.1 ; 
+	}
+
+	function showPlotLabel(d) { 
+		this.style.opacity = '1.0';
+	}
+
+	function hidePlotLabel(d) { 
+		this.style.opacity = calculateOpacity(d);
+	}
+	
 	//----- Build and display project table
 
 	var masterListArea = d3.select("#master-list-area");
@@ -323,7 +340,6 @@ function visualise( dataset, totalResource ) {
 
 	// Annotate slices with name of corresponding domain.
     slices
-      .filter(function(d) { return d.endAngle - d.startAngle > TEXT_HEIGHT_ALLOWANCE; })
       .append("text")
       .text(function(d) {
       	var label = d.data.target;
@@ -333,18 +349,21 @@ function visualise( dataset, totalResource ) {
       	}
         return label;
       })
+      .style("opacity", 0)
       .attr("transform", function(d) {
         return "translate(" + offset_label(d, this.getComputedTextLength()) + ") rotate(" + angle(d) + ")";
       })
-      .style("opacity", 0)
       .style("text-transform", "capitalize")
        .on("click", zoomIn)
+       .on("mouseover", showPlotLabel)
+       .on("mouseout", hidePlotLabel)
       .transition()
       .duration(DURATION_FAST)
-      .style("opacity", 1);
+      .style("opacity", calculateOpacity)
+      ;
 
 	// Annotate slices with virtual CPU count for corresponding domain.
-    slices.filter(function(d) { return d.endAngle - d.startAngle > TEXT_HEIGHT_ALLOWANCE; })
+    slices.filter(isCramped)
       .append("text")
       .attr("dy", ".35em")
       .attr("text-anchor", "middle")
@@ -358,6 +377,8 @@ function visualise( dataset, totalResource ) {
       .text(function(d) { return d.data.value.toFixed(2); })
       .style("opacity", 0)
        .on("click", zoomIn)
+       .on("mouseover", showPlotLabel)
+       .on("mouseout", hidePlotLabel)
       .transition()
       .duration(DURATION_FAST)
       .style("opacity", 1);
@@ -385,6 +406,8 @@ function visualise( dataset, totalResource ) {
         };        
       })
       .on("click", zoomIn)
+       .on("mouseover", showPlotLabel)
+       .on("mouseout", hidePlotLabel)
       .transition()
       .duration(DURATION)
       .attrTween("d", arcTween)
@@ -392,7 +415,8 @@ function visualise( dataset, totalResource ) {
 
     // -- Text annotations second, domain names.
     
-    newSlices.filter(function(d) { return d.endAngle - d.startAngle > TEXT_HEIGHT_ALLOWANCE; })
+    newSlices
+    	//.filter(isCramped)
       .append("text")
       .text(function(d) {
       	var label = d.data.target;
@@ -402,18 +426,22 @@ function visualise( dataset, totalResource ) {
       	}
         return label;
       })
-      .attr("transform", function(d) {
+    	.style("opacity", 0)
+     .attr("transform", function(d) {
         return "translate(" + offset_label(d, this.getComputedTextLength()) + ") rotate(" + angle(d) + ")";
-      }).style("opacity", 0)
+      })
       .style("text-transform", "capitalize")
        .on("click", zoomIn)
+       .on("mouseover", showPlotLabel)
+       .on("mouseout", hidePlotLabel)
       .transition()
       .duration(DURATION_FAST)
-      .style("opacity", 1)
+      .style("opacity", calculateOpacity)
 		;
 
     // -- Text annotations third, virtual CPU count for corresponding domain.
-    newSlices.filter(function(d) { return d.endAngle - d.startAngle > TEXT_HEIGHT_ALLOWANCE; }).append("text")
+    newSlices.filter(isCramped)
+    	.append("text")
       .attr("dy", ".35em")
       .attr("text-anchor", "middle")
       .attr("transform", function(d) {
@@ -426,6 +454,8 @@ function visualise( dataset, totalResource ) {
       .text(function(d) { return d.data.value.toFixed(2); })
       .style("opacity", 0)
        .on("click", zoomIn)
+       .on("mouseover", showPlotLabel)
+       .on("mouseout", hidePlotLabel)
       .transition()
       .duration(DURATION_FAST)
       .style("opacity", 1)
@@ -604,5 +634,3 @@ function change() {
 }
 
 d3.selectAll("button").on("click", change);
-
-//$("#cores").click();
