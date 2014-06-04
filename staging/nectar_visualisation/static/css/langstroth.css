@@ -60,3 +60,16 @@ ul.breadcrumb {
 	opacity:0.5;
 }
 
+
+path {
+  /* stroke: #fff; */
+  /* stroke-width: 1.0; */
+  cursor: pointer;
+}
+
+text {
+  /* font: 11px sans-serif; */
+  cursor: pointer;
+}
+
+
