@@ -236,14 +236,6 @@ var totalText = statisticsArea.append("text")
 		return isCramped(d) ? 1.0 : 0.0 ; 
 	}
 
-	function showPlotLabel(d) { 
-		this.style.opacity = '1.0';
-	}
-
-	function hidePlotLabel(d) { 
-		this.style.opacity = calculateOpacity(d);
-	}
-
 	function showRelatedNameLabel(d, i) { 
 		var relatedNameLabels = d3.select('#name-plot-label-' + i);
 		var relatedNameLabel = relatedNameLabels[0][0];
@@ -430,7 +422,6 @@ function visualise( dataset, totalResource ) {
 
 	// Annotate slices with virtual CPU count for corresponding domain.
     slices
-    	//.filter(isCramped)
       .append("text")
       .attr("id", function(d, i) { return 'value-plot-label-' + i; })
       .attr("dy", ".35em")
@@ -484,7 +475,6 @@ function visualise( dataset, totalResource ) {
     // -- Text annotations second, domain names.
     
     newSlices
-    	//.filter(isCramped)
       .append("text")
       .attr("id", function(d, i) { return 'name-plot-label-' + i; })
       .text(function(d) {
@@ -510,7 +500,6 @@ function visualise( dataset, totalResource ) {
 
     // -- Text annotations third, virtual CPU count for corresponding domain.
     newSlices
-    	//.filter(isCramped)
     	.append("text")
       .attr("id", function(d, i) { return 'value-plot-label-' + i; })
       .attr("dy", ".35em")
@@ -676,7 +665,7 @@ function processResponse(allocationTree, forList, resource) {
     return dataset;
 }
 
-//---- Additional User Interactions and Data Loading.
+//---- Data Loading.
 
 function load() {
 	d3.json("./data/for_codes_final_2.json", function(error, forObjects) {
@@ -693,6 +682,8 @@ function load() {
 }
 
 load();
+
+//---- Additional User Interactions.
 
 function change() {
 	$('#graph-buttons button').removeClass('active');

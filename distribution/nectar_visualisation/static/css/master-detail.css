@@ -1,3 +1,5 @@
+/* Details Panel */
+
 .details-container { 
 	width: 23em;
 	vertical-align: middle;
@@ -26,18 +28,20 @@ table.details-table th {
 	width: 8em;
 }
 
+/* Master List */
+
 .master-list-container { 
-	width: 42em;
+	width: 52.5em;
 	vertical-align: middle;
 	text-align: left;
-	background-color: #eeeeee; 
+	background-color: #dddddd; 
 	border-radius:3px;
 	margin: 0 auto;
 	padding: 10px;
 }
 
 table.master-list-table { 
-	width: 20em;
+	width: 32em;
 	vertical-align: middle;
 	font: 12px sans-serif;
 	background-color: yellow; 
@@ -58,10 +62,18 @@ table.master-list-table th {
 
 .master-list-text {
   text-align: left;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 caption.master-list-text {
   font-weight: bold;
+}
+
+.glyphicon-inactive {
+	color: #dddddd;
+}
+
+.glyphicon-active {
+	color: #000000;
 }
 

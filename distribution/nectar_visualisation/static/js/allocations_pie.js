@@ -6,6 +6,7 @@
 // Made up of an array of FOR codes.
 var breadCrumbs = ['*'];
 var allocationTree = {};
+var forList = [];
 
 // Is this the level for FOR codes or projects.
 function isForCodeLevel() {
@@ -15,8 +16,8 @@ function isForCodeLevel() {
 // Recursive code to return allocation tree branch (children) addressed by FOR code.
 // The forCode is the FOR2, FOR4 or FOR6 code.
 // The allocationObjects is the allocationTree object being passed in.
-function traverseHierarchy(route, allocationObjects) {
-	var children = allocationObjects;
+function traverseHierarchy(route, allocationTree) {
+	var children = allocationTree;
 	var forCodes = route;
 	return nextLevel(forCodes, children);
 }
@@ -39,24 +40,24 @@ function nextLevel(forCodes, children) {
 
 // Restructure allocation tree into a single level array of objects.
 // The tree is flattened by taking the sum of all allocations on the branch.
-function restructureAllocations(allocationObjects) {
+function restructureAllocations(allocationTree, isCoreQuota) {
     var dataset = [];
-    var allocationCount = allocationObjects.length;
+    var allocationCount = allocationTree.length;
     for (var allocationIndex = 0; allocationIndex < allocationCount; allocationIndex++) {
     	var sum = 0.0;
-    	var child = allocationObjects[allocationIndex]
+    	var child = allocationTree[allocationIndex]
     	var name = child.name;
     	var allocationItem = {};
     	if (child.children) {
     		//add the branch value.
-			sum = nextLevelSum(child.children);
+			sum = nextLevelSum(child.children, isCoreQuota);
     	} else {
     		// add the leaf value.
 			allocationItem.projectName = child.name;
 			allocationItem.coreQuota = child.coreQuota;
 			allocationItem.instanceQuota = child.instanceQuota;
 			allocationItem.useCase = child.useCase;			
-			sum = child.coreQuota;
+			sum = isCoreQuota ? child.coreQuota : child.instanceQuota;
     	}
     	allocationItem.target = name
     	allocationItem.value = sum;
@@ -66,15 +67,15 @@ function restructureAllocations(allocationObjects) {
 }
     
 // Recurse the allocation tree to return a sum.
-function nextLevelSum(children) {
+function nextLevelSum(children, isCoreQuota) {
     var sum = 0.0;
 	var childCount = children.length;
 	for (var childIndex = 0; childIndex < childCount; childIndex++) {
 		var child = children[childIndex];
 		if (child.children) {
-			sum += nextLevelSum(child.children);
+			sum += nextLevelSum(child.children, isCoreQuota);
 		} else {
-			sum += child.coreQuota;
+			sum += isCoreQuota ? child.coreQuota : child.instanceQuota;
 		}
 	}
 	return sum;
@@ -82,10 +83,10 @@ function nextLevelSum(children) {
 
 // Restructure FOR codes as a map.
 var forTitleMap = {};
-function restructureForCodes(forObjects) {	
-	var forItemCount = forObjects.length;
+function restructureForCodes(forList) {	
+	var forItemCount = forList.length;
 	for (var forItemIndex = 0; forItemIndex < forItemCount; forItemIndex++) {
-		var forItem = forObjects[forItemIndex];
+		var forItem = forList[forItemIndex];
 		forTitleMap[forItem.FOR_CODE] = forItem.Title;
 	}
 }
@@ -199,11 +200,12 @@ var totalText = statisticsArea.append("text")
 	 		breadCrumbs.push(forCode);
 	 		var route = breadCrumbs.slice(1).reverse();
 			var children = traverseHierarchy(route, allocationTree);
-			var dataset = restructureAllocations(children);
-			var totalVirtualCpus = d3.sum(dataset, function (d) {
+			var isCoreQuota = selectedCoreQuota();
+			var dataset = restructureAllocations(children, isCoreQuota);
+			var totalResource = d3.sum(dataset, function (d) {
 			  return d.value;
 			});
-			visualise(dataset, totalVirtualCpus);	
+			visualise(dataset, totalResource);	
 	 	}
 	  }
 
@@ -212,12 +214,85 @@ var totalText = statisticsArea.append("text")
 	 		breadCrumbs.pop();
 	 		var route = breadCrumbs.slice(1).reverse(); 		
 			var children = traverseHierarchy(route, allocationTree);
-			var dataset = restructureAllocations(children);
-			var totalVirtualCpus = d3.sum(dataset, function (d) {
+			var isCoreQuota = selectedCoreQuota();
+			var dataset = restructureAllocations(children, isCoreQuota);
+			var totalResource = d3.sum(dataset, function (d) {
 			  return d.value;
 			});
-			visualise(dataset, totalVirtualCpus);	
+			visualise(dataset, totalResource);	
 	 	}
+	}
+	
+	function isCramped(d) { 
+		var isCramped = d.endAngle - d.startAngle > TEXT_HEIGHT_ALLOWANCE
+		return isCramped ; 
+	}
+	
+	function calculateOpacity(d) { 
+		return isCramped(d) ? 1.0 : 0.1 ; 
+	}
+	
+	function calculateOpacity0(d) { 
+		return isCramped(d) ? 1.0 : 0.0 ; 
+	}
+
+	function showRelatedNameLabel(d, i) { 
+		var relatedNameLabels = d3.select('#name-plot-label-' + i);
+		var relatedNameLabel = relatedNameLabels[0][0];
+		if (relatedNameLabel) {
+			relatedNameLabel.style.opacity = '1.0';
+		} else {
+			if ( window.console && window.console.log ) {
+				console.log('relatedNameLabel was null');
+			}		
+		}
+	}
+
+	function hideRelatedNameLabel(d, i) { 
+		var relatedNameLabels = d3.select('#name-plot-label-' + i);
+		var relatedNameLabel = relatedNameLabels[0][0];
+		if (relatedNameLabel) {
+			relatedNameLabel.style.opacity = calculateOpacity(d);
+		} else {
+		// Happens just after clicking on 
+			if ( window.console && window.console.log ) {
+				console.log('relatedNameLabel was null');
+			}		
+		}
+	}
+
+	function showRelatedValueLabel(d, i) { 
+		var relatedValueLabels = d3.select('#value-plot-label-' + i);
+		var relatedValueLabel = relatedValueLabels[0][0];
+		if (relatedValueLabel) {
+			relatedValueLabel.style.opacity = '1.0';
+		} else {
+			if ( window.console && window.console.log ) {
+				console.log('relatedValueLabel was null');
+			}		
+		}
+	}
+
+	function hideRelatedValueLabel(d, i) { 
+		var relatedValueLabels = d3.select('#value-plot-label-' + i);
+		var relatedValueLabel = relatedValueLabels[0][0];
+		if (relatedValueLabel) {
+			relatedValueLabel.style.opacity = calculateOpacity0(d);
+		} else {
+			if ( window.console && window.console.log ) {
+				console.log('relatedValueLabel was null');
+			}		
+		}
+	}
+
+	function showRelatedLabels(d, i) { 
+		showRelatedNameLabel(d, i);
+		showRelatedValueLabel(d, i);
+	}
+
+	function hideRelatedLabels(d, i) { 
+		hideRelatedNameLabel(d, i);
+		hideRelatedValueLabel(d, i);
 	}
 	
 	//----- Build and display project table
@@ -238,6 +313,7 @@ var totalText = statisticsArea.append("text")
 	masterListHeader.append("th").text("Name");		
 
 	function handleProjectMouseOver(d) {
+		$(this).find('span.glyphicon').removeClass('glyphicon-inactive').addClass('glyphicon-active');
 		showDetails(d)
 		return toolTip.style("visibility", "visible");
 	}	
@@ -245,11 +321,12 @@ var totalText = statisticsArea.append("text")
 	function handleProjectMouseMove () {
 		var cellLocation = this.getBoundingClientRect();
 		var top = (d3.event.pageY-10)+"px";
-		var left = (cellLocation.right + 5)+"px";
+		var left = (cellLocation.right + 8)+"px";
 		return toolTip.style("top", top).style("left", left);
 	}
 	   
 	function handleProjectMouseOut() {
+		$(this).find('span.glyphicon').removeClass('glyphicon-active').addClass('glyphicon-inactive');
 		return toolTip.style("visibility", "hidden");
 	}
 
@@ -287,7 +364,7 @@ var totalText = statisticsArea.append("text")
  			+ "Use case: " 
  			+ "</th>"
  			+ "<td>"
- 			+ d.data.useCase
+ 			+ d.data.useCase 
  			+ "</td>"
  			+ "</tr>"
  			+ "</table>"
@@ -297,9 +374,10 @@ var totalText = statisticsArea.append("text")
 
 	//----- Visualise Data
 
-function visualise( dataset, totalVirtualCpus ) {
+function visualise( dataset, totalResource ) {
 
-    totalText.text(function(d) { return "VCPU Used: " + totalVirtualCpus.toFixed(2); });
+	var countLabelPrefix = selectedCoreQuota() ? "Core count: " : "Instance count: "; 
+    totalText.text(function(d) { return countLabelPrefix + totalResource.toFixed(2); });
 
 	// Build the node list, attaching the new data.
 	var nodes = pie(dataset);
@@ -308,6 +386,8 @@ function visualise( dataset, totalVirtualCpus ) {
     
     slices.select('path')
        .on("click", zoomIn)
+       .on("mouseover", showRelatedLabels)
+       .on("mouseout", hideRelatedLabels)
       .transition()
       .duration(DURATION)
       .attrTween("d", arcTween);
@@ -317,28 +397,33 @@ function visualise( dataset, totalVirtualCpus ) {
 
 	// Annotate slices with name of corresponding domain.
     slices
-      .filter(function(d) { return d.endAngle - d.startAngle > TEXT_HEIGHT_ALLOWANCE; })
       .append("text")
+      .attr("id", function(d, i) { return 'name-plot-label-' + i; })
       .text(function(d) {
       	var label = d.data.target;
       	if (isForCodeLevel()) {
       		var forCode = d.data.target;
-      		label = forTitleMap[forCode] + "(" + forCode + ")";
+      		label = forTitleMap[forCode].toLowerCase() + " (" + forCode + ")";
       	}
         return label;
       })
+      .style("opacity", 0)
       .attr("transform", function(d) {
         return "translate(" + offset_label(d, this.getComputedTextLength()) + ") rotate(" + angle(d) + ")";
       })
-      .style("opacity", 0)
+      .style("text-transform", "capitalize")
        .on("click", zoomIn)
+       .on("mouseover", showRelatedLabels)
+       .on("mouseout", hideRelatedLabels)
       .transition()
       .duration(DURATION_FAST)
-      .style("opacity", 1);
+      .style("opacity", calculateOpacity)
+      ;
 
 	// Annotate slices with virtual CPU count for corresponding domain.
-    slices.filter(function(d) { return d.endAngle - d.startAngle > TEXT_HEIGHT_ALLOWANCE; })
+    slices
       .append("text")
+      .attr("id", function(d, i) { return 'value-plot-label-' + i; })
       .attr("dy", ".35em")
       .attr("text-anchor", "middle")
       .attr("transform", function(d) {
@@ -351,9 +436,11 @@ function visualise( dataset, totalVirtualCpus ) {
       .text(function(d) { return d.data.value.toFixed(2); })
       .style("opacity", 0)
        .on("click", zoomIn)
+       .on("mouseover", showRelatedLabels)
+       .on("mouseout", hideRelatedLabels)
       .transition()
       .duration(DURATION_FAST)
-      .style("opacity", 1);
+      .style("opacity", calculateOpacity0);
 
 
     // Display new data items:
@@ -378,6 +465,8 @@ function visualise( dataset, totalVirtualCpus ) {
         };        
       })
       .on("click", zoomIn)
+       .on("mouseover", showRelatedLabels)
+       .on("mouseout", hideRelatedLabels)
       .transition()
       .duration(DURATION)
       .attrTween("d", arcTween)
@@ -385,27 +474,34 @@ function visualise( dataset, totalVirtualCpus ) {
 
     // -- Text annotations second, domain names.
     
-    newSlices.filter(function(d) { return d.endAngle - d.startAngle > TEXT_HEIGHT_ALLOWANCE; })
+    newSlices
       .append("text")
+      .attr("id", function(d, i) { return 'name-plot-label-' + i; })
       .text(function(d) {
       	var label = d.data.target;
       	if (isForCodeLevel()) {
       		var forCode = d.data.target;
-      		label = forTitleMap[forCode] + "(" + forCode + ")";
+      		label = forTitleMap[forCode].toLowerCase() + " (" + forCode + ")";
       	}
         return label;
       })
-      .attr("transform", function(d) {
+    	.style("opacity", 0)
+     .attr("transform", function(d) {
         return "translate(" + offset_label(d, this.getComputedTextLength()) + ") rotate(" + angle(d) + ")";
-      }).style("opacity", 0)
+      })
+      .style("text-transform", "capitalize")
        .on("click", zoomIn)
+       .on("mouseover", showRelatedLabels)
+       .on("mouseout", hideRelatedLabels)
       .transition()
       .duration(DURATION_FAST)
-      .style("opacity", 1)
+      .style("opacity", calculateOpacity)
 		;
 
     // -- Text annotations third, virtual CPU count for corresponding domain.
-    newSlices.filter(function(d) { return d.endAngle - d.startAngle > TEXT_HEIGHT_ALLOWANCE; }).append("text")
+    newSlices
+    	.append("text")
+      .attr("id", function(d, i) { return 'value-plot-label-' + i; })
       .attr("dy", ".35em")
       .attr("text-anchor", "middle")
       .attr("transform", function(d) {
@@ -418,9 +514,11 @@ function visualise( dataset, totalVirtualCpus ) {
       .text(function(d) { return d.data.value.toFixed(2); })
       .style("opacity", 0)
        .on("click", zoomIn)
+       .on("mouseover", showRelatedLabels)
+       .on("mouseout", hideRelatedLabels)
       .transition()
       .duration(DURATION_FAST)
-      .style("opacity", 1)
+      .style("opacity", calculateOpacity0)
 		;
 
     // Remove old elements:
@@ -462,8 +560,10 @@ function visualise( dataset, totalVirtualCpus ) {
 			.on("mouseover", handleProjectMouseOver)
 			.on("mousemove", handleProjectMouseMove)
 			.on("mouseout", handleProjectMouseOut)
-			.text(function(d) {
-					return d.data.target; 
+			.html(function(d) {
+					return d.data.target 
+					+ '&nbsp;'
+					+ '<span class="glyphicon glyphicon-info-sign glyphicon-inactive"></span>'; 
 				});
 
   }
@@ -478,7 +578,11 @@ function navigate() {
         .attr("class", function(d, i) { return i == breadCrumbs.length - 1 ? "active" : ""})
         .html(function(d, i) {
         	var forCode = d;
-        	var markup = forCode == '*' ? '<span class="glyphicon glyphicon-home"></span>' : forTitleMap[forCode];
+        	var markup = forCode == '*' 
+        		? '<span class="glyphicon glyphicon-home"></span>' 
+        		: '<span style="text-transform: capitalize">' 
+        			+ forTitleMap[forCode].toLowerCase() 
+        			+ '</span>';
         	if (i < breadCrumbs.length - 1) {
         		markup = '<a href="#">' + markup + '</a>';
         	}
@@ -489,11 +593,12 @@ function navigate() {
 				breadCrumbs = breadCrumbs.slice(0, i + 1);
 				var route = breadCrumbs.slice(1).reverse(); 		
 				var children = traverseHierarchy(route, allocationTree);
-				var dataset = restructureAllocations(children);
-				var totalVirtualCpus = d3.sum(dataset, function (d) {
+				var isCoreQuota = selectedCoreQuota();
+				var dataset = restructureAllocations(children, isCoreQuota);
+				var totalResource = d3.sum(dataset, function (d) {
 				  return d.value;
 				});
-				visualise(dataset, totalVirtualCpus);
+				visualise(dataset, totalResource);
 			}	
         });
   }
@@ -544,28 +649,50 @@ function arcTweenOut(a) {
 
 //---- Main Function: Process the data and visualise it.
 
-function processResponse(allocationObjects, forObjects) {
-	restructureForCodes(forObjects);
-	var dataset = restructureAllocations(allocationObjects);
-	var totalVirtualCpus = d3.sum(dataset, function (d) {
-      return d.value;
-    });
-	visualise(dataset, totalVirtualCpus);	
+function selectedCoreQuota() {
+	var activeButton = $('button#cores.active').text();
+	var isCoreQuota = activeButton == "Cores";
+	return isCoreQuota;
 }
 
-//---- Additional User Interactions and Data Loading.
+function processResponse(allocationTree, forList, resource) {
+	var isCoreQuota = selectedCoreQuota();
+	var dataset = restructureAllocations(allocationTree, isCoreQuota);
+	var sum = d3.sum(dataset, function (d) {
+      return d.value;
+    });
+    resource.total = sum;
+    return dataset;
+}
 
-function change() {
-	$('#graph-buttons button').removeClass('active');
-	$(this).addClass('active');
+//---- Data Loading.
+
+function load() {
 	d3.json("./data/for_codes_final_2.json", function(error, forObjects) {
 		d3.json("./data/allocation_tree_final_2.json", function(error, allocationObjects) {
+			breadCrumbs = ['*'];
+			forList = forObjects;
+			restructureForCodes(forList);
 			allocationTree = allocationObjects;
-			processResponse(allocationObjects, forObjects);
+			var resource = {};
+			var dataset = processResponse(allocationTree, forList, resource);
+			visualise(dataset, resource.total);	
 		});
 	});
 }
 
-d3.selectAll("button").on("click", change);
+load();
 
-$("#cores").click();
+//---- Additional User Interactions.
+
+function change() {
+	$('#graph-buttons button').removeClass('active');
+	$(this).addClass('active');
+	var route = breadCrumbs.slice(1).reverse();
+	var children = traverseHierarchy(route, allocationTree);
+	var resource = {};
+	var dataset = processResponse(children, forList, resource);
+	visualise(dataset, resource.total);	
+}
+
+d3.selectAll("button").on("click", change);

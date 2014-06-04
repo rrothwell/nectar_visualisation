@@ -6,6 +6,7 @@
 // Made up of an array of FOR codes.
 var breadCrumbs = ['*'];
 var allocationTree = {};
+var forList = [];
 
 // Is this the level for FOR codes or projects.
 function isForCodeLevel() {
@@ -15,8 +16,8 @@ function isForCodeLevel() {
 // Recursive code to return allocation tree branch (children) addressed by FOR code.
 // The forCode is the FOR2, FOR4 or FOR6 code.
 // The allocationObjects is the allocationTree object being passed in.
-function traverseHierarchy(route, allocationObjects) {
-	var children = allocationObjects;
+function traverseHierarchy(route, allocationTree) {
+	var children = allocationTree;
 	var forCodes = route;
 	return nextLevel(forCodes, children);
 }
@@ -39,12 +40,12 @@ function nextLevel(forCodes, children) {
 
 // Restructure allocation tree into a single level array of objects.
 // The tree is flattened by taking the sum of all allocations on the branch.
-function restructureAllocations(allocationObjects, isCoreQuota) {
+function restructureAllocations(allocationTree, isCoreQuota) {
     var dataset = [];
-    var allocationCount = allocationObjects.length;
+    var allocationCount = allocationTree.length;
     for (var allocationIndex = 0; allocationIndex < allocationCount; allocationIndex++) {
     	var sum = 0.0;
-    	var child = allocationObjects[allocationIndex]
+    	var child = allocationTree[allocationIndex]
     	var name = child.name;
     	var allocationItem = {};
     	if (child.children) {
@@ -82,10 +83,10 @@ function nextLevelSum(children, isCoreQuota) {
 
 // Restructure FOR codes as a map.
 var forTitleMap = {};
-function restructureForCodes(forObjects) {	
-	var forItemCount = forObjects.length;
+function restructureForCodes(forList) {	
+	var forItemCount = forList.length;
 	for (var forItemIndex = 0; forItemIndex < forItemCount; forItemIndex++) {
-		var forItem = forObjects[forItemIndex];
+		var forItem = forList[forItemIndex];
 		forTitleMap[forItem.FOR_CODE] = forItem.Title;
 	}
 }
@@ -222,6 +223,78 @@ var totalText = statisticsArea.append("text")
 	 	}
 	}
 	
+	function isCramped(d) { 
+		var isCramped = d.endAngle - d.startAngle > TEXT_HEIGHT_ALLOWANCE
+		return isCramped ; 
+	}
+	
+	function calculateOpacity(d) { 
+		return isCramped(d) ? 1.0 : 0.1 ; 
+	}
+	
+	function calculateOpacity0(d) { 
+		return isCramped(d) ? 1.0 : 0.0 ; 
+	}
+
+	function showRelatedNameLabel(d, i) { 
+		var relatedNameLabels = d3.select('#name-plot-label-' + i);
+		var relatedNameLabel = relatedNameLabels[0][0];
+		if (relatedNameLabel) {
+			relatedNameLabel.style.opacity = '1.0';
+		} else {
+			if ( window.console && window.console.log ) {
+				console.log('relatedNameLabel was null');
+			}		
+		}
+	}
+
+	function hideRelatedNameLabel(d, i) { 
+		var relatedNameLabels = d3.select('#name-plot-label-' + i);
+		var relatedNameLabel = relatedNameLabels[0][0];
+		if (relatedNameLabel) {
+			relatedNameLabel.style.opacity = calculateOpacity(d);
+		} else {
+		// Happens just after clicking on 
+			if ( window.console && window.console.log ) {
+				console.log('relatedNameLabel was null');
+			}		
+		}
+	}
+
+	function showRelatedValueLabel(d, i) { 
+		var relatedValueLabels = d3.select('#value-plot-label-' + i);
+		var relatedValueLabel = relatedValueLabels[0][0];
+		if (relatedValueLabel) {
+			relatedValueLabel.style.opacity = '1.0';
+		} else {
+			if ( window.console && window.console.log ) {
+				console.log('relatedValueLabel was null');
+			}		
+		}
+	}
+
+	function hideRelatedValueLabel(d, i) { 
+		var relatedValueLabels = d3.select('#value-plot-label-' + i);
+		var relatedValueLabel = relatedValueLabels[0][0];
+		if (relatedValueLabel) {
+			relatedValueLabel.style.opacity = calculateOpacity0(d);
+		} else {
+			if ( window.console && window.console.log ) {
+				console.log('relatedValueLabel was null');
+			}		
+		}
+	}
+
+	function showRelatedLabels(d, i) { 
+		showRelatedNameLabel(d, i);
+		showRelatedValueLabel(d, i);
+	}
+
+	function hideRelatedLabels(d, i) { 
+		hideRelatedNameLabel(d, i);
+		hideRelatedValueLabel(d, i);
+	}
+	
 	//----- Build and display project table
 
 	var masterListArea = d3.select("#master-list-area");
@@ -313,6 +386,8 @@ function visualise( dataset, totalResource ) {
     
     slices.select('path')
        .on("click", zoomIn)
+       .on("mouseover", showRelatedLabels)
+       .on("mouseout", hideRelatedLabels)
       .transition()
       .duration(DURATION)
       .attrTween("d", arcTween);
@@ -322,8 +397,8 @@ function visualise( dataset, totalResource ) {
 
 	// Annotate slices with name of corresponding domain.
     slices
-      .filter(function(d) { return d.endAngle - d.startAngle > TEXT_HEIGHT_ALLOWANCE; })
       .append("text")
+      .attr("id", function(d, i) { return 'name-plot-label-' + i; })
       .text(function(d) {
       	var label = d.data.target;
       	if (isForCodeLevel()) {
@@ -332,19 +407,23 @@ function visualise( dataset, totalResource ) {
       	}
         return label;
       })
+      .style("opacity", 0)
       .attr("transform", function(d) {
         return "translate(" + offset_label(d, this.getComputedTextLength()) + ") rotate(" + angle(d) + ")";
       })
-      .style("opacity", 0)
       .style("text-transform", "capitalize")
        .on("click", zoomIn)
+       .on("mouseover", showRelatedLabels)
+       .on("mouseout", hideRelatedLabels)
       .transition()
       .duration(DURATION_FAST)
-      .style("opacity", 1);
+      .style("opacity", calculateOpacity)
+      ;
 
 	// Annotate slices with virtual CPU count for corresponding domain.
-    slices.filter(function(d) { return d.endAngle - d.startAngle > TEXT_HEIGHT_ALLOWANCE; })
+    slices
       .append("text")
+      .attr("id", function(d, i) { return 'value-plot-label-' + i; })
       .attr("dy", ".35em")
       .attr("text-anchor", "middle")
       .attr("transform", function(d) {
@@ -357,9 +436,11 @@ function visualise( dataset, totalResource ) {
       .text(function(d) { return d.data.value.toFixed(2); })
       .style("opacity", 0)
        .on("click", zoomIn)
+       .on("mouseover", showRelatedLabels)
+       .on("mouseout", hideRelatedLabels)
       .transition()
       .duration(DURATION_FAST)
-      .style("opacity", 1);
+      .style("opacity", calculateOpacity0);
 
 
     // Display new data items:
@@ -384,6 +465,8 @@ function visualise( dataset, totalResource ) {
         };        
       })
       .on("click", zoomIn)
+       .on("mouseover", showRelatedLabels)
+       .on("mouseout", hideRelatedLabels)
       .transition()
       .duration(DURATION)
       .attrTween("d", arcTween)
@@ -391,8 +474,9 @@ function visualise( dataset, totalResource ) {
 
     // -- Text annotations second, domain names.
     
-    newSlices.filter(function(d) { return d.endAngle - d.startAngle > TEXT_HEIGHT_ALLOWANCE; })
+    newSlices
       .append("text")
+      .attr("id", function(d, i) { return 'name-plot-label-' + i; })
       .text(function(d) {
       	var label = d.data.target;
       	if (isForCodeLevel()) {
@@ -401,18 +485,23 @@ function visualise( dataset, totalResource ) {
       	}
         return label;
       })
-      .attr("transform", function(d) {
+    	.style("opacity", 0)
+     .attr("transform", function(d) {
         return "translate(" + offset_label(d, this.getComputedTextLength()) + ") rotate(" + angle(d) + ")";
-      }).style("opacity", 0)
+      })
       .style("text-transform", "capitalize")
        .on("click", zoomIn)
+       .on("mouseover", showRelatedLabels)
+       .on("mouseout", hideRelatedLabels)
       .transition()
       .duration(DURATION_FAST)
-      .style("opacity", 1)
+      .style("opacity", calculateOpacity)
 		;
 
     // -- Text annotations third, virtual CPU count for corresponding domain.
-    newSlices.filter(function(d) { return d.endAngle - d.startAngle > TEXT_HEIGHT_ALLOWANCE; }).append("text")
+    newSlices
+    	.append("text")
+      .attr("id", function(d, i) { return 'value-plot-label-' + i; })
       .attr("dy", ".35em")
       .attr("text-anchor", "middle")
       .attr("transform", function(d) {
@@ -425,9 +514,11 @@ function visualise( dataset, totalResource ) {
       .text(function(d) { return d.data.value.toFixed(2); })
       .style("opacity", 0)
        .on("click", zoomIn)
+       .on("mouseover", showRelatedLabels)
+       .on("mouseout", hideRelatedLabels)
       .transition()
       .duration(DURATION_FAST)
-      .style("opacity", 1)
+      .style("opacity", calculateOpacity0)
 		;
 
     // Remove old elements:
@@ -564,29 +655,44 @@ function selectedCoreQuota() {
 	return isCoreQuota;
 }
 
-function processResponse(allocationObjects, forObjects) {
-	restructureForCodes(forObjects);
+function processResponse(allocationTree, forList, resource) {
 	var isCoreQuota = selectedCoreQuota();
-	var dataset = restructureAllocations(allocationObjects, isCoreQuota);
-	var totalResource = d3.sum(dataset, function (d) {
+	var dataset = restructureAllocations(allocationTree, isCoreQuota);
+	var sum = d3.sum(dataset, function (d) {
       return d.value;
     });
-	visualise(dataset, totalResource);	
+    resource.total = sum;
+    return dataset;
 }
 
-//---- Additional User Interactions and Data Loading.
+//---- Data Loading.
 
-function change() {
-	$('#graph-buttons button').removeClass('active');
-	$(this).addClass('active');
+function load() {
 	d3.json("./data/for_codes_final_2.json", function(error, forObjects) {
 		d3.json("./data/allocation_tree_final_2.json", function(error, allocationObjects) {
+			breadCrumbs = ['*'];
+			forList = forObjects;
+			restructureForCodes(forList);
 			allocationTree = allocationObjects;
-			processResponse(allocationObjects, forObjects);
+			var resource = {};
+			var dataset = processResponse(allocationTree, forList, resource);
+			visualise(dataset, resource.total);	
 		});
 	});
 }
 
-d3.selectAll("button").on("click", change);
+load();
 
-$("#cores").click();
+//---- Additional User Interactions.
+
+function change() {
+	$('#graph-buttons button').removeClass('active');
+	$(this).addClass('active');
+	var route = breadCrumbs.slice(1).reverse();
+	var children = traverseHierarchy(route, allocationTree);
+	var resource = {};
+	var dataset = processResponse(children, forList, resource);
+	visualise(dataset, resource.total);	
+}
+
+d3.selectAll("button").on("click", change);
