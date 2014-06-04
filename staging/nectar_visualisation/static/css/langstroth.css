@@ -64,11 +64,27 @@ ul.breadcrumb {
 path {
   /* stroke: #fff; */
   /* stroke-width: 1.0; */
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 
 text {
   /* font: 11px sans-serif; */
+  /* cursor: pointer; */
+}
+
+.plot-slice {
+  cursor: pointer;
+}
+
+.name-plot-label {
+  cursor: pointer;
+}
+
+.value-plot-label {
+  cursor: pointer;
+}
+
+.click-message {
   cursor: pointer;
 }
 
