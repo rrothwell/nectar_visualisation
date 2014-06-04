@@ -311,6 +311,8 @@ var totalText = statisticsArea.append("text")
 			
 	var masterListHeader = masterListBody.append("tr");		
 	masterListHeader.append("th").text("Name");		
+	masterListHeader.append("th").text("Cores");		
+	masterListHeader.append("th").text("Info");		
 
 	function handleProjectMouseOver(d) {
 		$(this).find('span.glyphicon').removeClass('glyphicon-inactive').addClass('glyphicon-active');
@@ -337,10 +339,17 @@ var totalText = statisticsArea.append("text")
  			+ "<table class='details-table'>" 
  			+ "<tr>"
  			+ "<th>"
- 			+ "Name: " 
+ 			+ "Project: " 
  			+ "</th>"
  			+ "<td>"
  			+ d.data.projectName
+ 			+ "</td>"
+ 			+ "</tr>"
+ 			+ "<th>"
+ 			+ "Institution: " 
+ 			+ "</th>"
+ 			+ "<td>"
+ 			+ d.data.institutionName
  			+ "</td>"
  			+ "</tr>"
  			+ "<tr>"
@@ -550,7 +559,7 @@ function visualise( dataset, totalResource ) {
     
 	  //----- Update project table
 	
-	var masterListItems = masterListBody.selectAll("tr").data(nodes
+	var masterListItems = masterListBody.selectAll("tr.project-items").data(nodes
 						.filter(function(d){
 								return !isForCodeLevel()
 							})
@@ -562,16 +571,23 @@ function visualise( dataset, totalResource ) {
 						
 	var masterListEnter = masterListItems.enter()
 		.append("tr")
-			.append("td")
+		.attr("class", "project-items")
+			//.append("td")
 			.on("mouseover", handleProjectMouseOver)
 			.on("mousemove", handleProjectMouseMove)
 			.on("mouseout", handleProjectMouseOut)
 			.html(function(d) {
-					return d.data.target 
-					+ '&nbsp;'
-					+ '<span class="glyphicon glyphicon-info-sign glyphicon-inactive"></span>'; 
-				});
-
+					return '<td>' + d.data.target 
+					+ '</td>'
+					+ '<td style="text-align: right;">'
+					+ d.data.coreQuota.toFixed(2)
+					+ '</td>'
+					+ '<td style="text-align: right;">'
+					+ '<span class="glyphicon glyphicon-info-sign glyphicon-inactive"></span>'
+					+ '</td>'
+					; 
+				})
+				;
   }
 
 function navigate() {
