@@ -231,6 +231,10 @@ var totalText = statisticsArea.append("text")
 	function calculateOpacity(d) { 
 		return isCramped(d) ? 1.0 : 0.1 ; 
 	}
+	
+	function calculateOpacity0(d) { 
+		return isCramped(d) ? 1.0 : 0.0 ; 
+	}
 
 	function showPlotLabel(d) { 
 		this.style.opacity = '1.0';
@@ -238,6 +242,65 @@ var totalText = statisticsArea.append("text")
 
 	function hidePlotLabel(d) { 
 		this.style.opacity = calculateOpacity(d);
+	}
+
+	function showRelatedNameLabel(d, i) { 
+		var relatedNameLabels = d3.select('#name-plot-label-' + i);
+		var relatedNameLabel = relatedNameLabels[0][0];
+		if (relatedNameLabel) {
+			relatedNameLabel.style.opacity = '1.0';
+		} else {
+			if ( window.console && window.console.log ) {
+				console.log('relatedNameLabel was null');
+			}		
+		}
+	}
+
+	function hideRelatedNameLabel(d, i) { 
+		var relatedNameLabels = d3.select('#name-plot-label-' + i);
+		var relatedNameLabel = relatedNameLabels[0][0];
+		if (relatedNameLabel) {
+			relatedNameLabel.style.opacity = calculateOpacity(d);
+		} else {
+		// Happens just after clicking on 
+			if ( window.console && window.console.log ) {
+				console.log('relatedNameLabel was null');
+			}		
+		}
+	}
+
+	function showRelatedValueLabel(d, i) { 
+		var relatedValueLabels = d3.select('#value-plot-label-' + i);
+		var relatedValueLabel = relatedValueLabels[0][0];
+		if (relatedValueLabel) {
+			relatedValueLabel.style.opacity = '1.0';
+		} else {
+			if ( window.console && window.console.log ) {
+				console.log('relatedValueLabel was null');
+			}		
+		}
+	}
+
+	function hideRelatedValueLabel(d, i) { 
+		var relatedValueLabels = d3.select('#value-plot-label-' + i);
+		var relatedValueLabel = relatedValueLabels[0][0];
+		if (relatedValueLabel) {
+			relatedValueLabel.style.opacity = calculateOpacity0(d);
+		} else {
+			if ( window.console && window.console.log ) {
+				console.log('relatedValueLabel was null');
+			}		
+		}
+	}
+
+	function showRelatedLabels(d, i) { 
+		showRelatedNameLabel(d, i);
+		showRelatedValueLabel(d, i);
+	}
+
+	function hideRelatedLabels(d, i) { 
+		hideRelatedNameLabel(d, i);
+		hideRelatedValueLabel(d, i);
 	}
 	
 	//----- Build and display project table
@@ -331,6 +394,8 @@ function visualise( dataset, totalResource ) {
     
     slices.select('path')
        .on("click", zoomIn)
+       .on("mouseover", showRelatedLabels)
+       .on("mouseout", hideRelatedLabels)
       .transition()
       .duration(DURATION)
       .attrTween("d", arcTween);
@@ -341,6 +406,7 @@ function visualise( dataset, totalResource ) {
 	// Annotate slices with name of corresponding domain.
     slices
       .append("text")
+      .attr("id", function(d, i) { return 'name-plot-label-' + i; })
       .text(function(d) {
       	var label = d.data.target;
       	if (isForCodeLevel()) {
@@ -355,16 +421,18 @@ function visualise( dataset, totalResource ) {
       })
       .style("text-transform", "capitalize")
        .on("click", zoomIn)
-       .on("mouseover", showPlotLabel)
-       .on("mouseout", hidePlotLabel)
+       .on("mouseover", showRelatedLabels)
+       .on("mouseout", hideRelatedLabels)
       .transition()
       .duration(DURATION_FAST)
       .style("opacity", calculateOpacity)
       ;
 
 	// Annotate slices with virtual CPU count for corresponding domain.
-    slices.filter(isCramped)
+    slices
+    	//.filter(isCramped)
       .append("text")
+      .attr("id", function(d, i) { return 'value-plot-label-' + i; })
       .attr("dy", ".35em")
       .attr("text-anchor", "middle")
       .attr("transform", function(d) {
@@ -377,11 +445,11 @@ function visualise( dataset, totalResource ) {
       .text(function(d) { return d.data.value.toFixed(2); })
       .style("opacity", 0)
        .on("click", zoomIn)
-       .on("mouseover", showPlotLabel)
-       .on("mouseout", hidePlotLabel)
+       .on("mouseover", showRelatedLabels)
+       .on("mouseout", hideRelatedLabels)
       .transition()
       .duration(DURATION_FAST)
-      .style("opacity", 1);
+      .style("opacity", calculateOpacity0);
 
 
     // Display new data items:
@@ -406,8 +474,8 @@ function visualise( dataset, totalResource ) {
         };        
       })
       .on("click", zoomIn)
-       .on("mouseover", showPlotLabel)
-       .on("mouseout", hidePlotLabel)
+       .on("mouseover", showRelatedLabels)
+       .on("mouseout", hideRelatedLabels)
       .transition()
       .duration(DURATION)
       .attrTween("d", arcTween)
@@ -418,6 +486,7 @@ function visualise( dataset, totalResource ) {
     newSlices
     	//.filter(isCramped)
       .append("text")
+      .attr("id", function(d, i) { return 'name-plot-label-' + i; })
       .text(function(d) {
       	var label = d.data.target;
       	if (isForCodeLevel()) {
@@ -432,16 +501,18 @@ function visualise( dataset, totalResource ) {
       })
       .style("text-transform", "capitalize")
        .on("click", zoomIn)
-       .on("mouseover", showPlotLabel)
-       .on("mouseout", hidePlotLabel)
+       .on("mouseover", showRelatedLabels)
+       .on("mouseout", hideRelatedLabels)
       .transition()
       .duration(DURATION_FAST)
       .style("opacity", calculateOpacity)
 		;
 
     // -- Text annotations third, virtual CPU count for corresponding domain.
-    newSlices.filter(isCramped)
+    newSlices
+    	//.filter(isCramped)
     	.append("text")
+      .attr("id", function(d, i) { return 'value-plot-label-' + i; })
       .attr("dy", ".35em")
       .attr("text-anchor", "middle")
       .attr("transform", function(d) {
@@ -454,11 +525,11 @@ function visualise( dataset, totalResource ) {
       .text(function(d) { return d.data.value.toFixed(2); })
       .style("opacity", 0)
        .on("click", zoomIn)
-       .on("mouseover", showPlotLabel)
-       .on("mouseout", hidePlotLabel)
+       .on("mouseover", showRelatedLabels)
+       .on("mouseout", hideRelatedLabels)
       .transition()
       .duration(DURATION_FAST)
-      .style("opacity", 1)
+      .style("opacity", calculateOpacity0)
 		;
 
     // Remove old elements:
