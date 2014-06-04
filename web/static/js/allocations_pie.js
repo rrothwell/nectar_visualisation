@@ -385,6 +385,7 @@ function visualise( dataset, totalResource ) {
     slices = plotGroup.selectAll("g.slice").data(nodes);
     
     slices.select('path')
+      .attr("class", 'plot-slice')
        .on("click", zoomIn)
        .on("mouseover", showRelatedLabels)
        .on("mouseout", hideRelatedLabels)
@@ -399,6 +400,7 @@ function visualise( dataset, totalResource ) {
     slices
       .append("text")
       .attr("id", function(d, i) { return 'name-plot-label-' + i; })
+      .attr("class", 'name-plot-label')
       .text(function(d) {
       	var label = d.data.target;
       	if (isForCodeLevel()) {
@@ -424,6 +426,7 @@ function visualise( dataset, totalResource ) {
     slices
       .append("text")
       .attr("id", function(d, i) { return 'value-plot-label-' + i; })
+      .attr("class", 'value-plot-label')
       .attr("dy", ".35em")
       .attr("text-anchor", "middle")
       .attr("transform", function(d) {
@@ -452,6 +455,7 @@ function visualise( dataset, totalResource ) {
           .attr('class', 'slice');
 
     newSlices.append("path")
+      .attr("class", 'plot-slice')
       .attr("fill", function (d, i) {
         return color(i);
       })
@@ -477,6 +481,7 @@ function visualise( dataset, totalResource ) {
     newSlices
       .append("text")
       .attr("id", function(d, i) { return 'name-plot-label-' + i; })
+      .attr("class", 'name-plot-label')
       .text(function(d) {
       	var label = d.data.target;
       	if (isForCodeLevel()) {
@@ -502,6 +507,7 @@ function visualise( dataset, totalResource ) {
     newSlices
     	.append("text")
       .attr("id", function(d, i) { return 'value-plot-label-' + i; })
+      .attr("class", 'value-plot-label')
       .attr("dy", ".35em")
       .attr("text-anchor", "middle")
       .attr("transform", function(d) {
