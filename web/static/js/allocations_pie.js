@@ -57,7 +57,7 @@ function restructureAllocations(allocationTree, isCoreQuota) {
 			allocationItem.institutionName = child.institution;
 			allocationItem.coreQuota = child.coreQuota;
 			allocationItem.instanceQuota = child.instanceQuota;
-			allocationItem.useCase = child.useCase;			
+			allocationItem.useCase = child.useCase.abbreviate(128);			
 			allocationItem.usagePattern = child.usagePattern;			
 			sum = isCoreQuota ? child.coreQuota : child.instanceQuota;
     	}
@@ -96,6 +96,16 @@ function restructureForCodes(forList) {
 //==== Data visualisation
 
 //---- Visualisation Constants
+
+var DISPLAY_CHARACTER_COUNT = 9;
+
+String.prototype.abbreviate = function(charCount) {
+	var labelStr = this;
+	if (this.length > charCount) {
+		labelStr = this.substring(0, charCount - 3) + "...";
+	}
+	return labelStr;
+}
 
 // Chart dimensions
 var WIDTH = 960,
