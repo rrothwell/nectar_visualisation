@@ -290,20 +290,26 @@ var totalText = statisticsArea.append("text")
 	function showRelatedLabels(d, i) { 
 		showRelatedNameLabel(d, i);
 		showRelatedValueLabel(d, i);
-		showDetails(d)
-		return toolTip.style("visibility", "visible");
+		if (!isForCodeLevel()) {
+			showDetails(d)
+			toolTip.style("visibility", "visible");
+		}
 	}
 
 	function moveRelatedLabels(d, i) { 
 		var top = (d3.event.pageY - 10) + "px";
 		var left = (d3.event.pageX + 10) + "px";
-		return toolTip.style("top", top).style("left", left);
+		if (!isForCodeLevel()) {
+			toolTip.style("top", top).style("left", left);
+		}
 	}
 
 	function hideRelatedLabels(d, i) { 
 		hideRelatedNameLabel(d, i);
 		hideRelatedValueLabel(d, i);
-		return toolTip.style("visibility", "hidden");
+		if (!isForCodeLevel()) {
+			toolTip.style("visibility", "hidden");
+		}
 	}
 	
 	//----- Build and display project table
