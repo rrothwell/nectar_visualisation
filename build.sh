@@ -1,3 +1,5 @@
+#!/bin/bash
+
 rm -Rf staging
 mkdir -p staging/nectar_visualisation/scripts
 mkdir -p staging/nectar_visualisation/media

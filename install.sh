@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Clean up and install.
 
 # Usage:

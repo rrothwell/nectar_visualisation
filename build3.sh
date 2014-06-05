@@ -1,3 +1,5 @@
+#!/bin/bash
+
 rm -Rf staging
 mkdir -p staging/nectar_visualisation/static/js
 mkdir -p staging/nectar_visualisation/static/css
