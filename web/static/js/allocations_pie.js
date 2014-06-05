@@ -290,11 +290,20 @@ var totalText = statisticsArea.append("text")
 	function showRelatedLabels(d, i) { 
 		showRelatedNameLabel(d, i);
 		showRelatedValueLabel(d, i);
+		showDetails(d)
+		return toolTip.style("visibility", "visible");
+	}
+
+	function moveRelatedLabels(d, i) { 
+		var top = (d3.event.pageY - 10) + "px";
+		var left = (d3.event.pageX + 10) + "px";
+		return toolTip.style("top", top).style("left", left);
 	}
 
 	function hideRelatedLabels(d, i) { 
 		hideRelatedNameLabel(d, i);
 		hideRelatedValueLabel(d, i);
+		return toolTip.style("visibility", "hidden");
 	}
 	
 	//----- Build and display project table
@@ -399,6 +408,7 @@ function visualise( dataset, totalResource ) {
       .attr("class", 'plot-slice')
        .on("click", zoomIn)
        .on("mouseover", showRelatedLabels)
+       .on("mousemove", moveRelatedLabels)
        .on("mouseout", hideRelatedLabels)
       .transition()
       .duration(DURATION)
@@ -427,6 +437,7 @@ function visualise( dataset, totalResource ) {
       .style("text-transform", "capitalize")
        .on("click", zoomIn)
        .on("mouseover", showRelatedLabels)
+       .on("mousemove", moveRelatedLabels)
        .on("mouseout", hideRelatedLabels)
       .transition()
       .duration(DURATION_FAST)
@@ -451,6 +462,7 @@ function visualise( dataset, totalResource ) {
       .style("opacity", 0)
        .on("click", zoomIn)
        .on("mouseover", showRelatedLabels)
+       .on("mousemove", moveRelatedLabels)
        .on("mouseout", hideRelatedLabels)
       .transition()
       .duration(DURATION_FAST)
@@ -481,6 +493,7 @@ function visualise( dataset, totalResource ) {
       })
       .on("click", zoomIn)
        .on("mouseover", showRelatedLabels)
+       .on("mousemove", moveRelatedLabels)
        .on("mouseout", hideRelatedLabels)
       .transition()
       .duration(DURATION)
@@ -508,6 +521,7 @@ function visualise( dataset, totalResource ) {
       .style("text-transform", "capitalize")
        .on("click", zoomIn)
        .on("mouseover", showRelatedLabels)
+       .on("mousemove", moveRelatedLabels)
        .on("mouseout", hideRelatedLabels)
       .transition()
       .duration(DURATION_FAST)
@@ -532,6 +546,7 @@ function visualise( dataset, totalResource ) {
       .style("opacity", 0)
        .on("click", zoomIn)
        .on("mouseover", showRelatedLabels)
+       .on("mousemove", moveRelatedLabels)
        .on("mouseout", hideRelatedLabels)
       .transition()
       .duration(DURATION_FAST)
@@ -558,38 +573,6 @@ function visualise( dataset, totalResource ) {
 	  //----- Build and display breadcrumbs
 
     navigate();
-    
-	  //----- Update project table
-	
-	var masterListItems = masterListBody.selectAll("tr.project-items").data(nodes
-						.filter(function(d){
-								return !isForCodeLevel()
-							})
-						.sort(function(a, b) { 
-								return d3.ascending(a.data.target, b.data.target); 
-							}));
-
-	masterListItems.exit().remove();
-						
-	var masterListEnter = masterListItems.enter()
-		.append("tr")
-		.attr("class", "project-items")
-			//.append("td")
-			.on("mouseover", handleProjectMouseOver)
-			.on("mousemove", handleProjectMouseMove)
-			.on("mouseout", handleProjectMouseOut)
-			.html(function(d) {
-					return '<td>' + d.data.target 
-					+ '</td>'
-					+ '<td style="text-align: right;">'
-					+ d.data.coreQuota.toFixed(2)
-					+ '</td>'
-					+ '<td style="text-align: right;">'
-					+ '<span class="glyphicon glyphicon-info-sign glyphicon-inactive"></span>'
-					+ '</td>'
-					; 
-				})
-				;
   }
 
 function navigate() {
