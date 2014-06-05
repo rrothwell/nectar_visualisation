@@ -54,9 +54,11 @@ function restructureAllocations(allocationTree, isCoreQuota) {
     	} else {
     		// add the leaf value.
 			allocationItem.projectName = child.name;
+			allocationItem.institutionName = child.institution;
 			allocationItem.coreQuota = child.coreQuota;
 			allocationItem.instanceQuota = child.instanceQuota;
 			allocationItem.useCase = child.useCase;			
+			allocationItem.usagePattern = child.usagePattern;			
 			sum = isCoreQuota ? child.coreQuota : child.instanceQuota;
     	}
     	allocationItem.target = name
@@ -691,7 +693,7 @@ function processResponse(allocationTree, forList, resource) {
 
 function load() {
 	d3.json("./data/for_codes_final_2.json", function(error, forObjects) {
-		d3.json("./data/allocation_tree_final_2.json", function(error, allocationObjects) {
+		d3.json("./data/allocation_tree_final_4.json", function(error, allocationObjects) {
 			breadCrumbs = ['*'];
 			forList = forObjects;
 			restructureForCodes(forList);

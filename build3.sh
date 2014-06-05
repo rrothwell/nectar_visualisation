@@ -12,7 +12,7 @@ cp web/static/css/master-detail.css staging/nectar_visualisation/static/css/mast
 cp web/static/img/logo.png staging/nectar_visualisation/static/img/logo.png
 cp web/allocation_visualisation3.html staging/nectar_visualisation 
 cp web/data/for_codes_final_2.json staging/nectar_visualisation/data
-cp web/data/allocation_tree_final_2.json staging/nectar_visualisation/data
+cp web/data/allocation_tree_final_4.json staging/nectar_visualisation/data
 cd staging
 tar -zcvf ../distribution/nectar_visualisation.tgz nectar_visualisation
 cd ..

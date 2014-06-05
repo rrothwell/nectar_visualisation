@@ -54,9 +54,11 @@ function restructureAllocations(allocationTree, isCoreQuota) {
     	} else {
     		// add the leaf value.
 			allocationItem.projectName = child.name;
+			allocationItem.institutionName = child.institution;
 			allocationItem.coreQuota = child.coreQuota;
 			allocationItem.instanceQuota = child.instanceQuota;
 			allocationItem.useCase = child.useCase;			
+			allocationItem.usagePattern = child.usagePattern;			
 			sum = isCoreQuota ? child.coreQuota : child.instanceQuota;
     	}
     	allocationItem.target = name
@@ -311,6 +313,8 @@ var totalText = statisticsArea.append("text")
 			
 	var masterListHeader = masterListBody.append("tr");		
 	masterListHeader.append("th").text("Name");		
+	masterListHeader.append("th").text("Cores");		
+	masterListHeader.append("th").text("Info");		
 
 	function handleProjectMouseOver(d) {
 		$(this).find('span.glyphicon').removeClass('glyphicon-inactive').addClass('glyphicon-active');
@@ -337,10 +341,17 @@ var totalText = statisticsArea.append("text")
  			+ "<table class='details-table'>" 
  			+ "<tr>"
  			+ "<th>"
- 			+ "Name: " 
+ 			+ "Project: " 
  			+ "</th>"
  			+ "<td>"
  			+ d.data.projectName
+ 			+ "</td>"
+ 			+ "</tr>"
+ 			+ "<th>"
+ 			+ "Institution: " 
+ 			+ "</th>"
+ 			+ "<td>"
+ 			+ d.data.institutionName
  			+ "</td>"
  			+ "</tr>"
  			+ "<tr>"
@@ -385,6 +396,7 @@ function visualise( dataset, totalResource ) {
     slices = plotGroup.selectAll("g.slice").data(nodes);
     
     slices.select('path')
+      .attr("class", 'plot-slice')
        .on("click", zoomIn)
        .on("mouseover", showRelatedLabels)
        .on("mouseout", hideRelatedLabels)
@@ -399,6 +411,7 @@ function visualise( dataset, totalResource ) {
     slices
       .append("text")
       .attr("id", function(d, i) { return 'name-plot-label-' + i; })
+      .attr("class", 'name-plot-label')
       .text(function(d) {
       	var label = d.data.target;
       	if (isForCodeLevel()) {
@@ -424,6 +437,7 @@ function visualise( dataset, totalResource ) {
     slices
       .append("text")
       .attr("id", function(d, i) { return 'value-plot-label-' + i; })
+      .attr("class", 'value-plot-label')
       .attr("dy", ".35em")
       .attr("text-anchor", "middle")
       .attr("transform", function(d) {
@@ -452,6 +466,7 @@ function visualise( dataset, totalResource ) {
           .attr('class', 'slice');
 
     newSlices.append("path")
+      .attr("class", 'plot-slice')
       .attr("fill", function (d, i) {
         return color(i);
       })
@@ -477,6 +492,7 @@ function visualise( dataset, totalResource ) {
     newSlices
       .append("text")
       .attr("id", function(d, i) { return 'name-plot-label-' + i; })
+      .attr("class", 'name-plot-label')
       .text(function(d) {
       	var label = d.data.target;
       	if (isForCodeLevel()) {
@@ -502,6 +518,7 @@ function visualise( dataset, totalResource ) {
     newSlices
     	.append("text")
       .attr("id", function(d, i) { return 'value-plot-label-' + i; })
+      .attr("class", 'value-plot-label')
       .attr("dy", ".35em")
       .attr("text-anchor", "middle")
       .attr("transform", function(d) {
@@ -544,7 +561,7 @@ function visualise( dataset, totalResource ) {
     
 	  //----- Update project table
 	
-	var masterListItems = masterListBody.selectAll("tr").data(nodes
+	var masterListItems = masterListBody.selectAll("tr.project-items").data(nodes
 						.filter(function(d){
 								return !isForCodeLevel()
 							})
@@ -556,16 +573,23 @@ function visualise( dataset, totalResource ) {
 						
 	var masterListEnter = masterListItems.enter()
 		.append("tr")
-			.append("td")
+		.attr("class", "project-items")
+			//.append("td")
 			.on("mouseover", handleProjectMouseOver)
 			.on("mousemove", handleProjectMouseMove)
 			.on("mouseout", handleProjectMouseOut)
 			.html(function(d) {
-					return d.data.target 
-					+ '&nbsp;'
-					+ '<span class="glyphicon glyphicon-info-sign glyphicon-inactive"></span>'; 
-				});
-
+					return '<td>' + d.data.target 
+					+ '</td>'
+					+ '<td style="text-align: right;">'
+					+ d.data.coreQuota.toFixed(2)
+					+ '</td>'
+					+ '<td style="text-align: right;">'
+					+ '<span class="glyphicon glyphicon-info-sign glyphicon-inactive"></span>'
+					+ '</td>'
+					; 
+				})
+				;
   }
 
 function navigate() {
@@ -669,7 +693,7 @@ function processResponse(allocationTree, forList, resource) {
 
 function load() {
 	d3.json("./data/for_codes_final_2.json", function(error, forObjects) {
-		d3.json("./data/allocation_tree_final_2.json", function(error, allocationObjects) {
+		d3.json("./data/allocation_tree_final_4.json", function(error, allocationObjects) {
 			breadCrumbs = ['*'];
 			forList = forObjects;
 			restructureForCodes(forList);

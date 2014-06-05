@@ -21,11 +21,15 @@ table.details-table {
 
 table.details-table td {
 	padding: 3px 5px 3px 5px;
+	vertical-align: top;
+	text-align: left;
 }
 
 table.details-table th {
 	padding: 3px 5px 3px 5px;
 	width: 8em;
+	vertical-align: top;
+	text-align: right;
 }
 
 /* Master List */
