@@ -97,8 +97,6 @@ function restructureForCodes(forList) {
 
 //---- Visualisation Constants
 
-var DISPLAY_CHARACTER_COUNT = 9;
-
 String.prototype.abbreviate = function(charCount) {
 	var labelStr = this;
 	if (this.length > charCount) {
