@@ -8,6 +8,7 @@ mkdir -p staging/nectar_visualisation/data
 cp web/static/js/allocations_pie.js staging/nectar_visualisation/static/js
 cp web/static/js/d3.js staging/nectar_visualisation/static/js
 cp web/static/css/langstroth.css staging/nectar_visualisation/static/css/langstroth.css
+cp web/static/css/langstroth.css staging/nectar_visualisation/static/css/allocation-visualisation.css
 cp web/static/css/master-detail.css staging/nectar_visualisation/static/css/master-detail.css
 cp web/static/img/logo.png staging/nectar_visualisation/static/img/logo.png
 cp web/allocation_visualisation3.html staging/nectar_visualisation 
