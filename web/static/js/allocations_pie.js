@@ -45,7 +45,7 @@ function restructureAllocations(allocationTree, isCoreQuota) {
     var allocationCount = allocationTree.length;
     for (var allocationIndex = 0; allocationIndex < allocationCount; allocationIndex++) {
     	var sum = 0.0;
-    	var child = allocationTree[allocationIndex]
+    	var child = allocationTree[allocationIndex];
     	var name = child.name;
     	var allocationItem = {};
     	if (child.children) {
@@ -61,7 +61,7 @@ function restructureAllocations(allocationTree, isCoreQuota) {
 			allocationItem.usagePattern = child.usagePattern;			
 			sum = isCoreQuota ? child.coreQuota : child.instanceQuota;
     	}
-    	allocationItem.target = name
+    	allocationItem.target = name;
     	allocationItem.value = sum;
     	dataset.push(allocationItem);
     }    
@@ -103,7 +103,7 @@ String.prototype.abbreviate = function(charCount) {
 		labelStr = this.substring(0, charCount - 3) + "...";
 	}
 	return labelStr;
-}
+};
 
 // Chart dimensions
 var WIDTH = 960,
@@ -234,7 +234,7 @@ var totalText = statisticsArea.append("text")
 	}
 	
 	function isCramped(d) { 
-		var isCramped = d.endAngle - d.startAngle > TEXT_HEIGHT_ALLOWANCE
+		var isCramped = d.endAngle - d.startAngle > TEXT_HEIGHT_ALLOWANCE;
 		return isCramped ; 
 	}
 	
@@ -299,7 +299,7 @@ var totalText = statisticsArea.append("text")
 		showRelatedNameLabel(d, i);
 		showRelatedValueLabel(d, i);
 		if (!isForCodeLevel()) {
-			showDetails(d)
+			showDetails(d);
 			toolTip.style("visibility", "visible");
 		}
 	}
@@ -341,7 +341,7 @@ var totalText = statisticsArea.append("text")
 
 	function handleProjectMouseOver(d) {
 		$(this).find('span.glyphicon').removeClass('glyphicon-inactive').addClass('glyphicon-active');
-		showDetails(d)
+		showDetails(d);
 		return toolTip.style("visibility", "visible");
 	}	
 	
@@ -596,7 +596,7 @@ function navigate() {
       .data(breadCrumbs)
       .enter()
         .append("li")
-        .attr("class", function(d, i) { return i == breadCrumbs.length - 1 ? "active" : ""})
+        .attr("class", function(d, i) { return i == breadCrumbs.length - 1 ? "active" : ""; })
         .html(function(d, i) {
         	var forCode = d;
         	var markup = forCode == '*' 
