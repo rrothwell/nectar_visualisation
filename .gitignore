@@ -13,4 +13,12 @@ hs_err_pid*
 vendors/d3-hierarchical-pie-master.zip
 vendors/d3-hierarchical-pie-master/
 web/info.php
+data/allocation_tree_final copy 2.json
+data/allocation_tree_final_2.json
+data/allocation_tree_final.json
+data/allocation_tree.json
+data/utilities/allocation_tree_final.json
+data/utilities/allocation_tree4.json
+data/utilities/preprocess_nectar_allocations.js
+data/utilities/preprocess_nectar_allocations.js
 
